@@ -1,0 +1,843 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		30B35C8113840AFE00D16F2D /* NSDate+Formatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 30B35C8013840AFE00D16F2D /* NSDate+Formatter.m */; };
+		30B35CC613845BD000D16F2D /* PrizeDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30B35CC513845BD000D16F2D /* PrizeDetailsViewController.m */; };
+		6903AB4B1357773D0049705F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6903AB4A1357773D0049705F /* UIKit.framework */; };
+		6903AB4D1357773D0049705F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6903AB4C1357773D0049705F /* Foundation.framework */; };
+		6903AB4F1357773D0049705F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6903AB4E1357773D0049705F /* CoreGraphics.framework */; };
+		6909F0D5139809D7009ED45A /* GamePrizesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6909F0D4139809D7009ED45A /* GamePrizesView.m */; };
+		6909F0D8139809EA009ED45A /* GameTermsAndConditionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6909F0D7139809EA009ED45A /* GameTermsAndConditionsView.m */; };
+		6909F11D13982996009ED45A /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6909F11C13982996009ED45A /* libsqlite3.dylib */; };
+		691EDFF0138ECBB0005926C5 /* PrizeWrapperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 691EDFEF138ECBB0005926C5 /* PrizeWrapperViewController.m */; };
+		691EDFF4138EE369005926C5 /* BozukoRedemption.m in Sources */ = {isa = PBXBuildFile; fileRef = 691EDFF3138EE369005926C5 /* BozukoRedemption.m */; };
+		69339852137201910042D700 /* ScaleImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 69339851137201910042D700 /* ScaleImage.m */; };
+		69339858137218850042D700 /* GamesDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69339857137218850042D700 /* GamesDetailViewController.m */; };
+		696B0BB21358E3D800286098 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 696B0BB11358E3D800286098 /* RootViewController.m */; };
+		696B0BC51358E96100286098 /* images in Resources */ = {isa = PBXBuildFile; fileRef = 696B0BC41358E96100286098 /* images */; };
+		696B0BCB1358EB4A00286098 /* GamesHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 696B0BCA1358EB4A00286098 /* GamesHomeViewController.m */; };
+		699476E213733B2700B9AD3F /* GameTermsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 699476E113733B2700B9AD3F /* GameTermsViewController.m */; };
+		699973791374364A00954EE3 /* GamePlaySlotsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 699973781374364A00954EE3 /* GamePlaySlotsViewController.m */; };
+		69A1C1851395495400519152 /* DetailTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A1C1841395495400519152 /* DetailTableCell.m */; };
+		69A1C18C1395A12600519152 /* RecommendTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A1C18B1395A12600519152 /* RecommendTableCell.m */; };
+		69A1C18F1395A52600519152 /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A1C18E1395A52600519152 /* LoadingView.m */; };
+		69A1C1921395A9F800519152 /* LoadMoreTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A1C1911395A9F800519152 /* LoadMoreTableCell.m */; };
+		69A1C1951395B62500519152 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A1C1941395B62400519152 /* MapViewController.m */; };
+		69A95122138D58C30067B903 /* NSArray-Shuffle.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A95121138D58C30067B903 /* NSArray-Shuffle.m */; };
+		69A95125138D807A0067B903 /* FacebookLikeWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A95124138D807A0067B903 /* FacebookLikeWebViewController.m */; };
+		69A95128138D82CC0067B903 /* FacebookLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A95127138D82CC0067B903 /* FacebookLoginViewController.m */; };
+		69AE18C1135C921300740672 /* GamesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 69AE18C0135C921300740672 /* GamesView.m */; };
+		69AE18C5135C941F00740672 /* BusinessTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 69AE18C4135C941F00740672 /* BusinessTableCell.m */; };
+		69AE18C8135CC1E800740672 /* BozukoHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 69AE18C7135CC1E800740672 /* BozukoHandler.m */; };
+		69AE18CD135CC34100740672 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69AE18CC135CC34000740672 /* MapKit.framework */; };
+		69AE18CF135CC69300740672 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69AE18CE135CC69300740672 /* CoreLocation.framework */; };
+		69B05391137346BB00969124 /* GameTermsHeaderTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 69B05390137346BB00969124 /* GameTermsHeaderTableCell.m */; };
+		69B4979113902C5300E673FF /* GamePrizeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 69B4979013902C5300E673FF /* GamePrizeCell.m */; };
+		69B8EC791396B5C200E57FC4 /* GamePrizeDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 69B8EC781396B5C200E57FC4 /* GamePrizeDetailView.m */; };
+		69B8EC7C1396CCCF00E57FC4 /* HowToPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69B8EC7B1396CCCE00E57FC4 /* HowToPlayViewController.m */; };
+		69B8EC8B1396E2C800E57FC4 /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 69B8EC8A1396E2C800E57FC4 /* EGORefreshTableHeaderView.m */; };
+		69B8EC8E1396E2E200E57FC4 /* grayArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 69B8EC8C1396E2E200E57FC4 /* grayArrow.png */; };
+		69B8EC8F1396E2E200E57FC4 /* grayArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 69B8EC8D1396E2E200E57FC4 /* grayArrow@2x.png */; };
+		69BD91431365C22E00E9944C /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 69BD913A1365C22E00E9944C /* NSObject+SBJSON.m */; };
+		69BD91441365C22E00E9944C /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 69BD913C1365C22E00E9944C /* NSString+SBJSON.m */; };
+		69BD91451365C22E00E9944C /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 69BD913E1365C22E00E9944C /* SBJsonBase.m */; };
+		69BD91461365C22E00E9944C /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 69BD91401365C22E00E9944C /* SBJsonParser.m */; };
+		69BD91471365C22E00E9944C /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 69BD91421365C22E00E9944C /* SBJsonWriter.m */; };
+		69BD917E1365C9CE00E9944C /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 69BD917D1365C9CE00E9944C /* libxml2.dylib */; };
+		69BD91871365F38800E9944C /* PrizesTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 69BD91861365F38800E9944C /* PrizesTableCell.m */; };
+		69C761331386A81400DB9002 /* ImageHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 69C761321386A81400DB9002 /* ImageHandler.m */; };
+		69C761361386F31E00DB9002 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69C761351386F31E00DB9002 /* MessageUI.framework */; };
+		69C761391387278C00DB9002 /* GameFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69C761381387278B00DB9002 /* GameFeedbackViewController.m */; };
+		69C761511387526A00DB9002 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 69C761501387526900DB9002 /* Icon@2x.png */; };
+		69CCE440138AF670003E9604 /* GamePrizeDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69CCE43F138AF670003E9604 /* GamePrizeDetailsViewController.m */; };
+		69D5A40F1358DBD300DFEADF /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69D5A40E1358DBD300DFEADF /* MainWindow.xib */; };
+		69D5A4181358DC9700DFEADF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 69D5A4171358DC9700DFEADF /* main.m */; };
+		69D5A41B1358DCA400DFEADF /* BozukoAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 69D5A41A1358DCA400DFEADF /* BozukoAppDelegate.m */; };
+		69DB646813816C6A005F9BE8 /* UserHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB646713816C6A005F9BE8 /* UserHandler.m */; };
+		69DB648013816C7E005F9BE8 /* BozukoBozuko.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB646B13816C7E005F9BE8 /* BozukoBozuko.m */; };
+		69DB648113816C7E005F9BE8 /* BozukoEntryPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB646D13816C7E005F9BE8 /* BozukoEntryPoint.m */; };
+		69DB648213816C7E005F9BE8 /* BozukoFavoriteResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB646F13816C7E005F9BE8 /* BozukoFavoriteResponse.m */; };
+		69DB648313816C7E005F9BE8 /* BozukoGame.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB647113816C7E005F9BE8 /* BozukoGame.m */; };
+		69DB648413816C7E005F9BE8 /* BozukoGamePrize.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB647313816C7E005F9BE8 /* BozukoGamePrize.m */; };
+		69DB648513816C7E005F9BE8 /* BozukoGameResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB647513816C7E005F9BE8 /* BozukoGameResult.m */; };
+		69DB648613816C7E005F9BE8 /* BozukoGameState.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB647713816C7E005F9BE8 /* BozukoGameState.m */; };
+		69DB648713816C7E005F9BE8 /* BozukoLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB647913816C7E005F9BE8 /* BozukoLocation.m */; };
+		69DB648813816C7E005F9BE8 /* BozukoPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB647B13816C7E005F9BE8 /* BozukoPage.m */; };
+		69DB648913816C7E005F9BE8 /* BozukoPrize.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB647D13816C7E005F9BE8 /* BozukoPrize.m */; };
+		69DB648A13816C7E005F9BE8 /* BozukoUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB647F13816C7E005F9BE8 /* BozukoUser.m */; };
+		69DB648D13816C92005F9BE8 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB648C13816C92005F9BE8 /* WebViewController.m */; };
+		69DB649013816CA4005F9BE8 /* GamePlayScratchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB648F13816CA4005F9BE8 /* GamePlayScratchViewController.m */; };
+		69DB649313816CB3005F9BE8 /* PrizesHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB649213816CB3005F9BE8 /* PrizesHomeViewController.m */; };
+		69DB649613816CBD005F9BE8 /* BozukoHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB649513816CBD005F9BE8 /* BozukoHomeViewController.m */; };
+		69DB649B13816CCE005F9BE8 /* GameScratchButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB649813816CCE005F9BE8 /* GameScratchButton.m */; };
+		69DB649C13816CCE005F9BE8 /* MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB649A13816CCE005F9BE8 /* MapView.m */; };
+		69DB64A113816CDF005F9BE8 /* BusinessDetailGamesTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB649E13816CDF005F9BE8 /* BusinessDetailGamesTableCell.m */; };
+		69DB64A213816CDF005F9BE8 /* BusinessDetailHeaderTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB64A013816CDF005F9BE8 /* BusinessDetailHeaderTableCell.m */; };
+		69DB64A413816CF1005F9BE8 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 69DB64A313816CF1005F9BE8 /* fonts */; };
+		7D0FE9CB136F24E800EDECE6 /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0FE9B4136F24E800EDECE6 /* ASIAuthenticationDialog.m */; };
+		7D0FE9CC136F24E800EDECE6 /* ASIDataCompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0FE9B7136F24E800EDECE6 /* ASIDataCompressor.m */; };
+		7D0FE9CD136F24E800EDECE6 /* ASIDataDecompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0FE9B9136F24E800EDECE6 /* ASIDataDecompressor.m */; };
+		7D0FE9CE136F24E800EDECE6 /* ASIDownloadCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0FE9BB136F24E800EDECE6 /* ASIDownloadCache.m */; };
+		7D0FE9CF136F24E800EDECE6 /* ASIFormDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0FE9BD136F24E800EDECE6 /* ASIFormDataRequest.m */; };
+		7D0FE9D0136F24E800EDECE6 /* ASIHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0FE9BF136F24E800EDECE6 /* ASIHTTPRequest.m */; };
+		7D0FE9D1136F24E800EDECE6 /* ASIInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0FE9C3136F24E800EDECE6 /* ASIInputStream.m */; };
+		7D0FE9D2136F24E800EDECE6 /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0FE9C5136F24E800EDECE6 /* ASINetworkQueue.m */; };
+		7D0FE9D4136F24E800EDECE6 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0FE9CA136F24E800EDECE6 /* Reachability.m */; };
+		7D0FE9FA136F257D00EDECE6 /* libz.1.2.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D0FE9F9136F257D00EDECE6 /* libz.1.2.3.dylib */; };
+		7D0FEA22136F25A600EDECE6 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D0FEA21136F25A600EDECE6 /* SystemConfiguration.framework */; };
+		7D0FEA42136F25DE00EDECE6 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D0FEA41136F25DE00EDECE6 /* MobileCoreServices.framework */; };
+		7D0FEA47136F25FC00EDECE6 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D0FEA46136F25FC00EDECE6 /* CFNetwork.framework */; };
+		9C00413F137997F000F7899C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C00413E137997F000F7899C /* QuartzCore.framework */; };
+		F1757324138990ED000030AA /* SlotMachineWheel.m in Sources */ = {isa = PBXBuildFile; fileRef = F1757323138990ED000030AA /* SlotMachineWheel.m */; };
+		F19B95B71388C3A900D2AFB3 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F19B95B61388C3A800D2AFB3 /* Icon.png */; };
+		F19B95BA1388C51600D2AFB3 /* UIView+OriginSize.m in Sources */ = {isa = PBXBuildFile; fileRef = F19B95B91388C51600D2AFB3 /* UIView+OriginSize.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		30B35C7F13840AFE00D16F2D /* NSDate+Formatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+Formatter.h"; path = "Classes/NSDate+Formatter.h"; sourceTree = "<group>"; };
+		30B35C8013840AFE00D16F2D /* NSDate+Formatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+Formatter.m"; path = "Classes/NSDate+Formatter.m"; sourceTree = "<group>"; };
+		30B35CC413845BCF00D16F2D /* PrizeDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PrizeDetailsViewController.h; path = ViewControllers/PrizeDetailsViewController.h; sourceTree = "<group>"; };
+		30B35CC513845BD000D16F2D /* PrizeDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PrizeDetailsViewController.m; path = ViewControllers/PrizeDetailsViewController.m; sourceTree = "<group>"; };
+		6903AB461357773D0049705F /* Bozuko.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bozuko.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6903AB4A1357773D0049705F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		6903AB4C1357773D0049705F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		6903AB4E1357773D0049705F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		6903AB521357773E0049705F /* Bozuko-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Bozuko-Info.plist"; sourceTree = SOURCE_ROOT; };
+		6909F0D3139809D7009ED45A /* GamePrizesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GamePrizesView.h; path = Views/GamePrizesView.h; sourceTree = "<group>"; };
+		6909F0D4139809D7009ED45A /* GamePrizesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GamePrizesView.m; path = Views/GamePrizesView.m; sourceTree = "<group>"; };
+		6909F0D6139809EA009ED45A /* GameTermsAndConditionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameTermsAndConditionsView.h; sourceTree = "<group>"; };
+		6909F0D7139809EA009ED45A /* GameTermsAndConditionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameTermsAndConditionsView.m; sourceTree = "<group>"; };
+		6909F11C13982996009ED45A /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		691EDFEE138ECBB0005926C5 /* PrizeWrapperViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PrizeWrapperViewController.h; path = ViewControllers/PrizeWrapperViewController.h; sourceTree = "<group>"; };
+		691EDFEF138ECBB0005926C5 /* PrizeWrapperViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PrizeWrapperViewController.m; path = ViewControllers/PrizeWrapperViewController.m; sourceTree = "<group>"; };
+		691EDFF2138EE369005926C5 /* BozukoRedemption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BozukoRedemption.h; path = Models/BozukoRedemption.h; sourceTree = "<group>"; };
+		691EDFF3138EE369005926C5 /* BozukoRedemption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BozukoRedemption.m; path = Models/BozukoRedemption.m; sourceTree = "<group>"; };
+		69339850137201910042D700 /* ScaleImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScaleImage.h; path = Classes/ScaleImage.h; sourceTree = "<group>"; };
+		69339851137201910042D700 /* ScaleImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScaleImage.m; path = Classes/ScaleImage.m; sourceTree = "<group>"; };
+		69339856137218850042D700 /* GamesDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GamesDetailViewController.h; path = ViewControllers/GamesDetailViewController.h; sourceTree = "<group>"; };
+		69339857137218850042D700 /* GamesDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GamesDetailViewController.m; path = ViewControllers/GamesDetailViewController.m; sourceTree = "<group>"; };
+		696B0BB01358E3D800286098 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RootViewController.h; path = ViewControllers/RootViewController.h; sourceTree = "<group>"; };
+		696B0BB11358E3D800286098 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RootViewController.m; path = ViewControllers/RootViewController.m; sourceTree = "<group>"; };
+		696B0BC41358E96100286098 /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = SOURCE_ROOT; };
+		696B0BC91358EB4A00286098 /* GamesHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GamesHomeViewController.h; path = ViewControllers/GamesHomeViewController.h; sourceTree = "<group>"; };
+		696B0BCA1358EB4A00286098 /* GamesHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GamesHomeViewController.m; path = ViewControllers/GamesHomeViewController.m; sourceTree = "<group>"; };
+		699476E013733B2700B9AD3F /* GameTermsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameTermsViewController.h; path = ViewControllers/GameTermsViewController.h; sourceTree = "<group>"; };
+		699476E113733B2700B9AD3F /* GameTermsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameTermsViewController.m; path = ViewControllers/GameTermsViewController.m; sourceTree = "<group>"; };
+		699973771374364A00954EE3 /* GamePlaySlotsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GamePlaySlotsViewController.h; path = ViewControllers/GamePlaySlotsViewController.h; sourceTree = "<group>"; };
+		699973781374364A00954EE3 /* GamePlaySlotsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GamePlaySlotsViewController.m; path = ViewControllers/GamePlaySlotsViewController.m; sourceTree = "<group>"; };
+		69A1C1831395495400519152 /* DetailTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DetailTableCell.h; path = TableCells/DetailTableCell.h; sourceTree = "<group>"; };
+		69A1C1841395495400519152 /* DetailTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DetailTableCell.m; path = TableCells/DetailTableCell.m; sourceTree = "<group>"; };
+		69A1C18A1395A12500519152 /* RecommendTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecommendTableCell.h; path = TableCells/RecommendTableCell.h; sourceTree = "<group>"; };
+		69A1C18B1395A12600519152 /* RecommendTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecommendTableCell.m; path = TableCells/RecommendTableCell.m; sourceTree = "<group>"; };
+		69A1C18D1395A52600519152 /* LoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadingView.h; path = Views/LoadingView.h; sourceTree = "<group>"; };
+		69A1C18E1395A52600519152 /* LoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoadingView.m; path = Views/LoadingView.m; sourceTree = "<group>"; };
+		69A1C1901395A9F800519152 /* LoadMoreTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadMoreTableCell.h; path = TableCells/LoadMoreTableCell.h; sourceTree = "<group>"; };
+		69A1C1911395A9F800519152 /* LoadMoreTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoadMoreTableCell.m; path = TableCells/LoadMoreTableCell.m; sourceTree = "<group>"; };
+		69A1C1931395B62300519152 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapViewController.h; path = ViewControllers/MapViewController.h; sourceTree = "<group>"; };
+		69A1C1941395B62400519152 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapViewController.m; path = ViewControllers/MapViewController.m; sourceTree = "<group>"; };
+		69A95120138D58C30067B903 /* NSArray-Shuffle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray-Shuffle.h"; path = "Classes/NSArray-Shuffle.h"; sourceTree = "<group>"; };
+		69A95121138D58C30067B903 /* NSArray-Shuffle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray-Shuffle.m"; path = "Classes/NSArray-Shuffle.m"; sourceTree = "<group>"; };
+		69A95123138D807A0067B903 /* FacebookLikeWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FacebookLikeWebViewController.h; path = ViewControllers/FacebookLikeWebViewController.h; sourceTree = "<group>"; };
+		69A95124138D807A0067B903 /* FacebookLikeWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FacebookLikeWebViewController.m; path = ViewControllers/FacebookLikeWebViewController.m; sourceTree = "<group>"; };
+		69A95126138D82CC0067B903 /* FacebookLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FacebookLoginViewController.h; path = ViewControllers/FacebookLoginViewController.h; sourceTree = "<group>"; };
+		69A95127138D82CC0067B903 /* FacebookLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FacebookLoginViewController.m; path = ViewControllers/FacebookLoginViewController.m; sourceTree = "<group>"; };
+		69AE18BF135C921300740672 /* GamesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GamesView.h; path = Views/GamesView.h; sourceTree = "<group>"; };
+		69AE18C0135C921300740672 /* GamesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GamesView.m; path = Views/GamesView.m; sourceTree = "<group>"; };
+		69AE18C3135C941F00740672 /* BusinessTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BusinessTableCell.h; path = TableCells/BusinessTableCell.h; sourceTree = "<group>"; };
+		69AE18C4135C941F00740672 /* BusinessTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BusinessTableCell.m; path = TableCells/BusinessTableCell.m; sourceTree = "<group>"; };
+		69AE18C6135CC1E800740672 /* BozukoHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BozukoHandler.h; path = Classes/BozukoHandler.h; sourceTree = "<group>"; };
+		69AE18C7135CC1E800740672 /* BozukoHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BozukoHandler.m; path = Classes/BozukoHandler.m; sourceTree = "<group>"; };
+		69AE18CC135CC34000740672 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		69AE18CE135CC69300740672 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		69B0538F137346BB00969124 /* GameTermsHeaderTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameTermsHeaderTableCell.h; path = TableCells/GameTermsHeaderTableCell.h; sourceTree = "<group>"; };
+		69B05390137346BB00969124 /* GameTermsHeaderTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameTermsHeaderTableCell.m; path = TableCells/GameTermsHeaderTableCell.m; sourceTree = "<group>"; };
+		69B4978F13902C5300E673FF /* GamePrizeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GamePrizeCell.h; path = TableCells/GamePrizeCell.h; sourceTree = "<group>"; };
+		69B4979013902C5300E673FF /* GamePrizeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GamePrizeCell.m; path = TableCells/GamePrizeCell.m; sourceTree = "<group>"; };
+		69B8EC771396B5C200E57FC4 /* GamePrizeDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GamePrizeDetailView.h; path = Views/GamePrizeDetailView.h; sourceTree = "<group>"; };
+		69B8EC781396B5C200E57FC4 /* GamePrizeDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GamePrizeDetailView.m; path = Views/GamePrizeDetailView.m; sourceTree = "<group>"; };
+		69B8EC7A1396CCCD00E57FC4 /* HowToPlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HowToPlayViewController.h; path = ViewControllers/HowToPlayViewController.h; sourceTree = "<group>"; };
+		69B8EC7B1396CCCE00E57FC4 /* HowToPlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HowToPlayViewController.m; path = ViewControllers/HowToPlayViewController.m; sourceTree = "<group>"; };
+		69B8EC891396E2C800E57FC4 /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EGORefreshTableHeaderView.h; path = Classes/EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
+		69B8EC8A1396E2C800E57FC4 /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EGORefreshTableHeaderView.m; path = Classes/EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
+		69B8EC8C1396E2E200E57FC4 /* grayArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = grayArrow.png; path = images/grayArrow.png; sourceTree = "<group>"; };
+		69B8EC8D1396E2E200E57FC4 /* grayArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "grayArrow@2x.png"; path = "images/grayArrow@2x.png"; sourceTree = "<group>"; };
+		69BD91381365C22E00E9944C /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSON.h; path = Classes/JSON/JSON.h; sourceTree = "<group>"; };
+		69BD91391365C22E00E9944C /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+SBJSON.h"; path = "Classes/JSON/NSObject+SBJSON.h"; sourceTree = "<group>"; };
+		69BD913A1365C22E00E9944C /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+SBJSON.m"; path = "Classes/JSON/NSObject+SBJSON.m"; sourceTree = "<group>"; };
+		69BD913B1365C22E00E9944C /* NSString+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+SBJSON.h"; path = "Classes/JSON/NSString+SBJSON.h"; sourceTree = "<group>"; };
+		69BD913C1365C22E00E9944C /* NSString+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+SBJSON.m"; path = "Classes/JSON/NSString+SBJSON.m"; sourceTree = "<group>"; };
+		69BD913D1365C22E00E9944C /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJsonBase.h; path = Classes/JSON/SBJsonBase.h; sourceTree = "<group>"; };
+		69BD913E1365C22E00E9944C /* SBJsonBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJsonBase.m; path = Classes/JSON/SBJsonBase.m; sourceTree = "<group>"; };
+		69BD913F1365C22E00E9944C /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJsonParser.h; path = Classes/JSON/SBJsonParser.h; sourceTree = "<group>"; };
+		69BD91401365C22E00E9944C /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJsonParser.m; path = Classes/JSON/SBJsonParser.m; sourceTree = "<group>"; };
+		69BD91411365C22E00E9944C /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJsonWriter.h; path = Classes/JSON/SBJsonWriter.h; sourceTree = "<group>"; };
+		69BD91421365C22E00E9944C /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJsonWriter.m; path = Classes/JSON/SBJsonWriter.m; sourceTree = "<group>"; };
+		69BD917D1365C9CE00E9944C /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		69BD91851365F38800E9944C /* PrizesTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PrizesTableCell.h; path = TableCells/PrizesTableCell.h; sourceTree = "<group>"; };
+		69BD91861365F38800E9944C /* PrizesTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PrizesTableCell.m; path = TableCells/PrizesTableCell.m; sourceTree = "<group>"; };
+		69C761311386A81400DB9002 /* ImageHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageHandler.h; path = Classes/ImageHandler.h; sourceTree = "<group>"; };
+		69C761321386A81400DB9002 /* ImageHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageHandler.m; path = Classes/ImageHandler.m; sourceTree = "<group>"; };
+		69C761351386F31E00DB9002 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		69C761371387278A00DB9002 /* GameFeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameFeedbackViewController.h; path = ViewControllers/GameFeedbackViewController.h; sourceTree = "<group>"; };
+		69C761381387278B00DB9002 /* GameFeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameFeedbackViewController.m; path = ViewControllers/GameFeedbackViewController.m; sourceTree = "<group>"; };
+		69C761501387526900DB9002 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "images/Icon@2x.png"; sourceTree = "<group>"; };
+		69CCE43E138AF66F003E9604 /* GamePrizeDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GamePrizeDetailsViewController.h; path = ViewControllers/GamePrizeDetailsViewController.h; sourceTree = "<group>"; };
+		69CCE43F138AF670003E9604 /* GamePrizeDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GamePrizeDetailsViewController.m; path = ViewControllers/GamePrizeDetailsViewController.m; sourceTree = "<group>"; };
+		69D5A40E1358DBD300DFEADF /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = SOURCE_ROOT; };
+		69D5A4161358DC9700DFEADF /* Bozuko-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bozuko-Prefix.pch"; sourceTree = "<group>"; };
+		69D5A4171358DC9700DFEADF /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		69D5A4191358DCA400DFEADF /* BozukoAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BozukoAppDelegate.h; path = Classes/BozukoAppDelegate.h; sourceTree = "<group>"; };
+		69D5A41A1358DCA400DFEADF /* BozukoAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BozukoAppDelegate.m; path = Classes/BozukoAppDelegate.m; sourceTree = "<group>"; };
+		69DB646613816C6A005F9BE8 /* UserHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserHandler.h; path = Classes/UserHandler.h; sourceTree = "<group>"; };
+		69DB646713816C6A005F9BE8 /* UserHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserHandler.m; path = Classes/UserHandler.m; sourceTree = "<group>"; };
+		69DB646A13816C7E005F9BE8 /* BozukoBozuko.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BozukoBozuko.h; path = Models/BozukoBozuko.h; sourceTree = "<group>"; };
+		69DB646B13816C7E005F9BE8 /* BozukoBozuko.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BozukoBozuko.m; path = Models/BozukoBozuko.m; sourceTree = "<group>"; };
+		69DB646C13816C7E005F9BE8 /* BozukoEntryPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BozukoEntryPoint.h; path = Models/BozukoEntryPoint.h; sourceTree = "<group>"; };
+		69DB646D13816C7E005F9BE8 /* BozukoEntryPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BozukoEntryPoint.m; path = Models/BozukoEntryPoint.m; sourceTree = "<group>"; };
+		69DB646E13816C7E005F9BE8 /* BozukoFavoriteResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BozukoFavoriteResponse.h; path = Models/BozukoFavoriteResponse.h; sourceTree = "<group>"; };
+		69DB646F13816C7E005F9BE8 /* BozukoFavoriteResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BozukoFavoriteResponse.m; path = Models/BozukoFavoriteResponse.m; sourceTree = "<group>"; };
+		69DB647013816C7E005F9BE8 /* BozukoGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BozukoGame.h; path = Models/BozukoGame.h; sourceTree = "<group>"; };
+		69DB647113816C7E005F9BE8 /* BozukoGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BozukoGame.m; path = Models/BozukoGame.m; sourceTree = "<group>"; };
+		69DB647213816C7E005F9BE8 /* BozukoGamePrize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BozukoGamePrize.h; path = Models/BozukoGamePrize.h; sourceTree = "<group>"; };
+		69DB647313816C7E005F9BE8 /* BozukoGamePrize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BozukoGamePrize.m; path = Models/BozukoGamePrize.m; sourceTree = "<group>"; };
+		69DB647413816C7E005F9BE8 /* BozukoGameResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BozukoGameResult.h; path = Models/BozukoGameResult.h; sourceTree = "<group>"; };
+		69DB647513816C7E005F9BE8 /* BozukoGameResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BozukoGameResult.m; path = Models/BozukoGameResult.m; sourceTree = "<group>"; };
+		69DB647613816C7E005F9BE8 /* BozukoGameState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BozukoGameState.h; path = Models/BozukoGameState.h; sourceTree = "<group>"; };
+		69DB647713816C7E005F9BE8 /* BozukoGameState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BozukoGameState.m; path = Models/BozukoGameState.m; sourceTree = "<group>"; };
+		69DB647813816C7E005F9BE8 /* BozukoLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BozukoLocation.h; path = Models/BozukoLocation.h; sourceTree = "<group>"; };
+		69DB647913816C7E005F9BE8 /* BozukoLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BozukoLocation.m; path = Models/BozukoLocation.m; sourceTree = "<group>"; };
+		69DB647A13816C7E005F9BE8 /* BozukoPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BozukoPage.h; path = Models/BozukoPage.h; sourceTree = "<group>"; };
+		69DB647B13816C7E005F9BE8 /* BozukoPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BozukoPage.m; path = Models/BozukoPage.m; sourceTree = "<group>"; };
+		69DB647C13816C7E005F9BE8 /* BozukoPrize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BozukoPrize.h; path = Models/BozukoPrize.h; sourceTree = "<group>"; };
+		69DB647D13816C7E005F9BE8 /* BozukoPrize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BozukoPrize.m; path = Models/BozukoPrize.m; sourceTree = "<group>"; };
+		69DB647E13816C7E005F9BE8 /* BozukoUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BozukoUser.h; path = Models/BozukoUser.h; sourceTree = "<group>"; };
+		69DB647F13816C7E005F9BE8 /* BozukoUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BozukoUser.m; path = Models/BozukoUser.m; sourceTree = "<group>"; };
+		69DB648B13816C92005F9BE8 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebViewController.h; path = ViewControllers/WebViewController.h; sourceTree = "<group>"; };
+		69DB648C13816C92005F9BE8 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebViewController.m; path = ViewControllers/WebViewController.m; sourceTree = "<group>"; };
+		69DB648E13816CA4005F9BE8 /* GamePlayScratchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GamePlayScratchViewController.h; path = ViewControllers/GamePlayScratchViewController.h; sourceTree = "<group>"; };
+		69DB648F13816CA4005F9BE8 /* GamePlayScratchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GamePlayScratchViewController.m; path = ViewControllers/GamePlayScratchViewController.m; sourceTree = "<group>"; };
+		69DB649113816CB3005F9BE8 /* PrizesHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PrizesHomeViewController.h; path = ViewControllers/PrizesHomeViewController.h; sourceTree = "<group>"; };
+		69DB649213816CB3005F9BE8 /* PrizesHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PrizesHomeViewController.m; path = ViewControllers/PrizesHomeViewController.m; sourceTree = "<group>"; };
+		69DB649413816CBD005F9BE8 /* BozukoHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BozukoHomeViewController.h; path = ViewControllers/BozukoHomeViewController.h; sourceTree = "<group>"; };
+		69DB649513816CBD005F9BE8 /* BozukoHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BozukoHomeViewController.m; path = ViewControllers/BozukoHomeViewController.m; sourceTree = "<group>"; };
+		69DB649713816CCE005F9BE8 /* GameScratchButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameScratchButton.h; path = Views/GameScratchButton.h; sourceTree = "<group>"; };
+		69DB649813816CCE005F9BE8 /* GameScratchButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameScratchButton.m; path = Views/GameScratchButton.m; sourceTree = "<group>"; };
+		69DB649913816CCE005F9BE8 /* MapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapView.h; path = Views/MapView.h; sourceTree = "<group>"; };
+		69DB649A13816CCE005F9BE8 /* MapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapView.m; path = Views/MapView.m; sourceTree = "<group>"; };
+		69DB649D13816CDF005F9BE8 /* BusinessDetailGamesTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BusinessDetailGamesTableCell.h; path = TableCells/BusinessDetailGamesTableCell.h; sourceTree = "<group>"; };
+		69DB649E13816CDF005F9BE8 /* BusinessDetailGamesTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BusinessDetailGamesTableCell.m; path = TableCells/BusinessDetailGamesTableCell.m; sourceTree = "<group>"; };
+		69DB649F13816CDF005F9BE8 /* BusinessDetailHeaderTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BusinessDetailHeaderTableCell.h; path = TableCells/BusinessDetailHeaderTableCell.h; sourceTree = "<group>"; };
+		69DB64A013816CDF005F9BE8 /* BusinessDetailHeaderTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BusinessDetailHeaderTableCell.m; path = TableCells/BusinessDetailHeaderTableCell.m; sourceTree = "<group>"; };
+		69DB64A313816CF1005F9BE8 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
+		7D0FE9B3136F24E800EDECE6 /* ASIAuthenticationDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIAuthenticationDialog.h; sourceTree = "<group>"; };
+		7D0FE9B4136F24E800EDECE6 /* ASIAuthenticationDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIAuthenticationDialog.m; sourceTree = "<group>"; };
+		7D0FE9B5136F24E800EDECE6 /* ASICacheDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASICacheDelegate.h; sourceTree = "<group>"; };
+		7D0FE9B6136F24E800EDECE6 /* ASIDataCompressor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIDataCompressor.h; sourceTree = "<group>"; };
+		7D0FE9B7136F24E800EDECE6 /* ASIDataCompressor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIDataCompressor.m; sourceTree = "<group>"; };
+		7D0FE9B8136F24E800EDECE6 /* ASIDataDecompressor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIDataDecompressor.h; sourceTree = "<group>"; };
+		7D0FE9B9136F24E800EDECE6 /* ASIDataDecompressor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIDataDecompressor.m; sourceTree = "<group>"; };
+		7D0FE9BA136F24E800EDECE6 /* ASIDownloadCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIDownloadCache.h; sourceTree = "<group>"; };
+		7D0FE9BB136F24E800EDECE6 /* ASIDownloadCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIDownloadCache.m; sourceTree = "<group>"; };
+		7D0FE9BC136F24E800EDECE6 /* ASIFormDataRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIFormDataRequest.h; sourceTree = "<group>"; };
+		7D0FE9BD136F24E800EDECE6 /* ASIFormDataRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIFormDataRequest.m; sourceTree = "<group>"; };
+		7D0FE9BE136F24E800EDECE6 /* ASIHTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIHTTPRequest.h; sourceTree = "<group>"; };
+		7D0FE9BF136F24E800EDECE6 /* ASIHTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIHTTPRequest.m; sourceTree = "<group>"; };
+		7D0FE9C0136F24E800EDECE6 /* ASIHTTPRequestConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIHTTPRequestConfig.h; sourceTree = "<group>"; };
+		7D0FE9C1136F24E800EDECE6 /* ASIHTTPRequestDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIHTTPRequestDelegate.h; sourceTree = "<group>"; };
+		7D0FE9C2136F24E800EDECE6 /* ASIInputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIInputStream.h; sourceTree = "<group>"; };
+		7D0FE9C3136F24E800EDECE6 /* ASIInputStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIInputStream.m; sourceTree = "<group>"; };
+		7D0FE9C4136F24E800EDECE6 /* ASINetworkQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASINetworkQueue.h; sourceTree = "<group>"; };
+		7D0FE9C5136F24E800EDECE6 /* ASINetworkQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASINetworkQueue.m; sourceTree = "<group>"; };
+		7D0FE9C6136F24E800EDECE6 /* ASIProgressDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIProgressDelegate.h; sourceTree = "<group>"; };
+		7D0FE9C9136F24E800EDECE6 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		7D0FE9CA136F24E800EDECE6 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		7D0FE9F9136F257D00EDECE6 /* libz.1.2.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.3.dylib; path = usr/lib/libz.1.2.3.dylib; sourceTree = SDKROOT; };
+		7D0FEA21136F25A600EDECE6 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		7D0FEA41136F25DE00EDECE6 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		7D0FEA46136F25FC00EDECE6 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		9C00413E137997F000F7899C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		F1757322138990ED000030AA /* SlotMachineWheel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SlotMachineWheel.h; path = Views/SlotMachineWheel.h; sourceTree = "<group>"; };
+		F1757323138990ED000030AA /* SlotMachineWheel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SlotMachineWheel.m; path = Views/SlotMachineWheel.m; sourceTree = "<group>"; };
+		F19B95B61388C3A800D2AFB3 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = images/Icon.png; sourceTree = "<group>"; };
+		F19B95B81388C51600D2AFB3 /* UIView+OriginSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+OriginSize.h"; path = "Classes/UIView+OriginSize.h"; sourceTree = "<group>"; };
+		F19B95B91388C51600D2AFB3 /* UIView+OriginSize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+OriginSize.m"; path = "Classes/UIView+OriginSize.m"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6903AB431357773D0049705F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6909F11D13982996009ED45A /* libsqlite3.dylib in Frameworks */,
+				69C761361386F31E00DB9002 /* MessageUI.framework in Frameworks */,
+				69BD917E1365C9CE00E9944C /* libxml2.dylib in Frameworks */,
+				69AE18CF135CC69300740672 /* CoreLocation.framework in Frameworks */,
+				69AE18CD135CC34100740672 /* MapKit.framework in Frameworks */,
+				6903AB4B1357773D0049705F /* UIKit.framework in Frameworks */,
+				6903AB4D1357773D0049705F /* Foundation.framework in Frameworks */,
+				6903AB4F1357773D0049705F /* CoreGraphics.framework in Frameworks */,
+				7D0FE9FA136F257D00EDECE6 /* libz.1.2.3.dylib in Frameworks */,
+				7D0FEA22136F25A600EDECE6 /* SystemConfiguration.framework in Frameworks */,
+				7D0FEA42136F25DE00EDECE6 /* MobileCoreServices.framework in Frameworks */,
+				7D0FEA47136F25FC00EDECE6 /* CFNetwork.framework in Frameworks */,
+				9C00413F137997F000F7899C /* QuartzCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6903AB3B1357773D0049705F = {
+			isa = PBXGroup;
+			children = (
+				69D5A4131358DC1400DFEADF /* Classes */,
+				69D5A4141358DC2800DFEADF /* ViewControllers */,
+				69AE18B2135C745E00740672 /* Views */,
+				69AE18C2135C93DA00740672 /* TableCells */,
+				6903AB511357773D0049705F /* Resources */,
+				69C761501387526900DB9002 /* Icon@2x.png */,
+				F19B95B61388C3A800D2AFB3 /* Icon.png */,
+				69D5A4151358DC4300DFEADF /* Other Sources */,
+				6903AB491357773D0049705F /* Frameworks */,
+				6903AB471357773D0049705F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6903AB471357773D0049705F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6903AB461357773D0049705F /* Bozuko.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6903AB491357773D0049705F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6909F11C13982996009ED45A /* libsqlite3.dylib */,
+				69C761351386F31E00DB9002 /* MessageUI.framework */,
+				69BD917D1365C9CE00E9944C /* libxml2.dylib */,
+				69AE18CE135CC69300740672 /* CoreLocation.framework */,
+				69AE18CC135CC34000740672 /* MapKit.framework */,
+				6903AB4A1357773D0049705F /* UIKit.framework */,
+				6903AB4C1357773D0049705F /* Foundation.framework */,
+				6903AB4E1357773D0049705F /* CoreGraphics.framework */,
+				7D0FE9F9136F257D00EDECE6 /* libz.1.2.3.dylib */,
+				7D0FEA21136F25A600EDECE6 /* SystemConfiguration.framework */,
+				7D0FEA41136F25DE00EDECE6 /* MobileCoreServices.framework */,
+				7D0FEA46136F25FC00EDECE6 /* CFNetwork.framework */,
+				9C00413E137997F000F7899C /* QuartzCore.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6903AB511357773D0049705F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				69DB64A313816CF1005F9BE8 /* fonts */,
+				696B0BC41358E96100286098 /* images */,
+				69D5A40E1358DBD300DFEADF /* MainWindow.xib */,
+				6903AB521357773E0049705F /* Bozuko-Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		696B0BC61358EB0500286098 /* Games */ = {
+			isa = PBXGroup;
+			children = (
+				696B0BC91358EB4A00286098 /* GamesHomeViewController.h */,
+				696B0BCA1358EB4A00286098 /* GamesHomeViewController.m */,
+				69339856137218850042D700 /* GamesDetailViewController.h */,
+				69339857137218850042D700 /* GamesDetailViewController.m */,
+				699476E013733B2700B9AD3F /* GameTermsViewController.h */,
+				699476E113733B2700B9AD3F /* GameTermsViewController.m */,
+				69CCE43E138AF66F003E9604 /* GamePrizeDetailsViewController.h */,
+				69CCE43F138AF670003E9604 /* GamePrizeDetailsViewController.m */,
+				699973771374364A00954EE3 /* GamePlaySlotsViewController.h */,
+				699973781374364A00954EE3 /* GamePlaySlotsViewController.m */,
+				69DB648E13816CA4005F9BE8 /* GamePlayScratchViewController.h */,
+				69DB648F13816CA4005F9BE8 /* GamePlayScratchViewController.m */,
+				69C761371387278A00DB9002 /* GameFeedbackViewController.h */,
+				69C761381387278B00DB9002 /* GameFeedbackViewController.m */,
+				69A1C1931395B62300519152 /* MapViewController.h */,
+				69A1C1941395B62400519152 /* MapViewController.m */,
+			);
+			name = Games;
+			sourceTree = "<group>";
+		};
+		696B0BC71358EB1300286098 /* Prizes */ = {
+			isa = PBXGroup;
+			children = (
+				69DB649113816CB3005F9BE8 /* PrizesHomeViewController.h */,
+				69DB649213816CB3005F9BE8 /* PrizesHomeViewController.m */,
+				30B35CC413845BCF00D16F2D /* PrizeDetailsViewController.h */,
+				30B35CC513845BD000D16F2D /* PrizeDetailsViewController.m */,
+				691EDFEE138ECBB0005926C5 /* PrizeWrapperViewController.h */,
+				691EDFEF138ECBB0005926C5 /* PrizeWrapperViewController.m */,
+			);
+			name = Prizes;
+			sourceTree = "<group>";
+		};
+		696B0BC81358EB2000286098 /* Bozuko */ = {
+			isa = PBXGroup;
+			children = (
+				69DB649413816CBD005F9BE8 /* BozukoHomeViewController.h */,
+				69DB649513816CBD005F9BE8 /* BozukoHomeViewController.m */,
+			);
+			name = Bozuko;
+			sourceTree = "<group>";
+		};
+		69AE18B2135C745E00740672 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				69AE18BF135C921300740672 /* GamesView.h */,
+				69AE18C0135C921300740672 /* GamesView.m */,
+				69DB649913816CCE005F9BE8 /* MapView.h */,
+				69DB649A13816CCE005F9BE8 /* MapView.m */,
+				69DB649713816CCE005F9BE8 /* GameScratchButton.h */,
+				69DB649813816CCE005F9BE8 /* GameScratchButton.m */,
+				F1757322138990ED000030AA /* SlotMachineWheel.h */,
+				F1757323138990ED000030AA /* SlotMachineWheel.m */,
+				69B8EC771396B5C200E57FC4 /* GamePrizeDetailView.h */,
+				69B8EC781396B5C200E57FC4 /* GamePrizeDetailView.m */,
+				69A1C18D1395A52600519152 /* LoadingView.h */,
+				69A1C18E1395A52600519152 /* LoadingView.m */,
+				6909F0D6139809EA009ED45A /* GameTermsAndConditionsView.h */,
+				6909F0D7139809EA009ED45A /* GameTermsAndConditionsView.m */,
+				6909F0D3139809D7009ED45A /* GamePrizesView.h */,
+				6909F0D4139809D7009ED45A /* GamePrizesView.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		69AE18C2135C93DA00740672 /* TableCells */ = {
+			isa = PBXGroup;
+			children = (
+				69AE18C3135C941F00740672 /* BusinessTableCell.h */,
+				69AE18C4135C941F00740672 /* BusinessTableCell.m */,
+				69BD91851365F38800E9944C /* PrizesTableCell.h */,
+				69BD91861365F38800E9944C /* PrizesTableCell.m */,
+				69DB649D13816CDF005F9BE8 /* BusinessDetailGamesTableCell.h */,
+				69DB649E13816CDF005F9BE8 /* BusinessDetailGamesTableCell.m */,
+				69DB649F13816CDF005F9BE8 /* BusinessDetailHeaderTableCell.h */,
+				69DB64A013816CDF005F9BE8 /* BusinessDetailHeaderTableCell.m */,
+				69B0538F137346BB00969124 /* GameTermsHeaderTableCell.h */,
+				69B05390137346BB00969124 /* GameTermsHeaderTableCell.m */,
+				69B4978F13902C5300E673FF /* GamePrizeCell.h */,
+				69B4979013902C5300E673FF /* GamePrizeCell.m */,
+				69A1C1831395495400519152 /* DetailTableCell.h */,
+				69A1C1841395495400519152 /* DetailTableCell.m */,
+				69A1C18A1395A12500519152 /* RecommendTableCell.h */,
+				69A1C18B1395A12600519152 /* RecommendTableCell.m */,
+				69A1C1901395A9F800519152 /* LoadMoreTableCell.h */,
+				69A1C1911395A9F800519152 /* LoadMoreTableCell.m */,
+			);
+			name = TableCells;
+			sourceTree = "<group>";
+		};
+		69B8EC6F139687D300E57FC4 /* RefreshTableView */ = {
+			isa = PBXGroup;
+			children = (
+				69B8EC891396E2C800E57FC4 /* EGORefreshTableHeaderView.h */,
+				69B8EC8A1396E2C800E57FC4 /* EGORefreshTableHeaderView.m */,
+				69B8EC8C1396E2E200E57FC4 /* grayArrow.png */,
+				69B8EC8D1396E2E200E57FC4 /* grayArrow@2x.png */,
+			);
+			name = RefreshTableView;
+			sourceTree = "<group>";
+		};
+		69BD91351365C19200E9944C /* Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				69B8EC6F139687D300E57FC4 /* RefreshTableView */,
+				7D0FE9B2136F24E800EDECE6 /* ASIHTTP */,
+				69BD91371365C1A300E9944C /* JSON */,
+			);
+			name = Libraries;
+			sourceTree = "<group>";
+		};
+		69BD91371365C1A300E9944C /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				69BD91381365C22E00E9944C /* JSON.h */,
+				69BD91391365C22E00E9944C /* NSObject+SBJSON.h */,
+				69BD913A1365C22E00E9944C /* NSObject+SBJSON.m */,
+				69BD913B1365C22E00E9944C /* NSString+SBJSON.h */,
+				69BD913C1365C22E00E9944C /* NSString+SBJSON.m */,
+				69BD913D1365C22E00E9944C /* SBJsonBase.h */,
+				69BD913E1365C22E00E9944C /* SBJsonBase.m */,
+				69BD913F1365C22E00E9944C /* SBJsonParser.h */,
+				69BD91401365C22E00E9944C /* SBJsonParser.m */,
+				69BD91411365C22E00E9944C /* SBJsonWriter.h */,
+				69BD91421365C22E00E9944C /* SBJsonWriter.m */,
+			);
+			name = JSON;
+			sourceTree = "<group>";
+		};
+		69D5A4131358DC1400DFEADF /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				69D5A4191358DCA400DFEADF /* BozukoAppDelegate.h */,
+				69D5A41A1358DCA400DFEADF /* BozukoAppDelegate.m */,
+				69AE18C6135CC1E800740672 /* BozukoHandler.h */,
+				69AE18C7135CC1E800740672 /* BozukoHandler.m */,
+				69DB646613816C6A005F9BE8 /* UserHandler.h */,
+				69DB646713816C6A005F9BE8 /* UserHandler.m */,
+				69C761311386A81400DB9002 /* ImageHandler.h */,
+				69C761321386A81400DB9002 /* ImageHandler.m */,
+				7D0FEDD4137083A100EDECE6 /* Model */,
+				7D0FE9E4136F253900EDECE6 /* Extensions */,
+				69BD91351365C19200E9944C /* Libraries */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		69D5A4141358DC2800DFEADF /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				696B0BB01358E3D800286098 /* RootViewController.h */,
+				696B0BB11358E3D800286098 /* RootViewController.m */,
+				69DB648B13816C92005F9BE8 /* WebViewController.h */,
+				69DB648C13816C92005F9BE8 /* WebViewController.m */,
+				69A95126138D82CC0067B903 /* FacebookLoginViewController.h */,
+				69A95127138D82CC0067B903 /* FacebookLoginViewController.m */,
+				69A95123138D807A0067B903 /* FacebookLikeWebViewController.h */,
+				69A95124138D807A0067B903 /* FacebookLikeWebViewController.m */,
+				69B8EC7A1396CCCD00E57FC4 /* HowToPlayViewController.h */,
+				69B8EC7B1396CCCE00E57FC4 /* HowToPlayViewController.m */,
+				696B0BC61358EB0500286098 /* Games */,
+				696B0BC71358EB1300286098 /* Prizes */,
+				696B0BC81358EB2000286098 /* Bozuko */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		69D5A4151358DC4300DFEADF /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				69D5A4161358DC9700DFEADF /* Bozuko-Prefix.pch */,
+				69D5A4171358DC9700DFEADF /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		7D0FE9B2136F24E800EDECE6 /* ASIHTTP */ = {
+			isa = PBXGroup;
+			children = (
+				7D0FE9B3136F24E800EDECE6 /* ASIAuthenticationDialog.h */,
+				7D0FE9B4136F24E800EDECE6 /* ASIAuthenticationDialog.m */,
+				7D0FE9B5136F24E800EDECE6 /* ASICacheDelegate.h */,
+				7D0FE9B6136F24E800EDECE6 /* ASIDataCompressor.h */,
+				7D0FE9B7136F24E800EDECE6 /* ASIDataCompressor.m */,
+				7D0FE9B8136F24E800EDECE6 /* ASIDataDecompressor.h */,
+				7D0FE9B9136F24E800EDECE6 /* ASIDataDecompressor.m */,
+				7D0FE9BA136F24E800EDECE6 /* ASIDownloadCache.h */,
+				7D0FE9BB136F24E800EDECE6 /* ASIDownloadCache.m */,
+				7D0FE9BC136F24E800EDECE6 /* ASIFormDataRequest.h */,
+				7D0FE9BD136F24E800EDECE6 /* ASIFormDataRequest.m */,
+				7D0FE9BE136F24E800EDECE6 /* ASIHTTPRequest.h */,
+				7D0FE9BF136F24E800EDECE6 /* ASIHTTPRequest.m */,
+				7D0FE9C0136F24E800EDECE6 /* ASIHTTPRequestConfig.h */,
+				7D0FE9C1136F24E800EDECE6 /* ASIHTTPRequestDelegate.h */,
+				7D0FE9C2136F24E800EDECE6 /* ASIInputStream.h */,
+				7D0FE9C3136F24E800EDECE6 /* ASIInputStream.m */,
+				7D0FE9C4136F24E800EDECE6 /* ASINetworkQueue.h */,
+				7D0FE9C5136F24E800EDECE6 /* ASINetworkQueue.m */,
+				7D0FE9C6136F24E800EDECE6 /* ASIProgressDelegate.h */,
+				7D0FE9C9136F24E800EDECE6 /* Reachability.h */,
+				7D0FE9CA136F24E800EDECE6 /* Reachability.m */,
+			);
+			name = ASIHTTP;
+			path = Classes/ASIHTTP;
+			sourceTree = "<group>";
+		};
+		7D0FE9E4136F253900EDECE6 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F19B95B81388C51600D2AFB3 /* UIView+OriginSize.h */,
+				F19B95B91388C51600D2AFB3 /* UIView+OriginSize.m */,
+				69339850137201910042D700 /* ScaleImage.h */,
+				69339851137201910042D700 /* ScaleImage.m */,
+				30B35C7F13840AFE00D16F2D /* NSDate+Formatter.h */,
+				30B35C8013840AFE00D16F2D /* NSDate+Formatter.m */,
+				69A95120138D58C30067B903 /* NSArray-Shuffle.h */,
+				69A95121138D58C30067B903 /* NSArray-Shuffle.m */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
+		7D0FEDD4137083A100EDECE6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				69DB646A13816C7E005F9BE8 /* BozukoBozuko.h */,
+				69DB646B13816C7E005F9BE8 /* BozukoBozuko.m */,
+				69DB646C13816C7E005F9BE8 /* BozukoEntryPoint.h */,
+				69DB646D13816C7E005F9BE8 /* BozukoEntryPoint.m */,
+				69DB646E13816C7E005F9BE8 /* BozukoFavoriteResponse.h */,
+				69DB646F13816C7E005F9BE8 /* BozukoFavoriteResponse.m */,
+				69DB647013816C7E005F9BE8 /* BozukoGame.h */,
+				69DB647113816C7E005F9BE8 /* BozukoGame.m */,
+				69DB647213816C7E005F9BE8 /* BozukoGamePrize.h */,
+				69DB647313816C7E005F9BE8 /* BozukoGamePrize.m */,
+				69DB647413816C7E005F9BE8 /* BozukoGameResult.h */,
+				69DB647513816C7E005F9BE8 /* BozukoGameResult.m */,
+				69DB647613816C7E005F9BE8 /* BozukoGameState.h */,
+				69DB647713816C7E005F9BE8 /* BozukoGameState.m */,
+				69DB647813816C7E005F9BE8 /* BozukoLocation.h */,
+				69DB647913816C7E005F9BE8 /* BozukoLocation.m */,
+				69DB647A13816C7E005F9BE8 /* BozukoPage.h */,
+				69DB647B13816C7E005F9BE8 /* BozukoPage.m */,
+				69DB647C13816C7E005F9BE8 /* BozukoPrize.h */,
+				69DB647D13816C7E005F9BE8 /* BozukoPrize.m */,
+				69DB647E13816C7E005F9BE8 /* BozukoUser.h */,
+				69DB647F13816C7E005F9BE8 /* BozukoUser.m */,
+				691EDFF2138EE369005926C5 /* BozukoRedemption.h */,
+				691EDFF3138EE369005926C5 /* BozukoRedemption.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6903AB451357773D0049705F /* Bozuko */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6903AB611357773E0049705F /* Build configuration list for PBXNativeTarget "Bozuko" */;
+			buildPhases = (
+				6903AB421357773D0049705F /* Sources */,
+				6903AB431357773D0049705F /* Frameworks */,
+				6903AB441357773D0049705F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Bozuko;
+			productName = Bozuko;
+			productReference = 6903AB461357773D0049705F /* Bozuko.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6903AB3D1357773D0049705F /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 6903AB401357773D0049705F /* Build configuration list for PBXProject "Bozuko" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 6903AB3B1357773D0049705F;
+			productRefGroup = 6903AB471357773D0049705F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6903AB451357773D0049705F /* Bozuko */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6903AB441357773D0049705F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				69D5A40F1358DBD300DFEADF /* MainWindow.xib in Resources */,
+				696B0BC51358E96100286098 /* images in Resources */,
+				69DB64A413816CF1005F9BE8 /* fonts in Resources */,
+				69C761511387526A00DB9002 /* Icon@2x.png in Resources */,
+				F19B95B71388C3A900D2AFB3 /* Icon.png in Resources */,
+				69B8EC8E1396E2E200E57FC4 /* grayArrow.png in Resources */,
+				69B8EC8F1396E2E200E57FC4 /* grayArrow@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6903AB421357773D0049705F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				69D5A4181358DC9700DFEADF /* main.m in Sources */,
+				69D5A41B1358DCA400DFEADF /* BozukoAppDelegate.m in Sources */,
+				696B0BB21358E3D800286098 /* RootViewController.m in Sources */,
+				696B0BCB1358EB4A00286098 /* GamesHomeViewController.m in Sources */,
+				69AE18C1135C921300740672 /* GamesView.m in Sources */,
+				69AE18C5135C941F00740672 /* BusinessTableCell.m in Sources */,
+				69AE18C8135CC1E800740672 /* BozukoHandler.m in Sources */,
+				69BD91431365C22E00E9944C /* NSObject+SBJSON.m in Sources */,
+				69BD91441365C22E00E9944C /* NSString+SBJSON.m in Sources */,
+				69BD91451365C22E00E9944C /* SBJsonBase.m in Sources */,
+				69BD91461365C22E00E9944C /* SBJsonParser.m in Sources */,
+				69BD91471365C22E00E9944C /* SBJsonWriter.m in Sources */,
+				69BD91871365F38800E9944C /* PrizesTableCell.m in Sources */,
+				7D0FE9CB136F24E800EDECE6 /* ASIAuthenticationDialog.m in Sources */,
+				7D0FE9CC136F24E800EDECE6 /* ASIDataCompressor.m in Sources */,
+				7D0FE9CD136F24E800EDECE6 /* ASIDataDecompressor.m in Sources */,
+				7D0FE9CE136F24E800EDECE6 /* ASIDownloadCache.m in Sources */,
+				7D0FE9CF136F24E800EDECE6 /* ASIFormDataRequest.m in Sources */,
+				7D0FE9D0136F24E800EDECE6 /* ASIHTTPRequest.m in Sources */,
+				7D0FE9D1136F24E800EDECE6 /* ASIInputStream.m in Sources */,
+				7D0FE9D2136F24E800EDECE6 /* ASINetworkQueue.m in Sources */,
+				7D0FE9D4136F24E800EDECE6 /* Reachability.m in Sources */,
+				69339852137201910042D700 /* ScaleImage.m in Sources */,
+				69339858137218850042D700 /* GamesDetailViewController.m in Sources */,
+				699476E213733B2700B9AD3F /* GameTermsViewController.m in Sources */,
+				69B05391137346BB00969124 /* GameTermsHeaderTableCell.m in Sources */,
+				699973791374364A00954EE3 /* GamePlaySlotsViewController.m in Sources */,
+				69DB646813816C6A005F9BE8 /* UserHandler.m in Sources */,
+				69DB648013816C7E005F9BE8 /* BozukoBozuko.m in Sources */,
+				69DB648113816C7E005F9BE8 /* BozukoEntryPoint.m in Sources */,
+				69DB648213816C7E005F9BE8 /* BozukoFavoriteResponse.m in Sources */,
+				69DB648313816C7E005F9BE8 /* BozukoGame.m in Sources */,
+				69DB648413816C7E005F9BE8 /* BozukoGamePrize.m in Sources */,
+				69DB648513816C7E005F9BE8 /* BozukoGameResult.m in Sources */,
+				69DB648613816C7E005F9BE8 /* BozukoGameState.m in Sources */,
+				69DB648713816C7E005F9BE8 /* BozukoLocation.m in Sources */,
+				69DB648813816C7E005F9BE8 /* BozukoPage.m in Sources */,
+				69DB648913816C7E005F9BE8 /* BozukoPrize.m in Sources */,
+				69DB648A13816C7E005F9BE8 /* BozukoUser.m in Sources */,
+				69DB648D13816C92005F9BE8 /* WebViewController.m in Sources */,
+				69DB649013816CA4005F9BE8 /* GamePlayScratchViewController.m in Sources */,
+				69DB649313816CB3005F9BE8 /* PrizesHomeViewController.m in Sources */,
+				69DB649613816CBD005F9BE8 /* BozukoHomeViewController.m in Sources */,
+				69DB649B13816CCE005F9BE8 /* GameScratchButton.m in Sources */,
+				69DB649C13816CCE005F9BE8 /* MapView.m in Sources */,
+				69DB64A113816CDF005F9BE8 /* BusinessDetailGamesTableCell.m in Sources */,
+				69DB64A213816CDF005F9BE8 /* BusinessDetailHeaderTableCell.m in Sources */,
+				30B35C8113840AFE00D16F2D /* NSDate+Formatter.m in Sources */,
+				30B35CC613845BD000D16F2D /* PrizeDetailsViewController.m in Sources */,
+				69C761331386A81400DB9002 /* ImageHandler.m in Sources */,
+				69C761391387278C00DB9002 /* GameFeedbackViewController.m in Sources */,
+				F19B95BA1388C51600D2AFB3 /* UIView+OriginSize.m in Sources */,
+				F1757324138990ED000030AA /* SlotMachineWheel.m in Sources */,
+				69CCE440138AF670003E9604 /* GamePrizeDetailsViewController.m in Sources */,
+				69A95122138D58C30067B903 /* NSArray-Shuffle.m in Sources */,
+				69A95125138D807A0067B903 /* FacebookLikeWebViewController.m in Sources */,
+				69A95128138D82CC0067B903 /* FacebookLoginViewController.m in Sources */,
+				691EDFF0138ECBB0005926C5 /* PrizeWrapperViewController.m in Sources */,
+				691EDFF4138EE369005926C5 /* BozukoRedemption.m in Sources */,
+				69B4979113902C5300E673FF /* GamePrizeCell.m in Sources */,
+				69A1C1851395495400519152 /* DetailTableCell.m in Sources */,
+				69A1C18C1395A12600519152 /* RecommendTableCell.m in Sources */,
+				69A1C18F1395A52600519152 /* LoadingView.m in Sources */,
+				69A1C1921395A9F800519152 /* LoadMoreTableCell.m in Sources */,
+				69A1C1951395B62500519152 /* MapViewController.m in Sources */,
+				69B8EC791396B5C200E57FC4 /* GamePrizeDetailView.m in Sources */,
+				69B8EC7C1396CCCF00E57FC4 /* HowToPlayViewController.m in Sources */,
+				69B8EC8B1396E2C800E57FC4 /* EGORefreshTableHeaderView.m in Sources */,
+				6909F0D5139809D7009ED45A /* GamePrizesView.m in Sources */,
+				6909F0D8139809EA009ED45A /* GameTermsAndConditionsView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		6903AB5F1357773E0049705F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				RUN_CLANG_STATIC_ANALYZER = NO;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		6903AB601357773E0049705F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				RUN_CLANG_STATIC_ANALYZER = NO;
+				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
+		6903AB621357773E0049705F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Christopher Luu (D47P6JV65M)";
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Bozuko-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				INFOPLIST_FILE = "Bozuko-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E020F339-2B29-4483-A9DB-3E56BB7A8FE4";
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		6903AB631357773E0049705F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Bozuko, Inc.";
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Bozuko-Prefix.pch";
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				INFOPLIST_FILE = "Bozuko-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "08FBF2B3-2D43-43D0-9230-B50D46218547";
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6903AB401357773D0049705F /* Build configuration list for PBXProject "Bozuko" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6903AB5F1357773E0049705F /* Debug */,
+				6903AB601357773E0049705F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6903AB611357773E0049705F /* Build configuration list for PBXNativeTarget "Bozuko" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6903AB621357773E0049705F /* Debug */,
+				6903AB631357773E0049705F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6903AB3D1357773D0049705F /* Project object */;
+}
