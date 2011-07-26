@@ -62,6 +62,7 @@
 
 - (void)saveObjectToDisk
 {
+	DLog(@"%@", [self description]);
 	NSString *tmpPath = [[NSString alloc] initWithFormat:@"%@/%@.plist", [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0], _gameID];
 	NSData *tmpData = [NSPropertyListSerialization dataWithPropertyList:_properties format:NSPropertyListBinaryFormat_v1_0 options:0 error:nil];
 	[tmpData writeToFile:tmpPath atomically:YES];

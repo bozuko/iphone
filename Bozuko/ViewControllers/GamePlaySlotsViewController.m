@@ -37,7 +37,7 @@
     
 	if (self)
 	{
-		_closeButton = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStyleBordered target:self action:@selector(dismissModalViewControllerAnimated:)];
+		_closeButton = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStyleBordered target:self action:@selector(closeView)];
 		_backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonWasPressed)];
     }
     
@@ -55,7 +55,7 @@
 	[_slotItemsArray release];
 	[_backButton release];
 	[_closeButton release];
-	
+
     [super dealloc];
 }
 
@@ -176,6 +176,9 @@
 
 - (void)spinWheels
 {
+	[_animationTimer invalidate];
+	_animationTimer = nil;
+	
 	self.navigationItem.rightBarButtonItem.enabled = NO;
 	
 	[_wheel1 spin];
@@ -200,7 +203,7 @@
 
 - (void)prizesButtonWasPressed
 {
-	[self.navigationItem performSelector:@selector(setRightBarButtonItem:) withObject:nil afterDelay:1.0];
+	//[self.navigationItem performSelector:@selector(setRightBarButtonItem:) withObject:nil afterDelay:1.0];
 	[self.navigationItem performSelector:@selector(setLeftBarButtonItem:) withObject:_backButton afterDelay:1.0];
 	
 	_detailsView = [[GamePrizesView alloc] initWithGame:_bozukoGame];
@@ -210,7 +213,7 @@
 
 - (void)rulesButtonWasPressed
 {
-	[self.navigationItem performSelector:@selector(setRightBarButtonItem:) withObject:nil afterDelay:1.0];
+	//[self.navigationItem performSelector:@selector(setRightBarButtonItem:) withObject:nil afterDelay:1.0];
 	[self.navigationItem performSelector:@selector(setLeftBarButtonItem:) withObject:_backButton afterDelay:1.0];
 	
 	_detailsView = [[GameTermsAndConditionsView alloc] initWithGame:_bozukoGame];
@@ -220,8 +223,8 @@
 
 - (void)backButtonWasPressed
 {
-	[self.navigationItem performSelector:@selector(setRightBarButtonItem:) withObject:_closeButton afterDelay:1.0];
-	[self.navigationItem performSelector:@selector(setLeftBarButtonItem:) withObject:nil afterDelay:1.0];
+	[self.navigationItem performSelector:@selector(setLeftBarButtonItem:) withObject:_closeButton afterDelay:1.0];
+	//[self.navigationItem performSelector:@selector(setLeftBarButtonItem:) withObject:nil afterDelay:1.0];
 	
 	[UIView transitionFromView:_detailsView toView:self.view duration:1.0 options:UIViewAnimationOptionTransitionCurlDown completion:^(BOOL done){}];
 }
@@ -306,7 +309,13 @@
 	else
 		[self youLose];
 	
-	[self performSelector:@selector(playDoneMessage) withObject:nil afterDelay:5.0];
+	//[self performSelector:@selector(playDoneMessage) withObject:nil afterDelay:3.0];
+	_animationTimer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(playDoneMessage) userInfo:nil repeats:NO];
+	
+	// Enable spin button unless this is a winner. Free plays have the win boolean set to true, but those aren't winners.
+	if ([[_bozukoGame gameState] buttonEnabled] == YES && [[_bozukoGame gameState] userTokens] > 0 &&
+		([_bozukoGameResult win] == NO || ([_bozukoGameResult win] == YES && [_bozukoGameResult freePlay] == YES)))
+		_spinButton.enabled = YES;
 }
 
 - (void)youWin
@@ -356,8 +365,20 @@
 	dispatch_release(tmpBlinkQueue);
 }
 
+/*
+- (void)userDidTapScreen
+{
+	[_animationTimer invalidate];
+	_animationTimer = nil;
+	
+	[self playDoneMessage];
+}
+*/
+
 - (void)playDoneMessage
-{	
+{
+	_animationTimer = nil;
+	
 	if ([_bozukoGameResult freePlay] == NO && [_bozukoGameResult win] == YES)
 	{
 		PrizeWrapperViewController *tmpViewController = [[PrizeWrapperViewController alloc] initWithBozukoPrize:[_bozukoGameResult prize]];
@@ -410,7 +431,7 @@
 		[tmpAlertView release];
 	}
 	
-	self.navigationItem.rightBarButtonItem.enabled = YES;
+	self.navigationItem.leftBarButtonItem.enabled = YES;
 }
 
 #pragma mark UIAlertView Delegates
@@ -610,8 +631,8 @@
 {
 	[super viewWillAppear:animated];
 	
-	self.navigationItem.rightBarButtonItem = _closeButton;
-	self.navigationItem.leftBarButtonItem = nil;
+	self.navigationItem.leftBarButtonItem = _closeButton;
+	//self.navigationItem.leftBarButtonItem = nil;
 }
 
 - (void)viewDidUnload
@@ -745,8 +766,8 @@
 
 		_areGameResultsIn = YES;
 		
-		//if ([_delegate respondsToSelector:@selector(setBozukoGame:)] == YES)
-			//[_delegate setBozukoGame:_bozukoGame];
+		if ([_delegate respondsToSelector:@selector(updateView)] == YES)
+			[_delegate updateView];
 	}
 	else
 	{
@@ -780,8 +801,12 @@
 - (void)closeView
 {
 	//DLog(@"%@", [_bozukoGame gameState]);
+	[_animationTimer invalidate];
+	_animationTimer = nil;
 	
-	if ([[_bozukoGame gameState] userTokens] > 0)
+	_spinTimeoutTimer = nil;
+	
+	if ([[_bozukoGame gameState] userTokens] > 0 && self.navigationController.topViewController != self)
 	{
 		[self.navigationController popToRootViewControllerAnimated:YES];
 		

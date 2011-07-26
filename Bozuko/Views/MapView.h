@@ -17,6 +17,7 @@
 
 @property (assign) UINavigationController *controller;
 
+- (void)viewDidAppear;
 - (void)userLocationWasUpdated;
 - (void)pagesAreDoneForRegion;
 

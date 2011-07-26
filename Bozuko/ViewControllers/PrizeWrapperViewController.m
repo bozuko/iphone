@@ -181,10 +181,11 @@
 - (void)redeemPrize
 {
 	NSString *tmpMessage = nil;
-	if (_checkmarkButton.selected == YES)
+	
+	if (_checkmarkButton.selected == YES && _textView.textColor == [UIColor blackColor]) // If text color is not black, then it's placeholder text and we don't want it
 		tmpMessage = _textView.text;
 	
-	[[BozukoHandler sharedInstance] bozukoRedeemPrize:_bozukoPrize withMessage:tmpMessage];
+	[[BozukoHandler sharedInstance] bozukoRedeemPrize:_bozukoPrize withMessage:tmpMessage postToWall:_checkmarkButton.selected];
 	_loadingOverlay.hidden = NO;
 }
 
@@ -207,7 +208,7 @@
 	if ([textView.text isEqualToString:@""] == YES)
 	{
 		textView.textColor = [UIColor lightGrayColor];
-		textView.text = @"Share with your friends.";
+		textView.text = @"Share with your friends."; // Placeholder text
 	}
 	
 	[UIView animateWithDuration:0.3 animations:^{
@@ -240,7 +241,7 @@
 
 - (void)prizeDetailsButtonWasPressed
 {
-	[self.navigationItem performSelector:@selector(setRightBarButtonItem:) withObject:_doneBarButton afterDelay:1.0];
+	[self.navigationItem performSelector:@selector(setLeftBarButtonItem:) withObject:_doneBarButton afterDelay:1.0];
 	
 	_prizeDetailsView = [[GamePrizeDetailView alloc] initWithBozukoPrize:_bozukoPrize];
 	[UIView transitionFromView:self.view toView:_prizeDetailsView duration:1.0 options:UIViewAnimationOptionTransitionCurlUp completion:^(BOOL done){}];
@@ -249,7 +250,7 @@
 
 - (void)prizeDetailsDoneButtonWasPressed
 {
-	self.navigationItem.rightBarButtonItem = nil;
+	self.navigationItem.leftBarButtonItem = nil;
 	
 	[UIView transitionFromView:_prizeDetailsView toView:self.view duration:1.0 options:UIViewAnimationOptionTransitionCurlDown completion:^(BOOL done){}];
 }

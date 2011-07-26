@@ -36,6 +36,16 @@ NSString *const BozukoPrizeStandardTimestamp = @"EEE MMM d yyyy HH:mm:ss z '('z'
 	return [_properties objectForKey:@"id"];
 }
 
+- (NSString *)pageID
+{
+	return [_properties objectForKey:@"page_id"];
+}
+
+- (NSString *)gameID
+{
+	return [_properties objectForKey:@"game_id"];
+}
+
 - (BozukoPrizeStateType)state
 {
 	static NSArray *stateDescriptionArray = nil;

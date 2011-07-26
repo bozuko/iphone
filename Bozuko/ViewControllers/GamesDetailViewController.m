@@ -16,12 +16,13 @@
 #import "BozukoGame.h"
 #import "UserHandler.h"
 #import "BozukoHandler.h"
+#import "BozukoLocation.h"
 
 #define kGamesDetailHeaderSection		0
 #define kGamesDetailGamesSection		1
 #define kGamesDetailAnnouncementSection	2
-#define kGamesDetailFeedbackSection		3
-#define kGamesDetailFacebookSection		4
+#define kGamesDetailFacebookSection		3
+#define kGamesDetailFeedbackSection		4
 
 @implementation GamesDetailViewController
 
@@ -60,11 +61,30 @@
 #pragma mark - TableView Delegate and Datasource Methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-	if ([[_bozukoPage games] count] > 0)
-		return 5;
-	
-	return 3;
+{	
+	switch ([_bozukoPage registered])
+	{
+		default:
+		case NO:
+			return 3;
+			break;
+			
+		case YES:
+			{
+				NSInteger tmpNumberOfSections = 3;
+				
+				if ([[_bozukoPage announcement] length] > 0)
+					tmpNumberOfSections++;
+				
+				if ([_bozukoPage isPlace])
+					tmpNumberOfSections++;
+				
+				//DLog(@"%d", tmpNumberOfSections);
+				
+				return tmpNumberOfSections;
+			}
+			break;
+	}
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -75,14 +95,22 @@
 	{
 		if ([[_bozukoPage games] count] > 0)
 			return [[_bozukoPage games] count];
+		else if ([_bozukoPage registered] == YES)
+			return 1; // Registered business, but no current contests
 		else
-			return 2; // No games, create 2 cells for "Recommend" button
+			return 2; // Not a registered business, create 2 cells for "Recommend" button
 	}
 	
-	if ([[_bozukoPage games] count] == 0)
-		tmpSection = tmpSection + 2; // Skip the Details and Feedback/Share section if there's no games.
+	if ([_bozukoPage announcement] == nil || [[_bozukoPage announcement] isEqualToString:@""])
+		tmpSection++; // Skip the Announcement section if there's no announcement.
 	
-	if (tmpSection == kGamesDetailFacebookSection || tmpSection == kGamesDetailFeedbackSection)
+	if ([_bozukoPage isPlace] == NO)
+		tmpSection++; // Skip Facebook section if this isn't a place.
+	
+	if (tmpSection == kGamesDetailFacebookSection)
+		return 1;
+		
+	if (tmpSection == kGamesDetailFeedbackSection)
 		return 2;
 	
 	return 1;
@@ -91,11 +119,18 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	NSInteger tmpSection = indexPath.section;
+	BozukoLocation *tmpBozukoLocation = [_bozukoPage location];
 	
 	if (tmpSection == kGamesDetailHeaderSection)
 	{
-		CGSize tmpSize = [[_bozukoPage pageName] sizeWithFont:[UIFont systemFontOfSize:18.0] constrainedToSize:CGSizeMake(160.0, 300.0)];
-		return tmpSize.height + 80.0; // +80.0 for rest of content
+		CGSize tmpSize = [[_bozukoPage pageName] sizeWithFont:[UIFont boldSystemFontOfSize:18.0] constrainedToSize:CGSizeMake(140.0, 300.0)];
+		CGFloat tmpVerticalHeight = tmpSize.height;
+		
+		if (tmpVerticalHeight < 44.0 && [_bozukoPage registered] == YES &&
+			([[tmpBozukoLocation city] length] > 0 || [[tmpBozukoLocation state] length] > 0))
+			tmpVerticalHeight = 44.0; // Insure cell is big enought for "like" button
+		
+		return tmpVerticalHeight + 80.0; // +80.0 for rest of content
 	}
 	
 	if (tmpSection == kGamesDetailGamesSection && [[_bozukoPage games] count] == 0)
@@ -109,14 +144,20 @@
 	if (tmpSection == kGamesDetailGamesSection)
 		return 55.0;
 	
-	if ([[_bozukoPage games] count] == 0)
-		tmpSection = tmpSection + 2; // Skip the Announcement and Feedback/Share section if there's no games.
+	//if ([[_bozukoPage games] count] == 0)
+		//tmpSection = tmpSection + 2; // Skip the Announcement and Feedback/Share section if there's no games.
+	
+	if ([_bozukoPage announcement] == nil || [[_bozukoPage announcement] isEqualToString:@""])
+		tmpSection++; //Skip the announcement if it's empty.
+	
+	if ([_bozukoPage registered] == NO)
+		tmpSection++; // Skip Feedback/Share if not a registered business
 	
 	if (tmpSection == kGamesDetailAnnouncementSection)
 	{
-		CGSize tmpSize = [[_bozukoPage announcement] sizeWithFont:[UIFont systemFontOfSize:12.0] constrainedToSize:CGSizeMake(160.0, 300.0)];
-		return tmpSize.height;
-		//return 60.0;
+		CGSize tmpSize = [[_bozukoPage announcement] sizeWithFont:[UIFont systemFontOfSize:12.0] constrainedToSize:CGSizeMake(280.0, 300.0)];
+		
+		return tmpSize.height + 20; // +20.0 for padding
 	}
 	
 	return 44.0;
@@ -153,6 +194,30 @@
 			
 			return tmpCell;
 		}
+		else if ([_bozukoPage registered] == YES)
+		{
+			RecommendTableCell *tmpCell = (RecommendTableCell *)[_tableView dequeueReusableCellWithIdentifier:@"DetailTableCell"];
+			
+			if (tmpCell == nil)
+				tmpCell = [[[RecommendTableCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"DetailTableCell"] autorelease];
+			
+			tmpCell.selectionStyle = UITableViewCellSelectionStyleNone;
+			
+			tmpCell.mainLabel.text = @"Bummer!";
+			tmpCell.detailLabel.text = @"This place has no current games.\nPlease check back later.";
+			
+			tmpCell.mainLabel.font = [UIFont boldSystemFontOfSize:18.0];
+			tmpCell.mainLabel.textAlignment = UITextAlignmentCenter;
+			
+			tmpCell.detailLabel.font = [UIFont systemFontOfSize:14.0];
+			tmpCell.detailLabel.textAlignment = UITextAlignmentCenter;
+			tmpCell.detailLabel.textColor = [UIColor grayColor];
+			tmpCell.detailLabel.lineBreakMode = UILineBreakModeWordWrap;
+			tmpCell.detailLabel.numberOfLines = 0;
+			tmpCell.detailLabel.textColor = [UIColor grayColor];
+			
+			return tmpCell;
+		}
 		else
 		{			
 			if (indexPath.row == 0)
@@ -186,6 +251,8 @@
 				if (tmpCell == nil)
 					tmpCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultCell"] autorelease];
 				
+				tmpCell.backgroundColor = [UIColor whiteColor];
+				tmpCell.textLabel.textColor = [UIColor blackColor];
 				tmpCell.textLabel.textAlignment = UITextAlignmentCenter;
 				tmpCell.textLabel.font = [UIFont boldSystemFontOfSize:20.0];
 				tmpCell.textLabel.text = @"Recommend";
@@ -195,8 +262,8 @@
 		}
 	}
 	
-	if ([[_bozukoPage games] count] == 0)
-		tmpSection = tmpSection + 2; // Skip the Details and Feedback/Share section if there's no games.
+	if ([_bozukoPage announcement] == nil || [[_bozukoPage announcement] isEqualToString:@""])
+		tmpSection++; // Skip the announcement if it's empty.
 	
 	if (tmpSection == kGamesDetailAnnouncementSection)
 	{
@@ -219,6 +286,9 @@
 		return tmpCell;
 	}
 	
+	if ([_bozukoPage isPlace] == NO)
+		tmpSection++; // Skip Facebook section if this isn't a place.
+	
 	if (tmpSection == kGamesDetailFeedbackSection)
 	{
 		UITableViewCell *tmpCell = [_tableView dequeueReusableCellWithIdentifier:@"DefaultCell"];
@@ -227,6 +297,7 @@
 			tmpCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultCell"] autorelease];
 		
 		tmpCell.imageView.image = nil;
+		tmpCell.backgroundColor = [UIColor whiteColor];
 		tmpCell.textLabel.textAlignment = UITextAlignmentCenter;
 		tmpCell.textLabel.textColor = [UIColor darkGrayColor];
 		tmpCell.selectionStyle = UITableViewCellSelectionStyleBlue;
@@ -238,21 +309,22 @@
 		
 		return tmpCell;
 	}
-	
-	if (tmpSection == kGamesDetailFacebookSection)
+	else if (tmpSection == kGamesDetailFacebookSection)
 	{
 		UITableViewCell *tmpCell = [_tableView dequeueReusableCellWithIdentifier:@"DefaultCell"];
 		
 		if (tmpCell == nil)
 			tmpCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DefaultCell"] autorelease];
 
+		tmpCell.backgroundColor = [UIColor whiteColor];
 		tmpCell.imageView.image = [UIImage imageNamed:@"images/facebookIcon"];
 		tmpCell.textLabel.textAlignment = UITextAlignmentCenter;
 		tmpCell.textLabel.textColor = [UIColor darkGrayColor];
 		tmpCell.selectionStyle = UITableViewCellSelectionStyleBlue;
 		
-		if (indexPath.row == 0)
-			tmpCell.textLabel.text = @"Facebook Check In";
+		//if (indexPath.row == 0 && [_bozukoPage isPlace] == YES)
+		tmpCell.textLabel.text = @"Facebook Check In";
+		/*
 		else
 		{
 			if ([_bozukoPage liked] == YES)
@@ -266,6 +338,7 @@
 				tmpCell.selectionStyle = UITableViewCellSelectionStyleBlue;
 			}
 		}
+		 */
 		
 		return tmpCell;
 	}
@@ -279,7 +352,7 @@
 	
 	NSInteger tmpSection = indexPath.section;
 	
-	if (tmpSection == kGamesDetailHeaderSection)
+	if (tmpSection == kGamesDetailHeaderSection && [_bozukoPage isPlace] == YES)
 	{
 		MapViewController *tmpViewController = [[MapViewController alloc] initWithPage:_bozukoPage];
 		[self.navigationController pushViewController:tmpViewController animated:YES];
@@ -293,8 +366,8 @@
 		{
 			GameTermsViewController *tmpViewController = [[GameTermsViewController alloc] init];
 			tmpViewController.bozukoPage = _bozukoPage;
-			//tmpViewController.bozukoGame = [BozukoGame objectWithProperties:[[_bozukoPage games] objectAtIndex:indexPath.row]];
-			tmpViewController.bozukoGame = [[_bozukoPage games] objectAtIndex:indexPath.row];
+			//tmpViewController.bozukoGame = [[_bozukoPage games] objectAtIndex:indexPath.row];
+			tmpViewController.bozukoGameIndex = indexPath.row;
 			[self.navigationController pushViewController:tmpViewController animated:YES];
 			[tmpViewController release];
 		}
@@ -310,30 +383,43 @@
 		if (indexPath.row == 0)
 			return;
 		
-		GameFeedbackViewController *tmpViewController = [[GameFeedbackViewController alloc] init];
-		UINavigationController *tmpNavController = [[UINavigationController alloc] initWithRootViewController:tmpViewController];
-		tmpViewController.navigationItem.title = @"Recommend";
-		[tmpViewController setCompletionBlock:^{
-			[[BozukoHandler sharedInstance] bozukoRecommendMessage:tmpViewController.textView.text forPage:_bozukoPage];
-		}];
-		[tmpNavController.navigationBar setBarStyle:UIBarStyleBlack];
-		[self presentModalViewController:tmpNavController animated:YES];
-		[tmpNavController release];
-		[tmpViewController release];
+		if ([[UserHandler sharedInstance] loggedIn] == YES)
+		{
+			GameFeedbackViewController *tmpViewController = [[GameFeedbackViewController alloc] init];
+			UINavigationController *tmpNavController = [[UINavigationController alloc] initWithRootViewController:tmpViewController];
+			tmpViewController.navigationItem.title = @"Recommend";
+			tmpViewController.placeholderText = @"Think this place should rock Bozuko? Tell them here and hit submit.";
+			[tmpViewController setCompletionBlock:^{
+				[[BozukoHandler sharedInstance] bozukoRecommendMessage:tmpViewController.textView.text forPage:_bozukoPage];
+			}];
+			[tmpNavController.navigationBar setBarStyle:UIBarStyleBlack];
+			[self presentModalViewController:tmpNavController animated:YES];
+			[tmpNavController release];
+			[tmpViewController release];
+		}
+		else
+		{
+			// User is not logged in
+			[[NSNotificationCenter defaultCenter] postNotificationName:kBozukoHandler_UserAttemptLogin object:nil];
+		}
 		
 		return;
 	}
 	
-	if ([[_bozukoPage games] count] == 0)
-		tmpSection = tmpSection + 2; // Skip the Details and Feedback/Share section if there's no games.
+	if ([_bozukoPage announcement] == nil || [[_bozukoPage announcement] isEqualToString:@""])
+		tmpSection++; // Skip the announcement if it's empty.
+	
+	if ([_bozukoPage isPlace] == NO)
+		tmpSection++; // Skip Facebook section if this isn't a place.
 	
 	if (tmpSection == kGamesDetailFeedbackSection)
 	{
-		if (indexPath.row == 0)
+		if (indexPath.row == 0 && [[UserHandler sharedInstance] loggedIn] == YES)
 		{
 			GameFeedbackViewController *tmpViewController = [[GameFeedbackViewController alloc] init];
 			UINavigationController *tmpNavController = [[UINavigationController alloc] initWithRootViewController:tmpViewController];
 			tmpViewController.navigationItem.title = @"Feedback";
+			tmpViewController.placeholderText = @"Tell us what you think about this game and press \"Submit\"";
 			[tmpViewController setCompletionBlock:^{
 				[[BozukoHandler sharedInstance] bozukoFeedback:tmpViewController.textView.text forPage:_bozukoPage];
 			}];
@@ -341,6 +427,11 @@
 			[self presentModalViewController:tmpNavController animated:YES];
 			[tmpNavController release];
 			[tmpViewController release];
+		}
+		else if (indexPath.row == 0)
+		{
+			// User is not logged in
+			[[NSNotificationCenter defaultCenter] postNotificationName:kBozukoHandler_UserAttemptLogin object:nil];
 		}
 		else
 		{
@@ -359,10 +450,9 @@
 			[tmpActionSheet release];
 		}
 	}
-	
-	if (tmpSection == kGamesDetailFacebookSection)
+	else if (tmpSection == kGamesDetailFacebookSection)
 	{
-		if (indexPath.row == 0)
+		if (indexPath.row == 0 && [_bozukoPage isPlace] == YES && [[UserHandler sharedInstance] loggedIn] == YES)
 		{
 			GameFeedbackViewController *tmpViewController = [[GameFeedbackViewController alloc] init];
 			UINavigationController *tmpNavController = [[UINavigationController alloc] initWithRootViewController:tmpViewController];
@@ -377,8 +467,15 @@
 			[tmpViewController release];
 		}
 		else
+		//else if (indexPath.row == 0 && [_bozukoPage isPlace] == YES)
 		{
-			if ([_bozukoPage liked] == NO)
+			// User is not logged in
+			[[NSNotificationCenter defaultCenter] postNotificationName:kBozukoHandler_UserAttemptLogin object:nil];
+		}
+		/*
+		else
+		{
+			if ([_bozukoPage liked] == NO && [[UserHandler sharedInstance] loggedIn] == YES)
 			{
 				NSString *tmpRequestString = [_bozukoPage likeURL];
 				if (tmpRequestString == nil || [tmpRequestString isEqualToString:@""] == YES)
@@ -399,7 +496,10 @@
 				[self presentModalViewController:tmpNavigationController animated:YES];
 				[tmpNavigationController release];
 			}
+			else if ([_bozukoPage liked] == NO)
+				[[NSNotificationCenter defaultCenter] postNotificationName:kBozukoHandler_UserAttemptLogin object:nil];
 		}
+		*/
 	}
 }
 
@@ -525,19 +625,12 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
-- (void)facebookPageWasLiked
-{
-	[[BozukoHandler sharedInstance] bozukoPageRefreshForPage:_bozukoPage];
 }
 
 #pragma mark BozukoHandler Notification Methods

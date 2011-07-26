@@ -9,6 +9,7 @@
 #import "MapView.h"
 #import "BozukoPage.h"
 #import "BozukoHandler.h"
+#import "BozukoLocation.h"
 #import "GamesDetailViewController.h"
 
 @implementation MapView
@@ -93,6 +94,11 @@
 }
 */
 
+- (void)viewDidAppear
+{
+	[[BozukoHandler sharedInstance] bozukoRegisteredPagesInRegion:_mapView.region];
+}
+
 #pragma mark - MapView Delegate Methods
 
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
@@ -104,16 +110,14 @@
 {
 	for (MKAnnotationView *tmpView in views)
 	{
-		if ([tmpView.annotation isKindOfClass:[MKUserLocation class]] == NO)
+		if ([tmpView.annotation isKindOfClass:[BozukoPage class]] == YES)
 			tmpView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
 	}
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation
 {
-	if ([annotation isKindOfClass:[MKUserLocation class]] == YES)
-		return nil;
-	else
+	if ([annotation isKindOfClass:[BozukoPage class]] == YES)
 	{
 		MKAnnotationView *tmpAnnotationView = [mapView dequeueReusableAnnotationViewWithIdentifier:@"BozukoAnnotation"];
 	
@@ -127,11 +131,13 @@
 		
 		return tmpAnnotationView;
 	}
+	else
+		return nil;
 }
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
-	if (view.annotation == nil || [view.annotation isKindOfClass:[MKUserLocation class]] == YES)
+	if ([view.annotation isKindOfClass:[BozukoPage class]] == NO)
 		return;
 	
 	GamesDetailViewController *tmpViewController = [[GamesDetailViewController alloc] init];
@@ -151,18 +157,24 @@
 	
 	for (BozukoPage *tmpBozukoPage in [[BozukoHandler sharedInstance] allRegisterdGamesInRegion])
 	{
-		tmpAreThereAnyPages = YES;
-		
 		BOOL isPageAnnotationAlreadyOnMap = NO;
 		
 		for (BozukoPage *tmpAnnotation in _mapView.annotations)
 		{
 			if ([tmpAnnotation isKindOfClass:[BozukoPage class]] == YES && [[tmpAnnotation pageID] isEqualToString:[tmpBozukoPage pageID]] == YES)
+			{
 				isPageAnnotationAlreadyOnMap = YES;
+				tmpAreThereAnyPages = YES;
+			}
 		}
 		
-		if (isPageAnnotationAlreadyOnMap == NO)
+		if (isPageAnnotationAlreadyOnMap == NO && [tmpBozukoPage isPlace] == YES &&
+			[[tmpBozukoPage location] latitudeAndLongitude].longitude != 0.0 &&
+			[[tmpBozukoPage location] latitudeAndLongitude].latitude != 0.0)
+		{
+			tmpAreThereAnyPages = YES;
 			[_mapView addAnnotation:tmpBozukoPage];
+		}
 	}
 
 	if (tmpAreThereAnyPages == YES)

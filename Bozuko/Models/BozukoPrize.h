@@ -31,6 +31,8 @@ UIKIT_EXTERN NSString *const BozukoPrizeStandardTimestamp;
 - (id)initWithProperties: (NSDictionary *)inDictionary;
 
 - (NSString *)prizeID;
+- (NSString *)pageID;
+- (NSString *)gameID;
 - (BozukoPrizeStateType)state;
 - (NSString *)name;
 - (BOOL)isEmail;

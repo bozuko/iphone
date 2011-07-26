@@ -62,6 +62,7 @@
 - (void)allButtonsHaveBeenScratched;
 - (void)playEndingSequence;
 - (void)stopEndingSequence;
+- (void)enterGame;
 - (void)resetGame;
 - (void)startGame;
 - (void)userDidTapScreen;

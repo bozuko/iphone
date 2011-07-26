@@ -59,7 +59,6 @@
 		[tmpLabel release];
 		
 		UITextView *tmpTextView = [[UITextView alloc] initWithFrame:CGRectMake(10.0, 110.0, 300.0, 250.0)];
-		tmpTextView.userInteractionEnabled = NO;
 		tmpTextView.backgroundColor = [UIColor clearColor];
 		tmpTextView.font = [UIFont systemFontOfSize:16.0];
 		tmpTextView.text = [inBozukoPrize prizeDescription];

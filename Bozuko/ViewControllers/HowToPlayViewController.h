@@ -13,6 +13,12 @@
 	UIScrollView *_cloudsScrollView;
     UIScrollView *_backgroundScrollView;
 	UIScrollView *_foregroundScrollView;
+	
+	UIButton *_leftButton;
+	UIButton *_rightButton;
 }
+
+- (void)leftButtonWasPressed;
+- (void)rightButtonWasPressed;
 
 @end

@@ -8,15 +8,24 @@
 
 #import <UIKit/UIKit.h>
 
+@class BozukoGame;
+@class GameTermsViewController;
+@class FacebookLikeButton;
 
-@interface GameTermsHeaderTableCell : UITableViewCell {
+@interface GameTermsHeaderTableCell : UITableViewCell
+{
+	BozukoGame *_bozukoGame;
     UILabel *_pageName;
 	UIImageView *_gameImageView;
-	NSString *_imageURLString;
 	UILabel *_gameDescription;
+	FacebookLikeButton *_facebookLikeButton;
+	GameTermsViewController *_controller;
 }
 
-- (void)setName:(NSString *)inName description:(NSString *)inDescription andImageURLString:(NSString *)inURLString;
+@property (assign) GameTermsViewController *controller;
+@property (retain) FacebookLikeButton *facebookLikeButton;
+
+- (void)setGame:(BozukoGame *)inBozukoGame;
 - (void)updateImage:(NSNotification *)inNotification;
 
 @end

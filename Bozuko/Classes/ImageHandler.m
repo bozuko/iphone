@@ -18,7 +18,8 @@ static ImageHandler *instance;
 
 @implementation ImageHandler
 
-- (void) dealloc {
+- (void)dealloc
+{
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
 	[_imageCache release];
@@ -27,7 +28,8 @@ static ImageHandler *instance;
     [super dealloc];
 }
 
--(id) init {
+-(id)init
+{
 	self = [super init];
 	
 	if (self)
@@ -64,6 +66,9 @@ static ImageHandler *instance;
 	if (tmpImage == nil)
 	{
 		NSString *tmpPathString = [[NSString alloc] initWithFormat:@"%@/imageCache/%@.png", tmpDocumentsDirectory, [self md5StringFromString:inURLString]];
+		NSDictionary *tmpDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:[NSDate date], NSFileCreationDate, nil]; // Touch file
+		[[NSFileManager defaultManager] setAttributes:tmpDictionary ofItemAtPath:tmpPathString error:nil];
+		[tmpDictionary release];
 		tmpImage = [UIImage imageWithContentsOfFile:tmpPathString];
 		[tmpPathString release];
 	}
@@ -96,6 +101,7 @@ static ImageHandler *instance;
 		
 		[tmpRequest setFailedBlock:^{
 			DLog(@"%i", [tmpRequest responseStatusCode]);
+			DLog(@"%@", [tmpRequest responseStatusMessage]);
 		}];
 		
 		[tmpRequest startAsynchronous];
@@ -119,11 +125,13 @@ static ImageHandler *instance;
 	{
 		NSMutableString *tmpString = [NSMutableString stringWithString:inURLString];
 									  
-		if ([inURLString hasPrefix:kBozukoBaseURL] == YES) // If this image is coming from Bozuko's servers, add mobile authentication parameters
+		if ([inURLString hasPrefix:[[BozukoHandler sharedInstance] baseURL]] == YES) // If this image is coming from Bozuko's servers, add mobile authentication parameters
 		{
-			[tmpString appendFormat:@"?%@&phone_id=%@&phone_type=%@", [[BozukoHandler sharedInstance] urlSuffix], [[UserHandler sharedInstance] phoneID], [[UserHandler sharedInstance] phoneType]];
+			[tmpString appendFormat:@"?%@&phone_id=%@&phone_type=%@", [[BozukoHandler sharedInstance] urlSuffix], [[UserHandler sharedInstance] phoneID], [[[UserHandler sharedInstance] phoneType] stringByAddingPercentEscapesUsingEncoding:NSISOLatin1StringEncoding]];
 			[tmpString appendFormat:@"&challenge_response=%@", [[BozukoHandler sharedInstance] challengeResponseForURL:tmpString]];
 		}
+		
+		DLog(@"%@", tmpString);
 		
 		__block ASIHTTPRequest *tmpRequest = [self httpGETRequestWithURL:[NSURL URLWithString:tmpString]];
 		
@@ -139,6 +147,7 @@ static ImageHandler *instance;
 		
 		[tmpRequest setFailedBlock:^{
 			DLog(@"%i", [tmpRequest responseStatusCode]);
+			DLog(@"%@", [tmpRequest responseStatusMessage]);
 		}];
 		
 		[tmpRequest startAsynchronous];
@@ -158,7 +167,17 @@ static ImageHandler *instance;
 	{
 		__block ASIHTTPRequest *tmpRequest = [self httpGETRequestWithURL:[NSURL URLWithString:[inBozukoPage pageImage]]];
 		
+		//DLog(@"%@", [inBozukoPage pageName]);
+		//DLog(@"%@", [inBozukoPage pageImage]);
+		
 		[tmpRequest setCompletionBlock:^{
+			//DLog(@"%@ Success", [inBozukoPage pageName]);
+			
+			//for (NSString *tmpString in [tmpRequest responseHeaders])
+				//DLog(@"%@: %@", tmpString, [[tmpRequest responseHeaders] objectForKey:tmpString]);
+			
+			//DLog(@"========================================");
+			
 			UIImage *tmpImage = [UIImage imageWithData:[tmpRequest rawResponseData]];
 			
 			dispatch_queue_t imageQueue = dispatch_queue_create("thumbResize", NULL);
@@ -182,6 +201,7 @@ static ImageHandler *instance;
 		
 		[tmpRequest setFailedBlock:^{
 			DLog(@"%i", [tmpRequest responseStatusCode]);
+			DLog(@"%@", [tmpRequest responseStatusMessage]);
 		}];
 		
 		[tmpRequest startAsynchronous];
@@ -201,7 +221,17 @@ static ImageHandler *instance;
 	{
 		__block ASIHTTPRequest *tmpRequest = [self httpGETRequestWithURL:[NSURL URLWithString:[inBozukoPage pageImage]]];
 		
+		//DLog(@"%@", [inBozukoPage pageName]);
+		//DLog(@"%@", [inBozukoPage pageImage]);
+		
 		[tmpRequest setCompletionBlock:^{
+			//DLog(@"%@ Success", [inBozukoPage pageName]);
+			
+			//for (NSString *tmpString in [tmpRequest responseHeaders])
+				//DLog(@"%@: %@", tmpString, [[tmpRequest responseHeaders] objectForKey:tmpString]);
+			
+			//DLog(@"========================================");
+			
 			UIImage *tmpImage = [UIImage imageWithData:[tmpRequest rawResponseData]];
 			
 			dispatch_queue_t thumbnailQueue = dispatch_queue_create("imageResize", NULL);
@@ -225,6 +255,7 @@ static ImageHandler *instance;
 		
 		[tmpRequest setFailedBlock:^{
 			DLog(@"%i", [tmpRequest responseStatusCode]);
+			DLog(@"%@", [tmpRequest responseStatusMessage]);
 		}];
 		
 		[tmpRequest startAsynchronous];
@@ -239,6 +270,8 @@ static ImageHandler *instance;
 {
 	ASIHTTPRequest *tmpRequest = [ASIHTTPRequest requestWithURL:inURL];
 	tmpRequest.useCookiePersistence = NO;
+	tmpRequest.allowCompressedResponse = YES;
+	tmpRequest.shouldWaitToInflateCompressedResponses = NO;
 	tmpRequest.timeOutSeconds = 30;
 	
 	return tmpRequest;

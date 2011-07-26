@@ -106,14 +106,7 @@ static UserHandler *_instance;
 }
 
 - (void)addPrize:(BozukoPrize *)inBozukoPrize
-{
-	NSString *tmpPath = [[NSString alloc] initWithFormat:@"%@/%@.plist", [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0], [inBozukoPrize prizeID]];
-	BOOL doesGameStateExist = [[NSFileManager defaultManager] fileExistsAtPath:tmpPath];
-	[tmpPath release];
-	
-	if (doesGameStateExist == YES) // We want to make sure prize hasn't been technically "won", but the scratch game hasn't been fully played.
-		return;				// If a file exists for this ID, then the game has not been played all the way through.
-	
+{	
 	if ([inBozukoPrize state] == BozukoPrizeStateExpired || [inBozukoPrize state] == BozukoPrizeStateRedeemed)
 	{
 		//DLog(@"Expired: %@", [inBozukoPrize name]);
@@ -121,9 +114,27 @@ static UserHandler *_instance;
 	}
 	else
 	{
-		//DLog(@"Active: %@", [inBozukoPrize name]);
+		//DLog(@"Active: %@ %@", [inBozukoPrize description], [inBozukoPrize name]);
 		[_activeUserPrizes addObject:inBozukoPrize];
 	}
+}
+
+- (BOOL)doesPrizeExistForGameID:(NSString *)inGameID
+{
+	for (BozukoPrize *tmpBozukoPrize in _pastUserPrizes)
+		if ([[tmpBozukoPrize gameID] isEqualToString:inGameID] == YES)
+			return YES;
+	
+	return NO;
+}
+
+- (BOOL)doesPrizeExistForPrizeID:(NSString *)inPrizeID
+{
+	for (BozukoPrize *tmpBozukoPrize in _pastUserPrizes)
+		if ([[tmpBozukoPrize prizeID] isEqualToString:inPrizeID] == YES)
+			return YES;
+	
+	return NO;
 }
 
 - (NSInteger)numberOfActivePrizes

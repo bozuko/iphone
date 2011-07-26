@@ -26,6 +26,7 @@
 #define kBozukoChallengeNumber		5127	// Not used anymore
 
 static BozukoHandler *instance;
+static NSString *_bozukoServerBaseURLString;
 
 @implementation BozukoHandler
 
@@ -38,6 +39,7 @@ static BozukoHandler *instance;
 @synthesize prizesNextURL = _prizesNextURL;
 @synthesize favoritesNextURL = _favoritesNextURL;
 @synthesize bozukoGamePageID = _bozukoGamePageID;
+@synthesize demoGamePageID = _demoGamePageID;
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -53,6 +55,7 @@ static BozukoHandler *instance;
 	
 	[_gamesInRegionArray release];
 	[_bozukoGamePageID release];
+	[_demoGamePageID release];
 	
 	[_apiEntryPoint release];
 	[_apiBozuko release];
@@ -60,6 +63,8 @@ static BozukoHandler *instance;
 	
 	[_prizesNextURL release];
 	[_pagesNextURL release];
+	
+	[_bozukoServerBaseURLString release];
 	
     [super dealloc];
 }
@@ -75,16 +80,35 @@ static BozukoHandler *instance;
 			_locationManager.purpose = @"Bozuko needs your location in order to provide a list of local businesses.";
 			_locationManager.delegate = self;
 			_locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
+			_locationManager.distanceFilter = 1000; // 1000 meters
 			[_locationManager startUpdatingLocation];
 			
 			_isLocationServiceAvailable = YES;
 		}
 		else
 		{
-			DLog(@"Location Class");
+			//DLog(@"Location Class");
 			_isLocationServiceAvailable = NO;
 			[[NSNotificationCenter defaultCenter] postNotificationName:kBozukoHandler_UserLocationNotAvailable object:nil];
 		}
+		
+#ifdef BOZUKO_DEV
+		NSDictionary *tmpAppDefaultsDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:@"https://playground.bozuko.com:443", @"server_url", nil];
+		[[NSUserDefaults standardUserDefaults] registerDefaults:tmpAppDefaultsDictionary];
+		[tmpAppDefaultsDictionary release];
+		
+		NSString *tmpBaseURLString = [[NSUserDefaults standardUserDefaults] stringForKey:@"server_url"];
+		
+		// Strip the trailing "/", as it exists at the begining of all the relative paths
+		if ([tmpBaseURLString hasSuffix:@"/"] == YES)
+			tmpBaseURLString = [tmpBaseURLString stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"/"]];
+		
+		_bozukoServerBaseURLString = [tmpBaseURLString retain];
+		
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateBaseURL) name:NSUserDefaultsDidChangeNotification object:nil];
+#else
+		_bozukoServerBaseURLString = [[NSString alloc] initWithString:@"https://api.bozuko.com:443"];
+#endif
 		
 		_businessesArray = [[NSMutableArray alloc] init];
 		_gamesArray = [[NSMutableArray alloc] init];
@@ -103,9 +127,37 @@ static BozukoHandler *instance;
 	return self;
 }
 
+- (NSString *)baseURL
+{
+	return _bozukoServerBaseURLString;
+}
+
+- (void)updateBaseURL
+{
+	//DLog(@"================");
+	NSString *tmpOldBaseURLString = [NSString stringWithString:_bozukoServerBaseURLString];
+
+	// If URL has been changed in settings, log user out as session token won't be valid on new server
+	if ([tmpOldBaseURLString isEqualToString:[[NSUserDefaults standardUserDefaults] stringForKey:@"server_url"]] == NO)
+	{
+		//DLog(@"************** New URL **********************");
+		[self bozukoLogout]; // This call being made to old server
+		
+		[_bozukoServerBaseURLString release];
+		_bozukoServerBaseURLString = [[[NSUserDefaults standardUserDefaults] stringForKey:@"server_url"] retain];
+		
+		//[self bozukoEntryPoint]; // Call to new server
+	}
+}
+
 - (void)reachabilityTest
 {
-	Reachability *tmpReachability = [Reachability reachabilityWithHostName:kBozukoHost];
+	NSString *tmpString = [_bozukoServerBaseURLString stringByReplacingOccurrencesOfString:@"http://" withString:@""];
+	NSString *tmpString2 = [tmpString stringByReplacingOccurrencesOfString:@"https://" withString:@""];
+	NSArray *tmpURLArray = [tmpString2 componentsSeparatedByString:@":"];
+	NSString *tmpHostNameString = [tmpURLArray objectAtIndex:0];
+	//DLog(@"Ping: %@", tmpHostNameString);
+	Reachability *tmpReachability = [Reachability reachabilityWithHostName:tmpHostNameString];
 	
 	if ([tmpReachability currentReachabilityStatus] == NotReachable)
 		[[NSNotificationCenter defaultCenter] postNotificationName:kBozukoHandler_NetworkNotAvailable object:nil];
@@ -115,6 +167,14 @@ static BozukoHandler *instance;
 {
 	if (_bozukoGamePageID != nil)
 		return [_allPagesDictionary objectForKey:_bozukoGamePageID];
+	else
+		return nil;
+}
+
+- (BozukoPage *)demoBozukoGame
+{
+	if (_demoGamePageID != nil)
+		return [_allPagesDictionary objectForKey:_demoGamePageID];
 	else
 		return nil;
 }
@@ -132,6 +192,13 @@ static BozukoHandler *instance;
 		// Force update
 		[[NSNotificationCenter defaultCenter] postNotificationName:kBozukoHandler_ApplicationNeedsUpdate object:tmpResponseDictionary];
 	}
+	else if (inErrorCode == 403 && [[tmpResponseDictionary objectForKey:@"name"] isEqualToString:@"facebook/auth"] == YES)
+	{
+		[self bozukoLogout];
+		
+		DLog(@"Server Error: %d %@ - %@", inErrorCode, [tmpResponseDictionary objectForKey:@"title"], [tmpResponseDictionary objectForKey:@"message"]);
+		[[NSNotificationCenter defaultCenter] postNotificationName:kBozukoHandler_ServerLogoutNotfication object:tmpResponseDictionary];
+	}
 	else
 	{
 		DLog(@"Server Error: %d %@ - %@", inErrorCode, [tmpResponseDictionary objectForKey:@"title"], [tmpResponseDictionary objectForKey:@"message"]);
@@ -146,7 +213,7 @@ static BozukoHandler *instance;
 	[self reachabilityTest]; // The entry point is the first request, so might as well do a reachability test in parallel.
 	
 	//The entry point object of the application. If a user token is passed, the user and prizes links will be provided, otherwise, the login link will be present.
-	NSString *tmpString = [NSString stringWithFormat:@"%@%@?%@", kBozukoBaseURL, kBozukoAPIEntryPoint, [self urlSuffix]];
+	NSString *tmpString = [NSString stringWithFormat:@"%@%@?%@", _bozukoServerBaseURLString, kBozukoAPIEntryPoint, [self urlSuffix]];
 	
 	//DLog(@"%@", tmpString);
 	
@@ -191,31 +258,33 @@ static BozukoHandler *instance;
 
 - (void)bozukoLogout
 {
+	if ([[UserHandler sharedInstance] loggedIn] == NO)
+		return;
+	
+	NSString *tmpString = [NSString stringWithFormat:@"%@%@?%@", _bozukoServerBaseURLString, [[UserHandler sharedInstance].apiUser logoutLink], [self urlSuffix]];
+	
 	// Kill the user session info now, no need to wait for request to come back
 	[[UserHandler sharedInstance] setUserToken:nil];
 	[[UserHandler sharedInstance] setApiUser:nil];
 	[_favoritesArray removeAllObjects];
 	
+	//[self bozukoEntryPoint];
+	
 	[[NSNotificationCenter defaultCenter] postNotificationName:kBozukoHandler_UserLoginStatusChanged object:nil];
 	[[NSNotificationCenter defaultCenter] postNotificationName:kBozukoHandler_UserLoggedOut object:nil];
-	
-	if ([[UserHandler sharedInstance] loggedIn] == NO || [[[UserHandler sharedInstance] apiUser] logoutLink] == nil)
-		return;
-	
-	NSString *tmpString = [NSString stringWithFormat:@"%@%@?%@", kBozukoBaseURL, [[[UserHandler sharedInstance] apiUser] logoutLink], [self urlSuffix]];
 	
 	//DLog(@"%@", tmpString);
 	
 	__block ASIHTTPRequest *tmpRequest = [self httpGETRequestWithURL:[NSURL URLWithString:tmpString]];
 	
 	[tmpRequest setCompletionBlock:^{
+		//DLog(@"%@", [tmpRequest responseString]);
+		
 		if ([tmpRequest responseStatusCode] != 200)
 		{
 			[self bozukoServerErrorCode:[tmpRequest responseStatusCode] forResponse:[tmpRequest responseString]];
 			return;
 		}
-		
-		//DLog(@"%@", [tmpRequest responseString]);
 	}];
 	
 	[tmpRequest setFailedBlock:^{
@@ -238,7 +307,7 @@ static BozukoHandler *instance;
 	if ([_apiBozuko bozukoPageLink] == nil)
 		return;
 	
-	NSString *tmpString = [NSString stringWithFormat:@"%@%@?ll=%f%%2C%f", kBozukoBaseURL, [_apiBozuko bozukoPageLink], [self location].latitude, [self location].longitude];
+	NSString *tmpString = [NSString stringWithFormat:@"%@%@?ll=%f%%2C%f", _bozukoServerBaseURLString, [_apiBozuko bozukoPageLink], [self location].latitude, [self location].longitude];
 	
 	//DLog(@"%@", tmpString);
 	
@@ -281,6 +350,62 @@ static BozukoHandler *instance;
 	[tmpRequest startAsynchronous];
 }
 
+- (void)demoGame
+{
+	static BOOL _isRequestInProgress;
+	
+	if (_apiBozuko == nil)
+	{
+		[self bozukoBozuko];
+		return;
+	}
+	
+	if ([_apiBozuko demoPageLink] == nil)
+		return;
+	
+	NSString *tmpString = [NSString stringWithFormat:@"%@%@?ll=%f%%2C%f", _bozukoServerBaseURLString, [_apiBozuko demoPageLink], [self location].latitude, [self location].longitude];
+	
+	//DLog(@"%@", tmpString);
+	
+	__block ASIHTTPRequest *tmpRequest = [self httpGETRequestWithURL:[NSURL URLWithString:tmpString]];
+	
+	if (tmpRequest != nil)
+		_isRequestInProgress = YES;
+	
+	[tmpRequest setCompletionBlock:^{
+		_isRequestInProgress = NO;
+		
+		if ([tmpRequest responseStatusCode] != 200)
+		{
+			[self bozukoServerErrorCode:[tmpRequest responseStatusCode] forResponse:[tmpRequest responseString]];
+			return;
+		}
+		
+		//DLog(@"%@", [tmpRequest responseString]);
+		
+		id tmpObject = [self jsonObject:[tmpRequest responseString]];
+		
+		if ([tmpObject isKindOfClass:[NSDictionary class]] == YES)
+		{
+			BozukoPage *tmpBozukoPage = [BozukoPage objectWithProperties:tmpObject];
+			
+			//DLog(@"%@", [tmpBozukoPage description]);
+			
+			[_allPagesDictionary setObject:tmpBozukoPage forKey:[tmpBozukoPage pageID]];
+			self.demoGamePageID = [tmpBozukoPage pageID];
+		}
+	}];
+	
+	[tmpRequest setFailedBlock:^{
+		_isRequestInProgress = NO;
+		DLog(@"%i", [tmpRequest responseStatusCode]);
+		
+		[self reachabilityTest];
+	}];
+	
+	[tmpRequest startAsynchronous];
+}
+
 - (void)bozukoBozuko
 {
 	static BOOL _isRequestInProgress;
@@ -291,7 +416,7 @@ static BozukoHandler *instance;
 		return;
 	}
 	
-	NSString *tmpString = [NSString stringWithFormat:@"%@%@", kBozukoBaseURL, [_apiEntryPoint bozuko]];
+	NSString *tmpString = [NSString stringWithFormat:@"%@%@", _bozukoServerBaseURLString, [_apiEntryPoint bozuko]];
 	
 	//DLog(@"%@", tmpString);
 	
@@ -318,6 +443,7 @@ static BozukoHandler *instance;
 			self.apiBozuko = [BozukoBozuko objectWithProperties:[tmpObject objectForKey:@"links"]];
 			
 			[self bozukoGame];
+			[self demoGame];
 		}
 	}];
 	
@@ -336,7 +462,7 @@ static BozukoHandler *instance;
 	if ([[UserHandler sharedInstance] loggedIn] == NO || [[inBozukoGame gameState] gameEntryLink] == nil)
 		return;
 	
-	NSString *tmpString = [NSString stringWithFormat:@"%@%@", kBozukoBaseURL, [[inBozukoGame gameState] gameEntryLink]];
+	NSString *tmpString = [NSString stringWithFormat:@"%@%@", _bozukoServerBaseURLString, [[inBozukoGame gameState] gameEntryLink]];
 	
 	//DLog(@"%@", tmpString);
 	
@@ -418,7 +544,7 @@ static BozukoHandler *instance;
 	if ([[UserHandler sharedInstance] loggedIn] == NO || [[inBozukoGame gameState] gameStateLink] == nil)
 		return;
 	
-	NSString *tmpString = [NSString stringWithFormat:@"%@%@?ll=%f%%2C%f&%@", kBozukoBaseURL, [[inBozukoGame gameState] gameStateLink], [self location].latitude, [self location].longitude, [self urlSuffix]];
+	NSString *tmpString = [NSString stringWithFormat:@"%@%@?ll=%f%%2C%f&%@", _bozukoServerBaseURLString, [[inBozukoGame gameState] gameStateLink], [self location].latitude, [self location].longitude, [self urlSuffix]];
 	
 	//DLog(@"%@", tmpString);
 	
@@ -470,6 +596,71 @@ static BozukoHandler *instance;
 	[tmpRequest startAsynchronous];
 }
 
+/*
+- (void)bozukoRefreshGameForGame:(BozukoGame *)aBozukoGame
+{
+	//static BOOL _isRequestInProgress;
+	
+	__block BozukoGame *inBozukoGame = aBozukoGame;
+	
+	if ([[UserHandler sharedInstance] loggedIn] == NO || [inBozukoGame gameLink] == nil)
+		return;
+	
+	NSString *tmpString = [NSString stringWithFormat:@"%@%@?ll=%f%%2C%f&%@", _bozukoServerBaseURLString, [inBozukoGame gameLink], [self location].latitude, [self location].longitude, [self urlSuffix]];
+	
+	//DLog(@"%@", tmpString);
+	
+	__block ASIHTTPRequest *tmpRequest = [self httpGETRequestWithURL:[NSURL URLWithString:tmpString]];
+	
+	//if (tmpRequest != nil)
+	//_isRequestInProgress = YES;
+	
+	[tmpRequest setCompletionBlock:^{
+		//DLog(@"%@", [tmpRequest responseString]);
+		
+		if ([tmpRequest responseStatusCode] != 200)
+		{
+			[self bozukoServerErrorCode:[tmpRequest responseStatusCode] forResponse:[tmpRequest responseString]];
+			return;
+		}
+		
+		BozukoGame *tmpBozukoGame = nil;
+		
+		id tmpObject = [self jsonObject:[tmpRequest responseString]];
+		
+		if ([tmpObject isKindOfClass:[NSDictionary class]] == YES)
+		{
+			//DLog(@"GameState: %@", tmpObject);
+			
+			tmpBozukoGame = [BozukoGame objectWithProperties:tmpObject];
+			
+			//TODO insert game object into page
+			
+			[[NSNotificationCenter defaultCenter] postNotificationName:kBozukoHandler_GameDidFinish object:nil];
+		}
+		else
+		{
+			[[NSNotificationCenter defaultCenter] postNotificationName:kBozukoHandler_GameDidFail object:nil];
+		}
+		
+		//_isRequestInProgress = NO;
+	}];
+	
+	[tmpRequest setFailedBlock:^{
+		//_isRequestInProgress = NO;
+		
+		[self reachabilityTest];
+		
+		DLog(@"%d", [tmpRequest responseStatusCode]);
+		DLog(@"%@", [tmpRequest responseStatusMessage]);
+		
+		[[NSNotificationCenter defaultCenter] postNotificationName:kBozukoHandler_GameDidFail object:nil];
+	}];
+	
+	[tmpRequest startAsynchronous];
+}
+*/
+
 - (void)bozukoGameResultsForGame:(BozukoGame *)inBozukoGame
 {
 	static BOOL _isRequestInProgress;
@@ -477,14 +668,17 @@ static BozukoHandler *instance;
 	if ([[UserHandler sharedInstance] loggedIn] == NO || [[inBozukoGame gameState] gameResultLink] == nil)
 		return;
 	
-	NSString *tmpString = [NSString stringWithFormat:@"%@%@", kBozukoBaseURL, [[inBozukoGame gameState] gameResultLink]];
+	NSString *tmpString = [NSString stringWithFormat:@"%@%@", _bozukoServerBaseURLString, [[inBozukoGame gameState] gameResultLink]];
 	
 	//DLog(@"%@", tmpString);
 	
 	__block ASIFormDataRequest *tmpRequest = [self httpPOSTRequestWithURL:[NSURL URLWithString:tmpString]];
 
 	if (tmpRequest != nil)
+	{
+		[[NSNotificationCenter defaultCenter] postNotificationName:kBozukoHandler_GameResultsRequestInProgress object:nil];
 		_isRequestInProgress = YES;
+	}
 	
 	[tmpRequest setPostValue:[NSString stringWithFormat:@"%f,%f", [self location].latitude, [self location].longitude] forKey:@"ll"];
 	[tmpRequest setPostValue:[[UserHandler sharedInstance] phoneType] forKey:@"phone_type"];
@@ -512,7 +706,14 @@ static BozukoHandler *instance;
 			//DLog(@"Game Result: %@", tmpObject);
 			
 			tmpBozukoGameResult = [BozukoGameResult objectWithProperties:tmpObject];
-		
+			
+			if ([[inBozukoGame gameType] isEqualToString:@"scratch"] == YES)
+			{
+				[tmpBozukoGameResult setGameID:[inBozukoGame gameId]];
+				[tmpBozukoGameResult saveObjectToDisk]; // Persist to disk in case user leaves game during play
+				//DLog(@"%@", [inBozukoGame gameId]);
+			}
+			
 			[[NSNotificationCenter defaultCenter] postNotificationName:kBozukoHandler_GameResultsDidFinish object:tmpBozukoGameResult];
 		}
 		else
@@ -545,7 +746,7 @@ static BozukoHandler *instance;
 		return;
 	}
 	
-	NSString *tmpString = [NSString stringWithFormat:@"%@%@?%@", kBozukoBaseURL, [_apiEntryPoint user], [self urlSuffix]];
+	NSString *tmpString = [NSString stringWithFormat:@"%@%@?%@", _bozukoServerBaseURLString, [_apiEntryPoint user], [self urlSuffix]];
 
 	//DLog(@"%@", tmpString);
 	
@@ -590,14 +791,16 @@ static BozukoHandler *instance;
 	[tmpRequest startAsynchronous];
 }
 
-- (void)bozukoRedeemPrize:(BozukoPrize *)inBozukoPrize withMessage:(NSString *)inMessage
+- (void)bozukoRedeemPrize:(BozukoPrize *)inBozukoPrize withMessage:(NSString *)inMessage postToWall:(BOOL)inBool
 {
 	if ([[UserHandler sharedInstance] loggedIn] == NO || [inBozukoPrize redeem] == nil)
 		return;
 	
-	NSString *tmpString = [NSString stringWithFormat:@"%@%@", kBozukoBaseURL, [inBozukoPrize redeem]];
+	NSString *tmpString = [NSString stringWithFormat:@"%@%@", _bozukoServerBaseURLString, [inBozukoPrize redeem]];
 	
 	//DLog(@"%@", tmpString);
+	//DLog(@"%@", inMessage);
+	//DLog(@"%d", inBool);
 	
 	__block ASIFormDataRequest *tmpRequest = [self httpPOSTRequestWithURL:[NSURL URLWithString:tmpString]];
 	
@@ -607,8 +810,15 @@ static BozukoHandler *instance;
 	[tmpRequest setPostValue:[[UserHandler sharedInstance] userToken] forKey:@"token"];
 	[tmpRequest setPostValue:kApplicationVersion forKey:@"mobile_version"];
 	
-	if (inMessage != nil)
-		[tmpRequest setPostValue:inMessage forKey:@"message"];
+	if (inBool == YES)
+	{
+		[tmpRequest setPostValue:@"true" forKey:@"share"];
+		
+		if (inMessage != nil)
+			[tmpRequest setPostValue:inMessage forKey:@"message"];
+	}
+	else
+		[tmpRequest setPostValue:@"false" forKey:@"share"];
 	
 	[tmpRequest setCompletionBlock:^{
 		//DLog(@"%@", [tmpRequest responseString]);
@@ -658,7 +868,7 @@ static BozukoHandler *instance;
 		return;
 	}
 	
-	NSString *tmpString = [NSString stringWithFormat:@"%@%@?%@", kBozukoBaseURL, [_apiEntryPoint prizes], [self urlSuffix]];
+	NSString *tmpString = [NSString stringWithFormat:@"%@%@?%@", _bozukoServerBaseURLString, [_apiEntryPoint prizes], [self urlSuffix]];
 	
 	//DLog(@"%@", tmpString);
 	
@@ -723,7 +933,7 @@ static BozukoHandler *instance;
 	if (_prizesNextURL == nil || _isRequestInProgress == YES)
 		return;
 	
-	NSString *tmpString = [NSString stringWithFormat:@"%@%@", kBozukoBaseURL, [self prizesNextURL]];
+	NSString *tmpString = [NSString stringWithFormat:@"%@%@", _bozukoServerBaseURLString, [self prizesNextURL]];
 	
 	//DLog(@"%@", tmpString);
 	
@@ -788,14 +998,17 @@ static BozukoHandler *instance;
 	if ([inBozukoPage page] == nil || _isRequestInProgress == YES)
 		return;
 	
-	NSString *tmpString = [NSString stringWithFormat:@"%@%@?%@", kBozukoBaseURL, [inBozukoPage page], [self urlSuffix]];
+	NSString *tmpString = [NSString stringWithFormat:@"%@%@?%@", _bozukoServerBaseURLString, [inBozukoPage page], [self urlSuffix]];
 	
 	//DLog(@"%@", tmpString);
 	
 	__block ASIHTTPRequest *tmpRequest = [self httpGETRequestWithURL:[NSURL URLWithString:tmpString]];
 	
 	if (tmpRequest != nil)
+	{
+		[[NSNotificationCenter defaultCenter] postNotificationName:kBozukoHandler_GameResultsRequestInProgress object:nil];
 		_isRequestInProgress = YES;
+	}
 	
 	[tmpRequest setCompletionBlock:^{
 		//DLog(@"%@", [tmpRequest responseString]);
@@ -815,7 +1028,7 @@ static BozukoHandler *instance;
 			
 			[_allPagesDictionary setObject:tmpBozukoPage forKey:[tmpBozukoPage pageID]];
 			
-			//DLog(@"%@", tmpBozukoPage);
+			//DLog(@"%@", [tmpBozukoPage description]);
 			
 			[[NSNotificationCenter defaultCenter] postNotificationName:kBozukoHandler_PageDidFinish object:tmpBozukoPage];
 		}
@@ -854,9 +1067,16 @@ static BozukoHandler *instance;
 	float upperRightBoundsLongitude = inRegion.center.longitude - (inRegion.span.longitudeDelta * 0.5);
 	float lowerLeftBoundsLongitude = inRegion.center.longitude + (inRegion.span.longitudeDelta * 0.5);
 	
+	// Bozuko's server doesn't seem to like the 180.0 longitude number.
+	if (upperRightBoundsLongitude <= -180.0)
+		upperRightBoundsLongitude = -179.9999;
+	
+	if (lowerLeftBoundsLongitude >= 180.0)
+		lowerLeftBoundsLongitude = 179.9999;
+	
 	NSString *tmpBoundsString = [NSString stringWithFormat:@"%f%%2C%f%%2C%f%%2C%f", upperRightBoundsLatitude, upperRightBoundsLongitude, lowerLeftBoundsLatitude, lowerLeftBoundsLongitude];
 	
-	NSString *tmpString = [NSString stringWithFormat:@"%@%@?ll=%f%%2C%f&bounds=%@&%@", kBozukoBaseURL, [_apiEntryPoint pages], [self location].latitude, [self location].longitude, tmpBoundsString, [self urlSuffix]];
+	NSString *tmpString = [NSString stringWithFormat:@"%@%@?ll=%f%%2C%f&bounds=%@&%@", _bozukoServerBaseURLString, [_apiEntryPoint pages], [self location].latitude, [self location].longitude, tmpBoundsString, [self urlSuffix]];
 
 	//DLog(@"%@", tmpString);
 	
@@ -928,7 +1148,7 @@ static BozukoHandler *instance;
 	if (_isRequestInProgress == YES || _pagesNextURL == nil)
 		return; // Prevent more than one request from happening at a time.
 	
-	NSMutableString *tmpString = [NSMutableString stringWithFormat:@"%@%@", kBozukoBaseURL, [self pagesNextURL]];
+	NSMutableString *tmpString = [NSMutableString stringWithFormat:@"%@%@", _bozukoServerBaseURLString, [self pagesNextURL]];
 	
 	//DLog(@"%@", tmpString);
 	
@@ -1018,11 +1238,11 @@ static BozukoHandler *instance;
 	
 	if ([_apiEntryPoint pages] == nil)
 	{
-		[self bozukoEntryPoint];
+		//[self bozukoEntryPoint];
 		return;
 	}
 	
-	NSMutableString *tmpString = [NSMutableString stringWithFormat:@"%@%@?ll=%f%%2C%f&%@", kBozukoBaseURL, [_apiEntryPoint pages], [self location].latitude, [self location].longitude, [self urlSuffix]];
+	NSMutableString *tmpString = [NSMutableString stringWithFormat:@"%@%@?ll=%f%%2C%f&%@", _bozukoServerBaseURLString, [_apiEntryPoint pages], [self location].latitude, [self location].longitude, [self urlSuffix]];
 	
 	if (inSearchString != nil)
 		[tmpString appendFormat:@"&query=%@", [inSearchString stringByAddingPercentEscapesUsingEncoding:NSISOLatin1StringEncoding]];
@@ -1118,7 +1338,7 @@ static BozukoHandler *instance;
 		return;
 	}
 	
-	NSMutableString *tmpString = [NSMutableString stringWithFormat:@"%@%@?favorites=true&ll=%f%%2C%f&%@", kBozukoBaseURL, [_apiEntryPoint pages], [self location].latitude, [self location].longitude, [self urlSuffix]];
+	NSMutableString *tmpString = [NSMutableString stringWithFormat:@"%@%@?favorites=true&ll=%f%%2C%f&%@", _bozukoServerBaseURLString, [_apiEntryPoint pages], [self location].latitude, [self location].longitude, [self urlSuffix]];
 	
 	if (inSearchString != nil)
 		[tmpString appendFormat:@"&query=%@", [inSearchString stringByAddingPercentEscapesUsingEncoding:NSISOLatin1StringEncoding]];
@@ -1193,7 +1413,7 @@ static BozukoHandler *instance;
 	if (isRequestInProgress == YES || _favoritesNextURL == nil)
 		return; // Prevent more than one request from happening at a time.
 	
-	NSMutableString *tmpString = [NSMutableString stringWithFormat:@"%@%@", kBozukoBaseURL, [self favoritesNextURL]];
+	NSMutableString *tmpString = [NSMutableString stringWithFormat:@"%@%@", _bozukoServerBaseURLString, [self favoritesNextURL]];
 	
 	//DLog(@"%@", tmpString);
 	
@@ -1263,7 +1483,7 @@ static BozukoHandler *instance;
 	if ([[UserHandler sharedInstance] loggedIn] == NO || [inBozukoPage feedback] == nil)
 		return;
 	
-	NSString *tmpString = [NSString stringWithFormat:@"%@%@", kBozukoBaseURL, [inBozukoPage feedback]];
+	NSString *tmpString = [NSString stringWithFormat:@"%@%@", _bozukoServerBaseURLString, [inBozukoPage feedback]];
 	
 	//DLog(@"%@", tmpString);
 	
@@ -1299,7 +1519,7 @@ static BozukoHandler *instance;
 	if ([[UserHandler sharedInstance] loggedIn] == NO || [inBozukoPage facebookCheckin] == nil || inText == nil || [inText isEqualToString:@""] == YES)
 		return;
 	
-	NSString *tmpString = [NSString stringWithFormat:@"%@%@", kBozukoBaseURL, [inBozukoPage facebookCheckin]];
+	NSString *tmpString = [NSString stringWithFormat:@"%@%@", _bozukoServerBaseURLString, [inBozukoPage facebookCheckin]];
 	
 	//DLog(@"%@", tmpString);
 	
@@ -1350,7 +1570,7 @@ static BozukoHandler *instance;
 	if ([[UserHandler sharedInstance] loggedIn] == NO || [inBozukoPage recommend] == nil || inText == nil || [inText isEqualToString:@""] == YES)
 		return;
 	
-	NSString *tmpString = [NSString stringWithFormat:@"%@%@", kBozukoBaseURL, [inBozukoPage recommend]];
+	NSString *tmpString = [NSString stringWithFormat:@"%@%@", _bozukoServerBaseURLString, [inBozukoPage recommend]];
 	
 	//DLog(@"%@", tmpString);
 	
@@ -1403,7 +1623,7 @@ static BozukoHandler *instance;
 	if ([[UserHandler sharedInstance] loggedIn] == NO || [tmpBozukoPage favoriteLink] == nil)
 		return;
 	
-	NSString *tmpString = [NSString stringWithFormat:@"%@%@", kBozukoBaseURL, [tmpBozukoPage favoriteLink]];
+	NSString *tmpString = [NSString stringWithFormat:@"%@%@", _bozukoServerBaseURLString, [tmpBozukoPage favoriteLink]];
 
 	//DLog(@"%@", tmpString);
 	
@@ -1564,7 +1784,7 @@ static BozukoHandler *instance;
 
 - (NSString *)challengeResponseForURL:(NSString *)inURL
 {
-	NSString *tmpPath = [inURL stringByReplacingOccurrencesOfString:kBozukoBaseURL withString:@""]; // Remove protocol / hostname
+	NSString *tmpPath = [inURL stringByReplacingOccurrencesOfString:_bozukoServerBaseURLString withString:@""]; // Remove protocol / hostname / port
 	NSString *tmpString = [NSString stringWithFormat:@"%@%@", tmpPath, [[[UserHandler sharedInstance] apiUser] challenge]];
 	NSString *tmpHashString = [self sha1:tmpString];
 	
@@ -1616,7 +1836,9 @@ static BozukoHandler *instance;
 	[_locationManager startUpdatingLocation];
 
 	if (_apiEntryPoint == nil)
+	{
 		[self bozukoEntryPoint];
+	}
 	
 	if (_apiBozuko == nil)
 		[self bozukoBozuko];
@@ -1631,22 +1853,33 @@ static BozukoHandler *instance;
 #pragma mark - CLLocationManager Delegate Methods
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
-{
-	//DLog(@"Location Update Received");
-	
+{	
 	if (newLocation.coordinate.longitude == 0.0 && newLocation.coordinate.latitude == 0.0)
 		_isLocationServiceAvailable = NO;
 	else
 		_isLocationServiceAvailable = YES;
 	
-	[[NSNotificationCenter defaultCenter] postNotificationName:kBozukoHandler_UserLocationWasUpdated object:nil];
+	//DLog(@"Location Update Timestamp: %@", [[newLocation timestamp] description]);
+	
+	if ([[newLocation timestamp] timeIntervalSinceNow] < -900) // 900 seconds is 15 minutes
+	{
+		//DLog(@"Outdated");
+		// If timestamp of coordinates are older than 15 minutes, then throw up loading page until we get newer coordinates.
+		[[NSNotificationCenter defaultCenter] postNotificationName:kBozukoHandler_PageDidStart object:nil];
+	}
+	else
+	{
+		//DLog(@"Refresh pages");
+		[self bozukoPages]; // Refresh pages for new location
+		[[NSNotificationCenter defaultCenter] postNotificationName:kBozukoHandler_UserLocationWasUpdated object:nil];
+	}
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
 	if ([error code] == kCLErrorDenied)
 	{
-		DLog(@"Location Error");
+		//DLog(@"Location Error");
 		[[NSNotificationCenter defaultCenter] postNotificationName:kBozukoHandler_UserLocationNotAvailable object:nil];
 		_isLocationServiceAvailable = NO;
 	}
@@ -1656,7 +1889,7 @@ static BozukoHandler *instance;
 {
 	if (status == kCLAuthorizationStatusDenied || status == kCLAuthorizationStatusRestricted)
 	{
-		DLog(@"Location Status");
+		//DLog(@"Location Status");
 		[[NSNotificationCenter defaultCenter] postNotificationName:kBozukoHandler_UserLocationNotAvailable object:nil];
 		_isLocationServiceAvailable = NO;
 	}

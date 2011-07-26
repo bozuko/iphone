@@ -78,6 +78,8 @@
 			tmpLabel.backgroundColor = [UIColor clearColor];
 			tmpLabel.textAlignment = UITextAlignmentLeft;
 			tmpLabel.font = [UIFont boldSystemFontOfSize:20.0];
+			tmpLabel.minimumFontSize = 14.0;
+			tmpLabel.adjustsFontSizeToFitWidth = YES;
 			tmpLabel.text = [tmpBozukoGamePrize name];
 			[self addSubview:tmpLabel];
 			[tmpLabel release];

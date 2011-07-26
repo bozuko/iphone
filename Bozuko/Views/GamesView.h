@@ -8,16 +8,17 @@
 
 #import <UIKit/UIKit.h>
 #import "EGORefreshTableHeaderView.h"
+#import "FZCustomSearchBar.h"
 
 @class GamesHomeViewController;
 @class LoadingView;
 
-@interface GamesView : UIView <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, EGORefreshTableHeaderDelegate> {
+@interface GamesView : UIView <UITableViewDataSource, UITableViewDelegate, FZCustomSearchBarDelegate, EGORefreshTableHeaderDelegate> {
 	UINavigationController *_controller;
     UITableView *_tableView;
 	UIView *_noFavoritesView;
 	BOOL _favorites;
-	UISearchBar *_searchBar;
+	FZCustomSearchBar *_searchBar;
 	LoadingView *_loadingOverlay;
 	
 	EGORefreshTableHeaderView *_refreshHeaderView;

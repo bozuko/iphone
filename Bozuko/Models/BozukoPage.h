@@ -11,14 +11,17 @@
 #import <MapKit/MapKit.h>
 
 @class BozukoLocation;
+@class FacebookLikeButton;
 
 @interface BozukoPage : NSObject <MKAnnotation> {
 	NSMutableDictionary *_properties;
 	CLLocationCoordinate2D _coordinate;
-	NSArray *_gamesArray;
+	NSMutableArray *_gamesArray;
+	FacebookLikeButton *_facebookLikeButton;
 }
 
 @property (nonatomic, retain) NSMutableDictionary *properties;
+@property (retain) FacebookLikeButton *facebookLikeButton;
 
 + (BozukoPage *)objectWithProperties: (NSDictionary *)inDictionary;
 - (id)initWithProperties: (NSDictionary *)inDictionary;
@@ -30,6 +33,7 @@
 - (NSString *)category;
 - (NSString *)website;
 - (BOOL)featured;
+- (BOOL)isPlace;
 - (BOOL)favorite;
 - (void)setFavorite:(BOOL)inBool;
 - (BOOL)liked;
@@ -40,9 +44,10 @@
 - (BozukoLocation *)location;
 - (NSString *)phone;
 - (int)checkins;
-- (NSArray *)games;
+- (NSMutableArray *)games;
 - (NSString *)shareURL;
 - (NSString *)likeURL;
+- (NSString *)facebookLikeButtonLink;
 
 - (NSDictionary *)links;
 - (NSString *)recommend;

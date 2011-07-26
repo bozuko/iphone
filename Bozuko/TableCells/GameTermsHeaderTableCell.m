@@ -8,8 +8,16 @@
 
 #import "GameTermsHeaderTableCell.h"
 #import "ImageHandler.h"
+#import "BozukoHandler.h"
+#import "BozukoGame.h"
+#import "GameTermsViewController.h"
+#import "FacebookLikeButton.h"
+#import "BozukoPage.h"
 
 @implementation GameTermsHeaderTableCell
+
+@synthesize controller = _controller;
+@synthesize facebookLikeButton = _facebookLikeButton;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -53,25 +61,32 @@
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
+	self.facebookLikeButton = nil;
+	
     [super dealloc];
 }
 
-- (void)setName:(NSString *)inName description:(NSString *)inDescription andImageURLString:(NSString *)inURLString
-{
-	[_imageURLString release];
-	_imageURLString = [inURLString retain];
-	
-	CGSize tmpNameSize = [inName sizeWithFont:[UIFont systemFontOfSize:18.0] constrainedToSize:CGSizeMake(280.0, 300.0)];
-	CGSize tmpDescriptionSize = [inDescription sizeWithFont:[UIFont systemFontOfSize:14.0] constrainedToSize:CGSizeMake(245.0, 300.0)];
+- (void)setGame:(BozukoGame *)inBozukoGame
+{	
+	[_bozukoGame release];
+	_bozukoGame = [inBozukoGame retain];
 
-	_pageName.frame = CGRectMake(20.0, 10.0, 280.0, tmpNameSize.height);
-	_pageName.text = inName;
+	CGSize tmpNameSize = [[_bozukoGame name] sizeWithFont:[UIFont boldSystemFontOfSize:18.0] constrainedToSize:CGSizeMake(230.0, 300.0)];
+	CGSize tmpDescriptionSize = [[_bozukoGame entryMethodDescription] sizeWithFont:[UIFont systemFontOfSize:14.0] constrainedToSize:CGSizeMake(245.0, 300.0)];
+	
+	_pageName.frame = CGRectMake(20.0, 10.0, 230.0, tmpNameSize.height);
+	_pageName.text = [_bozukoGame name];
 	
 	_gameImageView.frame = CGRectMake(20.0, 10.0 + tmpNameSize.height, 32.0, 32.0);
-	_gameImageView.image = [[ImageHandler sharedInstance] imageForURL:_imageURLString];
+	_gameImageView.image = [[ImageHandler sharedInstance] imageForURL:[_bozukoGame entryMethodImage]];
 	
 	_gameDescription.frame = CGRectMake(55.0, 10.0 + tmpNameSize.height, 245.0, tmpDescriptionSize.height);
-	_gameDescription.text = inDescription;
+	_gameDescription.text = [_bozukoGame entryMethodDescription];
+	
+	[self.facebookLikeButton removeFromSuperview];
+	self.facebookLikeButton = _controller.bozukoPage.facebookLikeButton;
+	self.facebookLikeButton.frame = CGRectMake(250.0, 12.0, 48.0, 20.0);
+	[self addSubview:self.facebookLikeButton];
 }
 
 #pragma mark Notification Methods
@@ -81,8 +96,8 @@
 	if ([[inNotification object] isKindOfClass:[NSString class]] == NO)
 		return;
 	
-	if ([[inNotification object] isEqualToString:_imageURLString] == YES)
-		_gameImageView.image = [[ImageHandler sharedInstance] imageForURL:_imageURLString];
+	if ([[inNotification object] isEqualToString:[_bozukoGame entryMethodImage]] == YES)
+		_gameImageView.image = [[ImageHandler sharedInstance] imageForURL:[_bozukoGame entryMethodImage]];
 }
 
 @end

@@ -13,8 +13,6 @@
 		6903AB4D1357773D0049705F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6903AB4C1357773D0049705F /* Foundation.framework */; };
 		6903AB4F1357773D0049705F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6903AB4E1357773D0049705F /* CoreGraphics.framework */; };
 		6909F0D5139809D7009ED45A /* GamePrizesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6909F0D4139809D7009ED45A /* GamePrizesView.m */; };
-		6909F0D8139809EA009ED45A /* GameTermsAndConditionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6909F0D7139809EA009ED45A /* GameTermsAndConditionsView.m */; };
-		6909F11D13982996009ED45A /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 6909F11C13982996009ED45A /* libsqlite3.dylib */; };
 		691EDFF0138ECBB0005926C5 /* PrizeWrapperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 691EDFEF138ECBB0005926C5 /* PrizeWrapperViewController.m */; };
 		691EDFF4138EE369005926C5 /* BozukoRedemption.m in Sources */ = {isa = PBXBuildFile; fileRef = 691EDFF3138EE369005926C5 /* BozukoRedemption.m */; };
 		69339852137201910042D700 /* ScaleImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 69339851137201910042D700 /* ScaleImage.m */; };
@@ -24,13 +22,13 @@
 		696B0BCB1358EB4A00286098 /* GamesHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 696B0BCA1358EB4A00286098 /* GamesHomeViewController.m */; };
 		699476E213733B2700B9AD3F /* GameTermsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 699476E113733B2700B9AD3F /* GameTermsViewController.m */; };
 		699973791374364A00954EE3 /* GamePlaySlotsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 699973781374364A00954EE3 /* GamePlaySlotsViewController.m */; };
+		699FD07313B13B2F00058823 /* libz.1.2.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D0FE9F9136F257D00EDECE6 /* libz.1.2.3.dylib */; };
 		69A1C1851395495400519152 /* DetailTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A1C1841395495400519152 /* DetailTableCell.m */; };
 		69A1C18C1395A12600519152 /* RecommendTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A1C18B1395A12600519152 /* RecommendTableCell.m */; };
 		69A1C18F1395A52600519152 /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A1C18E1395A52600519152 /* LoadingView.m */; };
 		69A1C1921395A9F800519152 /* LoadMoreTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A1C1911395A9F800519152 /* LoadMoreTableCell.m */; };
 		69A1C1951395B62500519152 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A1C1941395B62400519152 /* MapViewController.m */; };
 		69A95122138D58C30067B903 /* NSArray-Shuffle.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A95121138D58C30067B903 /* NSArray-Shuffle.m */; };
-		69A95125138D807A0067B903 /* FacebookLikeWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A95124138D807A0067B903 /* FacebookLikeWebViewController.m */; };
 		69A95128138D82CC0067B903 /* FacebookLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A95127138D82CC0067B903 /* FacebookLoginViewController.m */; };
 		69AE18C1135C921300740672 /* GamesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 69AE18C0135C921300740672 /* GamesView.m */; };
 		69AE18C5135C941F00740672 /* BusinessTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 69AE18C4135C941F00740672 /* BusinessTableCell.m */; };
@@ -49,8 +47,8 @@
 		69BD91451365C22E00E9944C /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 69BD913E1365C22E00E9944C /* SBJsonBase.m */; };
 		69BD91461365C22E00E9944C /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 69BD91401365C22E00E9944C /* SBJsonParser.m */; };
 		69BD91471365C22E00E9944C /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 69BD91421365C22E00E9944C /* SBJsonWriter.m */; };
-		69BD917E1365C9CE00E9944C /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 69BD917D1365C9CE00E9944C /* libxml2.dylib */; };
 		69BD91871365F38800E9944C /* PrizesTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 69BD91861365F38800E9944C /* PrizesTableCell.m */; };
+		69C309CC13CB584500281962 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 69C309CB13CB584500281962 /* Settings.bundle */; };
 		69C761331386A81400DB9002 /* ImageHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 69C761321386A81400DB9002 /* ImageHandler.m */; };
 		69C761361386F31E00DB9002 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69C761351386F31E00DB9002 /* MessageUI.framework */; };
 		69C761391387278C00DB9002 /* GameFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69C761381387278B00DB9002 /* GameFeedbackViewController.m */; };
@@ -80,6 +78,95 @@
 		69DB64A113816CDF005F9BE8 /* BusinessDetailGamesTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB649E13816CDF005F9BE8 /* BusinessDetailGamesTableCell.m */; };
 		69DB64A213816CDF005F9BE8 /* BusinessDetailHeaderTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB64A013816CDF005F9BE8 /* BusinessDetailHeaderTableCell.m */; };
 		69DB64A413816CF1005F9BE8 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 69DB64A313816CF1005F9BE8 /* fonts */; };
+		69E431D813AF8A86008A67FF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 69D5A4171358DC9700DFEADF /* main.m */; };
+		69E431D913AF8A86008A67FF /* BozukoAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 69D5A41A1358DCA400DFEADF /* BozukoAppDelegate.m */; };
+		69E431DA13AF8A86008A67FF /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 696B0BB11358E3D800286098 /* RootViewController.m */; };
+		69E431DB13AF8A86008A67FF /* GamesHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 696B0BCA1358EB4A00286098 /* GamesHomeViewController.m */; };
+		69E431DC13AF8A86008A67FF /* GamesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 69AE18C0135C921300740672 /* GamesView.m */; };
+		69E431DD13AF8A86008A67FF /* BusinessTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 69AE18C4135C941F00740672 /* BusinessTableCell.m */; };
+		69E431DE13AF8A86008A67FF /* BozukoHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 69AE18C7135CC1E800740672 /* BozukoHandler.m */; };
+		69E431DF13AF8A86008A67FF /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 69BD913A1365C22E00E9944C /* NSObject+SBJSON.m */; };
+		69E431E013AF8A86008A67FF /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 69BD913C1365C22E00E9944C /* NSString+SBJSON.m */; };
+		69E431E113AF8A86008A67FF /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 69BD913E1365C22E00E9944C /* SBJsonBase.m */; };
+		69E431E213AF8A86008A67FF /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 69BD91401365C22E00E9944C /* SBJsonParser.m */; };
+		69E431E313AF8A86008A67FF /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 69BD91421365C22E00E9944C /* SBJsonWriter.m */; };
+		69E431E413AF8A86008A67FF /* PrizesTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 69BD91861365F38800E9944C /* PrizesTableCell.m */; };
+		69E431E513AF8A86008A67FF /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0FE9B4136F24E800EDECE6 /* ASIAuthenticationDialog.m */; };
+		69E431E613AF8A86008A67FF /* ASIDataCompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0FE9B7136F24E800EDECE6 /* ASIDataCompressor.m */; };
+		69E431E713AF8A86008A67FF /* ASIDataDecompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0FE9B9136F24E800EDECE6 /* ASIDataDecompressor.m */; };
+		69E431E813AF8A86008A67FF /* ASIDownloadCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0FE9BB136F24E800EDECE6 /* ASIDownloadCache.m */; };
+		69E431E913AF8A86008A67FF /* ASIFormDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0FE9BD136F24E800EDECE6 /* ASIFormDataRequest.m */; };
+		69E431EA13AF8A86008A67FF /* ASIHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0FE9BF136F24E800EDECE6 /* ASIHTTPRequest.m */; };
+		69E431EB13AF8A86008A67FF /* ASIInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0FE9C3136F24E800EDECE6 /* ASIInputStream.m */; };
+		69E431EC13AF8A86008A67FF /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0FE9C5136F24E800EDECE6 /* ASINetworkQueue.m */; };
+		69E431ED13AF8A86008A67FF /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0FE9CA136F24E800EDECE6 /* Reachability.m */; };
+		69E431EE13AF8A86008A67FF /* ScaleImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 69339851137201910042D700 /* ScaleImage.m */; };
+		69E431EF13AF8A86008A67FF /* GamesDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69339857137218850042D700 /* GamesDetailViewController.m */; };
+		69E431F013AF8A86008A67FF /* GameTermsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 699476E113733B2700B9AD3F /* GameTermsViewController.m */; };
+		69E431F113AF8A86008A67FF /* GameTermsHeaderTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 69B05390137346BB00969124 /* GameTermsHeaderTableCell.m */; };
+		69E431F213AF8A86008A67FF /* GamePlaySlotsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 699973781374364A00954EE3 /* GamePlaySlotsViewController.m */; };
+		69E431F313AF8A86008A67FF /* UserHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB646713816C6A005F9BE8 /* UserHandler.m */; };
+		69E431F413AF8A86008A67FF /* BozukoBozuko.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB646B13816C7E005F9BE8 /* BozukoBozuko.m */; };
+		69E431F513AF8A86008A67FF /* BozukoEntryPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB646D13816C7E005F9BE8 /* BozukoEntryPoint.m */; };
+		69E431F613AF8A86008A67FF /* BozukoFavoriteResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB646F13816C7E005F9BE8 /* BozukoFavoriteResponse.m */; };
+		69E431F713AF8A86008A67FF /* BozukoGame.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB647113816C7E005F9BE8 /* BozukoGame.m */; };
+		69E431F813AF8A86008A67FF /* BozukoGamePrize.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB647313816C7E005F9BE8 /* BozukoGamePrize.m */; };
+		69E431F913AF8A86008A67FF /* BozukoGameResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB647513816C7E005F9BE8 /* BozukoGameResult.m */; };
+		69E431FA13AF8A86008A67FF /* BozukoGameState.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB647713816C7E005F9BE8 /* BozukoGameState.m */; };
+		69E431FB13AF8A86008A67FF /* BozukoLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB647913816C7E005F9BE8 /* BozukoLocation.m */; };
+		69E431FC13AF8A86008A67FF /* BozukoPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB647B13816C7E005F9BE8 /* BozukoPage.m */; };
+		69E431FD13AF8A86008A67FF /* BozukoPrize.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB647D13816C7E005F9BE8 /* BozukoPrize.m */; };
+		69E431FE13AF8A86008A67FF /* BozukoUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB647F13816C7E005F9BE8 /* BozukoUser.m */; };
+		69E431FF13AF8A86008A67FF /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB648C13816C92005F9BE8 /* WebViewController.m */; };
+		69E4320013AF8A86008A67FF /* GamePlayScratchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB648F13816CA4005F9BE8 /* GamePlayScratchViewController.m */; };
+		69E4320113AF8A86008A67FF /* PrizesHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB649213816CB3005F9BE8 /* PrizesHomeViewController.m */; };
+		69E4320213AF8A86008A67FF /* BozukoHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB649513816CBD005F9BE8 /* BozukoHomeViewController.m */; };
+		69E4320313AF8A86008A67FF /* GameScratchButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB649813816CCE005F9BE8 /* GameScratchButton.m */; };
+		69E4320413AF8A86008A67FF /* MapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB649A13816CCE005F9BE8 /* MapView.m */; };
+		69E4320513AF8A86008A67FF /* BusinessDetailGamesTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB649E13816CDF005F9BE8 /* BusinessDetailGamesTableCell.m */; };
+		69E4320613AF8A86008A67FF /* BusinessDetailHeaderTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 69DB64A013816CDF005F9BE8 /* BusinessDetailHeaderTableCell.m */; };
+		69E4320713AF8A86008A67FF /* NSDate+Formatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 30B35C8013840AFE00D16F2D /* NSDate+Formatter.m */; };
+		69E4320813AF8A86008A67FF /* PrizeDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 30B35CC513845BD000D16F2D /* PrizeDetailsViewController.m */; };
+		69E4320913AF8A86008A67FF /* ImageHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 69C761321386A81400DB9002 /* ImageHandler.m */; };
+		69E4320A13AF8A86008A67FF /* GameFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69C761381387278B00DB9002 /* GameFeedbackViewController.m */; };
+		69E4320B13AF8A86008A67FF /* UIView+OriginSize.m in Sources */ = {isa = PBXBuildFile; fileRef = F19B95B91388C51600D2AFB3 /* UIView+OriginSize.m */; };
+		69E4320C13AF8A86008A67FF /* SlotMachineWheel.m in Sources */ = {isa = PBXBuildFile; fileRef = F1757323138990ED000030AA /* SlotMachineWheel.m */; };
+		69E4320D13AF8A86008A67FF /* GamePrizeDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69CCE43F138AF670003E9604 /* GamePrizeDetailsViewController.m */; };
+		69E4320E13AF8A86008A67FF /* NSArray-Shuffle.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A95121138D58C30067B903 /* NSArray-Shuffle.m */; };
+		69E4321013AF8A86008A67FF /* FacebookLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A95127138D82CC0067B903 /* FacebookLoginViewController.m */; };
+		69E4321113AF8A86008A67FF /* PrizeWrapperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 691EDFEF138ECBB0005926C5 /* PrizeWrapperViewController.m */; };
+		69E4321213AF8A86008A67FF /* BozukoRedemption.m in Sources */ = {isa = PBXBuildFile; fileRef = 691EDFF3138EE369005926C5 /* BozukoRedemption.m */; };
+		69E4321313AF8A86008A67FF /* GamePrizeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 69B4979013902C5300E673FF /* GamePrizeCell.m */; };
+		69E4321413AF8A86008A67FF /* DetailTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A1C1841395495400519152 /* DetailTableCell.m */; };
+		69E4321513AF8A86008A67FF /* RecommendTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A1C18B1395A12600519152 /* RecommendTableCell.m */; };
+		69E4321613AF8A86008A67FF /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A1C18E1395A52600519152 /* LoadingView.m */; };
+		69E4321713AF8A86008A67FF /* LoadMoreTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A1C1911395A9F800519152 /* LoadMoreTableCell.m */; };
+		69E4321813AF8A86008A67FF /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A1C1941395B62400519152 /* MapViewController.m */; };
+		69E4321913AF8A86008A67FF /* GamePrizeDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 69B8EC781396B5C200E57FC4 /* GamePrizeDetailView.m */; };
+		69E4321A13AF8A86008A67FF /* HowToPlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69B8EC7B1396CCCE00E57FC4 /* HowToPlayViewController.m */; };
+		69E4321B13AF8A86008A67FF /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 69B8EC8A1396E2C800E57FC4 /* EGORefreshTableHeaderView.m */; };
+		69E4321C13AF8A86008A67FF /* GamePrizesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6909F0D4139809D7009ED45A /* GamePrizesView.m */; };
+		69E4321D13AF8A86008A67FF /* GameTermsAndConditionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = F1C9F54713ABBA6300066DB7 /* GameTermsAndConditionsView.m */; };
+		69E4322013AF8A86008A67FF /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69C761351386F31E00DB9002 /* MessageUI.framework */; };
+		69E4322213AF8A86008A67FF /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69AE18CE135CC69300740672 /* CoreLocation.framework */; };
+		69E4322313AF8A86008A67FF /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69AE18CC135CC34000740672 /* MapKit.framework */; };
+		69E4322413AF8A86008A67FF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6903AB4A1357773D0049705F /* UIKit.framework */; };
+		69E4322513AF8A86008A67FF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6903AB4C1357773D0049705F /* Foundation.framework */; };
+		69E4322613AF8A86008A67FF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6903AB4E1357773D0049705F /* CoreGraphics.framework */; };
+		69E4322713AF8A86008A67FF /* libz.1.2.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D0FE9F9136F257D00EDECE6 /* libz.1.2.3.dylib */; };
+		69E4322813AF8A86008A67FF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D0FEA21136F25A600EDECE6 /* SystemConfiguration.framework */; };
+		69E4322913AF8A86008A67FF /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D0FEA41136F25DE00EDECE6 /* MobileCoreServices.framework */; };
+		69E4322A13AF8A86008A67FF /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D0FEA46136F25FC00EDECE6 /* CFNetwork.framework */; };
+		69E4322B13AF8A86008A67FF /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C00413E137997F000F7899C /* QuartzCore.framework */; };
+		69E4322D13AF8A86008A67FF /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 69D5A40E1358DBD300DFEADF /* MainWindow.xib */; };
+		69E4322E13AF8A86008A67FF /* images in Resources */ = {isa = PBXBuildFile; fileRef = 696B0BC41358E96100286098 /* images */; };
+		69E4322F13AF8A86008A67FF /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 69DB64A313816CF1005F9BE8 /* fonts */; };
+		69E4323013AF8A86008A67FF /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 69C761501387526900DB9002 /* Icon@2x.png */; };
+		69E4323113AF8A86008A67FF /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F19B95B61388C3A800D2AFB3 /* Icon.png */; };
+		69E4323213AF8A86008A67FF /* grayArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 69B8EC8C1396E2E200E57FC4 /* grayArrow.png */; };
+		69E4323313AF8A86008A67FF /* grayArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 69B8EC8D1396E2E200E57FC4 /* grayArrow@2x.png */; };
+		69E4323F13AFAC1F008A67FF /* IconDev@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 69E4323D13AFAC1F008A67FF /* IconDev@2x.png */; };
+		69E4324013AFAC1F008A67FF /* IconDev.png in Resources */ = {isa = PBXBuildFile; fileRef = 69E4323E13AFAC1F008A67FF /* IconDev.png */; };
 		7D0FE9CB136F24E800EDECE6 /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0FE9B4136F24E800EDECE6 /* ASIAuthenticationDialog.m */; };
 		7D0FE9CC136F24E800EDECE6 /* ASIDataCompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0FE9B7136F24E800EDECE6 /* ASIDataCompressor.m */; };
 		7D0FE9CD136F24E800EDECE6 /* ASIDataDecompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0FE9B9136F24E800EDECE6 /* ASIDataDecompressor.m */; };
@@ -89,7 +176,6 @@
 		7D0FE9D1136F24E800EDECE6 /* ASIInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0FE9C3136F24E800EDECE6 /* ASIInputStream.m */; };
 		7D0FE9D2136F24E800EDECE6 /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0FE9C5136F24E800EDECE6 /* ASINetworkQueue.m */; };
 		7D0FE9D4136F24E800EDECE6 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D0FE9CA136F24E800EDECE6 /* Reachability.m */; };
-		7D0FE9FA136F257D00EDECE6 /* libz.1.2.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D0FE9F9136F257D00EDECE6 /* libz.1.2.3.dylib */; };
 		7D0FEA22136F25A600EDECE6 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D0FEA21136F25A600EDECE6 /* SystemConfiguration.framework */; };
 		7D0FEA42136F25DE00EDECE6 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D0FEA41136F25DE00EDECE6 /* MobileCoreServices.framework */; };
 		7D0FEA47136F25FC00EDECE6 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D0FEA46136F25FC00EDECE6 /* CFNetwork.framework */; };
@@ -97,6 +183,27 @@
 		F1757324138990ED000030AA /* SlotMachineWheel.m in Sources */ = {isa = PBXBuildFile; fileRef = F1757323138990ED000030AA /* SlotMachineWheel.m */; };
 		F19B95B71388C3A900D2AFB3 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F19B95B61388C3A800D2AFB3 /* Icon.png */; };
 		F19B95BA1388C51600D2AFB3 /* UIView+OriginSize.m in Sources */ = {isa = PBXBuildFile; fileRef = F19B95B91388C51600D2AFB3 /* UIView+OriginSize.m */; };
+		F1AA545413DD3F8500EB6E46 /* FacebookLikeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F1AA545313DD3F8500EB6E46 /* FacebookLikeButton.m */; };
+		F1AA545513DD3F8500EB6E46 /* FacebookLikeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F1AA545313DD3F8500EB6E46 /* FacebookLikeButton.m */; };
+		F1C23A8A13D3528C0034CDF4 /* FZCustomSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = F1C23A8113D3528C0034CDF4 /* FZCustomSearchBar.m */; };
+		F1C23A8B13D3528C0034CDF4 /* FZCustomSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = F1C23A8113D3528C0034CDF4 /* FZCustomSearchBar.m */; };
+		F1C23A8C13D3528C0034CDF4 /* FZCustomSearchBar_searchBg.png in Resources */ = {isa = PBXBuildFile; fileRef = F1C23A8213D3528C0034CDF4 /* FZCustomSearchBar_searchBg.png */; };
+		F1C23A8D13D3528C0034CDF4 /* FZCustomSearchBar_searchBg.png in Resources */ = {isa = PBXBuildFile; fileRef = F1C23A8213D3528C0034CDF4 /* FZCustomSearchBar_searchBg.png */; };
+		F1C23A8E13D3528C0034CDF4 /* FZCustomSearchBar_searchBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F1C23A8313D3528C0034CDF4 /* FZCustomSearchBar_searchBg@2x.png */; };
+		F1C23A8F13D3528C0034CDF4 /* FZCustomSearchBar_searchBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F1C23A8313D3528C0034CDF4 /* FZCustomSearchBar_searchBg@2x.png */; };
+		F1C23A9013D3528C0034CDF4 /* FZCustomSearchBar_searchCancelBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = F1C23A8413D3528C0034CDF4 /* FZCustomSearchBar_searchCancelBtn.png */; };
+		F1C23A9113D3528C0034CDF4 /* FZCustomSearchBar_searchCancelBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = F1C23A8413D3528C0034CDF4 /* FZCustomSearchBar_searchCancelBtn.png */; };
+		F1C23A9213D3528C0034CDF4 /* FZCustomSearchBar_searchCancelBtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F1C23A8513D3528C0034CDF4 /* FZCustomSearchBar_searchCancelBtn@2x.png */; };
+		F1C23A9313D3528C0034CDF4 /* FZCustomSearchBar_searchCancelBtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F1C23A8513D3528C0034CDF4 /* FZCustomSearchBar_searchCancelBtn@2x.png */; };
+		F1C23A9413D3528C0034CDF4 /* FZCustomSearchBar_searchInputBg.png in Resources */ = {isa = PBXBuildFile; fileRef = F1C23A8613D3528C0034CDF4 /* FZCustomSearchBar_searchInputBg.png */; };
+		F1C23A9513D3528C0034CDF4 /* FZCustomSearchBar_searchInputBg.png in Resources */ = {isa = PBXBuildFile; fileRef = F1C23A8613D3528C0034CDF4 /* FZCustomSearchBar_searchInputBg.png */; };
+		F1C23A9613D3528C0034CDF4 /* FZCustomSearchBar_searchInputBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F1C23A8713D3528C0034CDF4 /* FZCustomSearchBar_searchInputBg@2x.png */; };
+		F1C23A9713D3528C0034CDF4 /* FZCustomSearchBar_searchInputBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F1C23A8713D3528C0034CDF4 /* FZCustomSearchBar_searchInputBg@2x.png */; };
+		F1C23A9813D3528C0034CDF4 /* FZCustomSearchBar_searchMagGlass.png in Resources */ = {isa = PBXBuildFile; fileRef = F1C23A8813D3528C0034CDF4 /* FZCustomSearchBar_searchMagGlass.png */; };
+		F1C23A9913D3528C0034CDF4 /* FZCustomSearchBar_searchMagGlass.png in Resources */ = {isa = PBXBuildFile; fileRef = F1C23A8813D3528C0034CDF4 /* FZCustomSearchBar_searchMagGlass.png */; };
+		F1C23A9A13D3528C0034CDF4 /* FZCustomSearchBar_searchMagGlass@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F1C23A8913D3528C0034CDF4 /* FZCustomSearchBar_searchMagGlass@2x.png */; };
+		F1C23A9B13D3528C0034CDF4 /* FZCustomSearchBar_searchMagGlass@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F1C23A8913D3528C0034CDF4 /* FZCustomSearchBar_searchMagGlass@2x.png */; };
+		F1C9F54813ABBA6300066DB7 /* GameTermsAndConditionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = F1C9F54713ABBA6300066DB7 /* GameTermsAndConditionsView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -111,9 +218,6 @@
 		6903AB521357773E0049705F /* Bozuko-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Bozuko-Info.plist"; sourceTree = SOURCE_ROOT; };
 		6909F0D3139809D7009ED45A /* GamePrizesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GamePrizesView.h; path = Views/GamePrizesView.h; sourceTree = "<group>"; };
 		6909F0D4139809D7009ED45A /* GamePrizesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GamePrizesView.m; path = Views/GamePrizesView.m; sourceTree = "<group>"; };
-		6909F0D6139809EA009ED45A /* GameTermsAndConditionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameTermsAndConditionsView.h; sourceTree = "<group>"; };
-		6909F0D7139809EA009ED45A /* GameTermsAndConditionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameTermsAndConditionsView.m; sourceTree = "<group>"; };
-		6909F11C13982996009ED45A /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		691EDFEE138ECBB0005926C5 /* PrizeWrapperViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PrizeWrapperViewController.h; path = ViewControllers/PrizeWrapperViewController.h; sourceTree = "<group>"; };
 		691EDFEF138ECBB0005926C5 /* PrizeWrapperViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PrizeWrapperViewController.m; path = ViewControllers/PrizeWrapperViewController.m; sourceTree = "<group>"; };
 		691EDFF2138EE369005926C5 /* BozukoRedemption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BozukoRedemption.h; path = Models/BozukoRedemption.h; sourceTree = "<group>"; };
@@ -143,8 +247,6 @@
 		69A1C1941395B62400519152 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MapViewController.m; path = ViewControllers/MapViewController.m; sourceTree = "<group>"; };
 		69A95120138D58C30067B903 /* NSArray-Shuffle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray-Shuffle.h"; path = "Classes/NSArray-Shuffle.h"; sourceTree = "<group>"; };
 		69A95121138D58C30067B903 /* NSArray-Shuffle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray-Shuffle.m"; path = "Classes/NSArray-Shuffle.m"; sourceTree = "<group>"; };
-		69A95123138D807A0067B903 /* FacebookLikeWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FacebookLikeWebViewController.h; path = ViewControllers/FacebookLikeWebViewController.h; sourceTree = "<group>"; };
-		69A95124138D807A0067B903 /* FacebookLikeWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FacebookLikeWebViewController.m; path = ViewControllers/FacebookLikeWebViewController.m; sourceTree = "<group>"; };
 		69A95126138D82CC0067B903 /* FacebookLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FacebookLoginViewController.h; path = ViewControllers/FacebookLoginViewController.h; sourceTree = "<group>"; };
 		69A95127138D82CC0067B903 /* FacebookLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FacebookLoginViewController.m; path = ViewControllers/FacebookLoginViewController.m; sourceTree = "<group>"; };
 		69AE18BF135C921300740672 /* GamesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GamesView.h; path = Views/GamesView.h; sourceTree = "<group>"; };
@@ -178,9 +280,9 @@
 		69BD91401365C22E00E9944C /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJsonParser.m; path = Classes/JSON/SBJsonParser.m; sourceTree = "<group>"; };
 		69BD91411365C22E00E9944C /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SBJsonWriter.h; path = Classes/JSON/SBJsonWriter.h; sourceTree = "<group>"; };
 		69BD91421365C22E00E9944C /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SBJsonWriter.m; path = Classes/JSON/SBJsonWriter.m; sourceTree = "<group>"; };
-		69BD917D1365C9CE00E9944C /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		69BD91851365F38800E9944C /* PrizesTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PrizesTableCell.h; path = TableCells/PrizesTableCell.h; sourceTree = "<group>"; };
 		69BD91861365F38800E9944C /* PrizesTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PrizesTableCell.m; path = TableCells/PrizesTableCell.m; sourceTree = "<group>"; };
+		69C309CB13CB584500281962 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		69C761311386A81400DB9002 /* ImageHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageHandler.h; path = Classes/ImageHandler.h; sourceTree = "<group>"; };
 		69C761321386A81400DB9002 /* ImageHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageHandler.m; path = Classes/ImageHandler.m; sourceTree = "<group>"; };
 		69C761351386F31E00DB9002 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -235,6 +337,10 @@
 		69DB649F13816CDF005F9BE8 /* BusinessDetailHeaderTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BusinessDetailHeaderTableCell.h; path = TableCells/BusinessDetailHeaderTableCell.h; sourceTree = "<group>"; };
 		69DB64A013816CDF005F9BE8 /* BusinessDetailHeaderTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BusinessDetailHeaderTableCell.m; path = TableCells/BusinessDetailHeaderTableCell.m; sourceTree = "<group>"; };
 		69DB64A313816CF1005F9BE8 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
+		69E4323713AF8A86008A67FF /* Bozuko Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Bozuko Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		69E4323A13AF8AC4008A67FF /* BozukoDev-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "BozukoDev-Info.plist"; sourceTree = "<group>"; };
+		69E4323D13AFAC1F008A67FF /* IconDev@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "IconDev@2x.png"; sourceTree = "<group>"; };
+		69E4323E13AFAC1F008A67FF /* IconDev.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IconDev.png; sourceTree = "<group>"; };
 		7D0FE9B3136F24E800EDECE6 /* ASIAuthenticationDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIAuthenticationDialog.h; sourceTree = "<group>"; };
 		7D0FE9B4136F24E800EDECE6 /* ASIAuthenticationDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIAuthenticationDialog.m; sourceTree = "<group>"; };
 		7D0FE9B5136F24E800EDECE6 /* ASICacheDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASICacheDelegate.h; sourceTree = "<group>"; };
@@ -267,6 +373,20 @@
 		F19B95B61388C3A800D2AFB3 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = images/Icon.png; sourceTree = "<group>"; };
 		F19B95B81388C51600D2AFB3 /* UIView+OriginSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+OriginSize.h"; path = "Classes/UIView+OriginSize.h"; sourceTree = "<group>"; };
 		F19B95B91388C51600D2AFB3 /* UIView+OriginSize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+OriginSize.m"; path = "Classes/UIView+OriginSize.m"; sourceTree = "<group>"; };
+		F1AA545213DD3F8500EB6E46 /* FacebookLikeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FacebookLikeButton.h; path = Views/FacebookLikeButton.h; sourceTree = "<group>"; };
+		F1AA545313DD3F8500EB6E46 /* FacebookLikeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FacebookLikeButton.m; path = Views/FacebookLikeButton.m; sourceTree = "<group>"; };
+		F1C23A8013D3528C0034CDF4 /* FZCustomSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FZCustomSearchBar.h; sourceTree = "<group>"; };
+		F1C23A8113D3528C0034CDF4 /* FZCustomSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FZCustomSearchBar.m; sourceTree = "<group>"; };
+		F1C23A8213D3528C0034CDF4 /* FZCustomSearchBar_searchBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FZCustomSearchBar_searchBg.png; sourceTree = "<group>"; };
+		F1C23A8313D3528C0034CDF4 /* FZCustomSearchBar_searchBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FZCustomSearchBar_searchBg@2x.png"; sourceTree = "<group>"; };
+		F1C23A8413D3528C0034CDF4 /* FZCustomSearchBar_searchCancelBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FZCustomSearchBar_searchCancelBtn.png; sourceTree = "<group>"; };
+		F1C23A8513D3528C0034CDF4 /* FZCustomSearchBar_searchCancelBtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FZCustomSearchBar_searchCancelBtn@2x.png"; sourceTree = "<group>"; };
+		F1C23A8613D3528C0034CDF4 /* FZCustomSearchBar_searchInputBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FZCustomSearchBar_searchInputBg.png; sourceTree = "<group>"; };
+		F1C23A8713D3528C0034CDF4 /* FZCustomSearchBar_searchInputBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FZCustomSearchBar_searchInputBg@2x.png"; sourceTree = "<group>"; };
+		F1C23A8813D3528C0034CDF4 /* FZCustomSearchBar_searchMagGlass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FZCustomSearchBar_searchMagGlass.png; sourceTree = "<group>"; };
+		F1C23A8913D3528C0034CDF4 /* FZCustomSearchBar_searchMagGlass@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FZCustomSearchBar_searchMagGlass@2x.png"; sourceTree = "<group>"; };
+		F1C9F54613ABBA6300066DB7 /* GameTermsAndConditionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameTermsAndConditionsView.h; path = Views/GameTermsAndConditionsView.h; sourceTree = "<group>"; };
+		F1C9F54713ABBA6300066DB7 /* GameTermsAndConditionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameTermsAndConditionsView.m; path = Views/GameTermsAndConditionsView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -274,19 +394,35 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6909F11D13982996009ED45A /* libsqlite3.dylib in Frameworks */,
 				69C761361386F31E00DB9002 /* MessageUI.framework in Frameworks */,
-				69BD917E1365C9CE00E9944C /* libxml2.dylib in Frameworks */,
 				69AE18CF135CC69300740672 /* CoreLocation.framework in Frameworks */,
 				69AE18CD135CC34100740672 /* MapKit.framework in Frameworks */,
 				6903AB4B1357773D0049705F /* UIKit.framework in Frameworks */,
+				699FD07313B13B2F00058823 /* libz.1.2.3.dylib in Frameworks */,
 				6903AB4D1357773D0049705F /* Foundation.framework in Frameworks */,
 				6903AB4F1357773D0049705F /* CoreGraphics.framework in Frameworks */,
-				7D0FE9FA136F257D00EDECE6 /* libz.1.2.3.dylib in Frameworks */,
 				7D0FEA22136F25A600EDECE6 /* SystemConfiguration.framework in Frameworks */,
 				7D0FEA42136F25DE00EDECE6 /* MobileCoreServices.framework in Frameworks */,
 				7D0FEA47136F25FC00EDECE6 /* CFNetwork.framework in Frameworks */,
 				9C00413F137997F000F7899C /* QuartzCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		69E4321E13AF8A86008A67FF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				69E4322013AF8A86008A67FF /* MessageUI.framework in Frameworks */,
+				69E4322213AF8A86008A67FF /* CoreLocation.framework in Frameworks */,
+				69E4322313AF8A86008A67FF /* MapKit.framework in Frameworks */,
+				69E4322413AF8A86008A67FF /* UIKit.framework in Frameworks */,
+				69E4322513AF8A86008A67FF /* Foundation.framework in Frameworks */,
+				69E4322613AF8A86008A67FF /* CoreGraphics.framework in Frameworks */,
+				69E4322713AF8A86008A67FF /* libz.1.2.3.dylib in Frameworks */,
+				69E4322813AF8A86008A67FF /* SystemConfiguration.framework in Frameworks */,
+				69E4322913AF8A86008A67FF /* MobileCoreServices.framework in Frameworks */,
+				69E4322A13AF8A86008A67FF /* CFNetwork.framework in Frameworks */,
+				69E4322B13AF8A86008A67FF /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,6 +449,7 @@
 			isa = PBXGroup;
 			children = (
 				6903AB461357773D0049705F /* Bozuko.app */,
+				69E4323713AF8A86008A67FF /* Bozuko Dev.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -320,9 +457,7 @@
 		6903AB491357773D0049705F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6909F11C13982996009ED45A /* libsqlite3.dylib */,
 				69C761351386F31E00DB9002 /* MessageUI.framework */,
-				69BD917D1365C9CE00E9944C /* libxml2.dylib */,
 				69AE18CE135CC69300740672 /* CoreLocation.framework */,
 				69AE18CC135CC34000740672 /* MapKit.framework */,
 				6903AB4A1357773D0049705F /* UIKit.framework */,
@@ -340,10 +475,14 @@
 		6903AB511357773D0049705F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				69E4323D13AFAC1F008A67FF /* IconDev@2x.png */,
+				69E4323E13AFAC1F008A67FF /* IconDev.png */,
 				69DB64A313816CF1005F9BE8 /* fonts */,
 				696B0BC41358E96100286098 /* images */,
 				69D5A40E1358DBD300DFEADF /* MainWindow.xib */,
 				6903AB521357773E0049705F /* Bozuko-Info.plist */,
+				69E4323A13AF8AC4008A67FF /* BozukoDev-Info.plist */,
+				69C309CB13CB584500281962 /* Settings.bundle */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -408,10 +547,12 @@
 				69B8EC781396B5C200E57FC4 /* GamePrizeDetailView.m */,
 				69A1C18D1395A52600519152 /* LoadingView.h */,
 				69A1C18E1395A52600519152 /* LoadingView.m */,
-				6909F0D6139809EA009ED45A /* GameTermsAndConditionsView.h */,
-				6909F0D7139809EA009ED45A /* GameTermsAndConditionsView.m */,
+				F1C9F54613ABBA6300066DB7 /* GameTermsAndConditionsView.h */,
+				F1C9F54713ABBA6300066DB7 /* GameTermsAndConditionsView.m */,
 				6909F0D3139809D7009ED45A /* GamePrizesView.h */,
 				6909F0D4139809D7009ED45A /* GamePrizesView.m */,
+				F1AA545213DD3F8500EB6E46 /* FacebookLikeButton.h */,
+				F1AA545313DD3F8500EB6E46 /* FacebookLikeButton.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -455,6 +596,7 @@
 		69BD91351365C19200E9944C /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				F1C23A7F13D3528C0034CDF4 /* FZCustomSearchBar */,
 				69B8EC6F139687D300E57FC4 /* RefreshTableView */,
 				7D0FE9B2136F24E800EDECE6 /* ASIHTTP */,
 				69BD91371365C1A300E9944C /* JSON */,
@@ -507,8 +649,6 @@
 				69DB648C13816C92005F9BE8 /* WebViewController.m */,
 				69A95126138D82CC0067B903 /* FacebookLoginViewController.h */,
 				69A95127138D82CC0067B903 /* FacebookLoginViewController.m */,
-				69A95123138D807A0067B903 /* FacebookLikeWebViewController.h */,
-				69A95124138D807A0067B903 /* FacebookLikeWebViewController.m */,
 				69B8EC7A1396CCCD00E57FC4 /* HowToPlayViewController.h */,
 				69B8EC7B1396CCCE00E57FC4 /* HowToPlayViewController.m */,
 				696B0BC61358EB0500286098 /* Games */,
@@ -603,6 +743,24 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
+		F1C23A7F13D3528C0034CDF4 /* FZCustomSearchBar */ = {
+			isa = PBXGroup;
+			children = (
+				F1C23A8013D3528C0034CDF4 /* FZCustomSearchBar.h */,
+				F1C23A8113D3528C0034CDF4 /* FZCustomSearchBar.m */,
+				F1C23A8213D3528C0034CDF4 /* FZCustomSearchBar_searchBg.png */,
+				F1C23A8313D3528C0034CDF4 /* FZCustomSearchBar_searchBg@2x.png */,
+				F1C23A8413D3528C0034CDF4 /* FZCustomSearchBar_searchCancelBtn.png */,
+				F1C23A8513D3528C0034CDF4 /* FZCustomSearchBar_searchCancelBtn@2x.png */,
+				F1C23A8613D3528C0034CDF4 /* FZCustomSearchBar_searchInputBg.png */,
+				F1C23A8713D3528C0034CDF4 /* FZCustomSearchBar_searchInputBg@2x.png */,
+				F1C23A8813D3528C0034CDF4 /* FZCustomSearchBar_searchMagGlass.png */,
+				F1C23A8913D3528C0034CDF4 /* FZCustomSearchBar_searchMagGlass@2x.png */,
+			);
+			name = FZCustomSearchBar;
+			path = Classes/FZCustomSearchBar;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -623,6 +781,23 @@
 			productReference = 6903AB461357773D0049705F /* Bozuko.app */;
 			productType = "com.apple.product-type.application";
 		};
+		69E431D613AF8A86008A67FF /* Bozuko Dev */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 69E4323413AF8A86008A67FF /* Build configuration list for PBXNativeTarget "Bozuko Dev" */;
+			buildPhases = (
+				69E431D713AF8A86008A67FF /* Sources */,
+				69E4321E13AF8A86008A67FF /* Frameworks */,
+				69E4322C13AF8A86008A67FF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Bozuko Dev";
+			productName = Bozuko;
+			productReference = 69E4323713AF8A86008A67FF /* Bozuko Dev.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -641,6 +816,7 @@
 			projectRoot = "";
 			targets = (
 				6903AB451357773D0049705F /* Bozuko */,
+				69E431D613AF8A86008A67FF /* Bozuko Dev */,
 			);
 		};
 /* End PBXProject section */
@@ -657,6 +833,39 @@
 				F19B95B71388C3A900D2AFB3 /* Icon.png in Resources */,
 				69B8EC8E1396E2E200E57FC4 /* grayArrow.png in Resources */,
 				69B8EC8F1396E2E200E57FC4 /* grayArrow@2x.png in Resources */,
+				F1C23A8C13D3528C0034CDF4 /* FZCustomSearchBar_searchBg.png in Resources */,
+				F1C23A8E13D3528C0034CDF4 /* FZCustomSearchBar_searchBg@2x.png in Resources */,
+				F1C23A9013D3528C0034CDF4 /* FZCustomSearchBar_searchCancelBtn.png in Resources */,
+				F1C23A9213D3528C0034CDF4 /* FZCustomSearchBar_searchCancelBtn@2x.png in Resources */,
+				F1C23A9413D3528C0034CDF4 /* FZCustomSearchBar_searchInputBg.png in Resources */,
+				F1C23A9613D3528C0034CDF4 /* FZCustomSearchBar_searchInputBg@2x.png in Resources */,
+				F1C23A9813D3528C0034CDF4 /* FZCustomSearchBar_searchMagGlass.png in Resources */,
+				F1C23A9A13D3528C0034CDF4 /* FZCustomSearchBar_searchMagGlass@2x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		69E4322C13AF8A86008A67FF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				69E4322D13AF8A86008A67FF /* MainWindow.xib in Resources */,
+				69E4322E13AF8A86008A67FF /* images in Resources */,
+				69E4322F13AF8A86008A67FF /* fonts in Resources */,
+				69E4323013AF8A86008A67FF /* Icon@2x.png in Resources */,
+				69E4323113AF8A86008A67FF /* Icon.png in Resources */,
+				69E4323213AF8A86008A67FF /* grayArrow.png in Resources */,
+				69E4323313AF8A86008A67FF /* grayArrow@2x.png in Resources */,
+				69E4323F13AFAC1F008A67FF /* IconDev@2x.png in Resources */,
+				69E4324013AFAC1F008A67FF /* IconDev.png in Resources */,
+				69C309CC13CB584500281962 /* Settings.bundle in Resources */,
+				F1C23A8D13D3528C0034CDF4 /* FZCustomSearchBar_searchBg.png in Resources */,
+				F1C23A8F13D3528C0034CDF4 /* FZCustomSearchBar_searchBg@2x.png in Resources */,
+				F1C23A9113D3528C0034CDF4 /* FZCustomSearchBar_searchCancelBtn.png in Resources */,
+				F1C23A9313D3528C0034CDF4 /* FZCustomSearchBar_searchCancelBtn@2x.png in Resources */,
+				F1C23A9513D3528C0034CDF4 /* FZCustomSearchBar_searchInputBg.png in Resources */,
+				F1C23A9713D3528C0034CDF4 /* FZCustomSearchBar_searchInputBg@2x.png in Resources */,
+				F1C23A9913D3528C0034CDF4 /* FZCustomSearchBar_searchMagGlass.png in Resources */,
+				F1C23A9B13D3528C0034CDF4 /* FZCustomSearchBar_searchMagGlass@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -722,7 +931,6 @@
 				F1757324138990ED000030AA /* SlotMachineWheel.m in Sources */,
 				69CCE440138AF670003E9604 /* GamePrizeDetailsViewController.m in Sources */,
 				69A95122138D58C30067B903 /* NSArray-Shuffle.m in Sources */,
-				69A95125138D807A0067B903 /* FacebookLikeWebViewController.m in Sources */,
 				69A95128138D82CC0067B903 /* FacebookLoginViewController.m in Sources */,
 				691EDFF0138ECBB0005926C5 /* PrizeWrapperViewController.m in Sources */,
 				691EDFF4138EE369005926C5 /* BozukoRedemption.m in Sources */,
@@ -736,7 +944,87 @@
 				69B8EC7C1396CCCF00E57FC4 /* HowToPlayViewController.m in Sources */,
 				69B8EC8B1396E2C800E57FC4 /* EGORefreshTableHeaderView.m in Sources */,
 				6909F0D5139809D7009ED45A /* GamePrizesView.m in Sources */,
-				6909F0D8139809EA009ED45A /* GameTermsAndConditionsView.m in Sources */,
+				F1C9F54813ABBA6300066DB7 /* GameTermsAndConditionsView.m in Sources */,
+				F1C23A8A13D3528C0034CDF4 /* FZCustomSearchBar.m in Sources */,
+				F1AA545413DD3F8500EB6E46 /* FacebookLikeButton.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		69E431D713AF8A86008A67FF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				69E431D813AF8A86008A67FF /* main.m in Sources */,
+				69E431D913AF8A86008A67FF /* BozukoAppDelegate.m in Sources */,
+				69E431DA13AF8A86008A67FF /* RootViewController.m in Sources */,
+				69E431DB13AF8A86008A67FF /* GamesHomeViewController.m in Sources */,
+				69E431DC13AF8A86008A67FF /* GamesView.m in Sources */,
+				69E431DD13AF8A86008A67FF /* BusinessTableCell.m in Sources */,
+				69E431DE13AF8A86008A67FF /* BozukoHandler.m in Sources */,
+				69E431DF13AF8A86008A67FF /* NSObject+SBJSON.m in Sources */,
+				69E431E013AF8A86008A67FF /* NSString+SBJSON.m in Sources */,
+				69E431E113AF8A86008A67FF /* SBJsonBase.m in Sources */,
+				69E431E213AF8A86008A67FF /* SBJsonParser.m in Sources */,
+				69E431E313AF8A86008A67FF /* SBJsonWriter.m in Sources */,
+				69E431E413AF8A86008A67FF /* PrizesTableCell.m in Sources */,
+				69E431E513AF8A86008A67FF /* ASIAuthenticationDialog.m in Sources */,
+				69E431E613AF8A86008A67FF /* ASIDataCompressor.m in Sources */,
+				69E431E713AF8A86008A67FF /* ASIDataDecompressor.m in Sources */,
+				69E431E813AF8A86008A67FF /* ASIDownloadCache.m in Sources */,
+				69E431E913AF8A86008A67FF /* ASIFormDataRequest.m in Sources */,
+				69E431EA13AF8A86008A67FF /* ASIHTTPRequest.m in Sources */,
+				69E431EB13AF8A86008A67FF /* ASIInputStream.m in Sources */,
+				69E431EC13AF8A86008A67FF /* ASINetworkQueue.m in Sources */,
+				69E431ED13AF8A86008A67FF /* Reachability.m in Sources */,
+				69E431EE13AF8A86008A67FF /* ScaleImage.m in Sources */,
+				69E431EF13AF8A86008A67FF /* GamesDetailViewController.m in Sources */,
+				69E431F013AF8A86008A67FF /* GameTermsViewController.m in Sources */,
+				69E431F113AF8A86008A67FF /* GameTermsHeaderTableCell.m in Sources */,
+				69E431F213AF8A86008A67FF /* GamePlaySlotsViewController.m in Sources */,
+				69E431F313AF8A86008A67FF /* UserHandler.m in Sources */,
+				69E431F413AF8A86008A67FF /* BozukoBozuko.m in Sources */,
+				69E431F513AF8A86008A67FF /* BozukoEntryPoint.m in Sources */,
+				69E431F613AF8A86008A67FF /* BozukoFavoriteResponse.m in Sources */,
+				69E431F713AF8A86008A67FF /* BozukoGame.m in Sources */,
+				69E431F813AF8A86008A67FF /* BozukoGamePrize.m in Sources */,
+				69E431F913AF8A86008A67FF /* BozukoGameResult.m in Sources */,
+				69E431FA13AF8A86008A67FF /* BozukoGameState.m in Sources */,
+				69E431FB13AF8A86008A67FF /* BozukoLocation.m in Sources */,
+				69E431FC13AF8A86008A67FF /* BozukoPage.m in Sources */,
+				69E431FD13AF8A86008A67FF /* BozukoPrize.m in Sources */,
+				69E431FE13AF8A86008A67FF /* BozukoUser.m in Sources */,
+				69E431FF13AF8A86008A67FF /* WebViewController.m in Sources */,
+				69E4320013AF8A86008A67FF /* GamePlayScratchViewController.m in Sources */,
+				69E4320113AF8A86008A67FF /* PrizesHomeViewController.m in Sources */,
+				69E4320213AF8A86008A67FF /* BozukoHomeViewController.m in Sources */,
+				69E4320313AF8A86008A67FF /* GameScratchButton.m in Sources */,
+				69E4320413AF8A86008A67FF /* MapView.m in Sources */,
+				69E4320513AF8A86008A67FF /* BusinessDetailGamesTableCell.m in Sources */,
+				69E4320613AF8A86008A67FF /* BusinessDetailHeaderTableCell.m in Sources */,
+				69E4320713AF8A86008A67FF /* NSDate+Formatter.m in Sources */,
+				69E4320813AF8A86008A67FF /* PrizeDetailsViewController.m in Sources */,
+				69E4320913AF8A86008A67FF /* ImageHandler.m in Sources */,
+				69E4320A13AF8A86008A67FF /* GameFeedbackViewController.m in Sources */,
+				69E4320B13AF8A86008A67FF /* UIView+OriginSize.m in Sources */,
+				69E4320C13AF8A86008A67FF /* SlotMachineWheel.m in Sources */,
+				69E4320D13AF8A86008A67FF /* GamePrizeDetailsViewController.m in Sources */,
+				69E4320E13AF8A86008A67FF /* NSArray-Shuffle.m in Sources */,
+				69E4321013AF8A86008A67FF /* FacebookLoginViewController.m in Sources */,
+				69E4321113AF8A86008A67FF /* PrizeWrapperViewController.m in Sources */,
+				69E4321213AF8A86008A67FF /* BozukoRedemption.m in Sources */,
+				69E4321313AF8A86008A67FF /* GamePrizeCell.m in Sources */,
+				69E4321413AF8A86008A67FF /* DetailTableCell.m in Sources */,
+				69E4321513AF8A86008A67FF /* RecommendTableCell.m in Sources */,
+				69E4321613AF8A86008A67FF /* LoadingView.m in Sources */,
+				69E4321713AF8A86008A67FF /* LoadMoreTableCell.m in Sources */,
+				69E4321813AF8A86008A67FF /* MapViewController.m in Sources */,
+				69E4321913AF8A86008A67FF /* GamePrizeDetailView.m in Sources */,
+				69E4321A13AF8A86008A67FF /* HowToPlayViewController.m in Sources */,
+				69E4321B13AF8A86008A67FF /* EGORefreshTableHeaderView.m in Sources */,
+				69E4321C13AF8A86008A67FF /* GamePrizesView.m in Sources */,
+				69E4321D13AF8A86008A67FF /* GameTermsAndConditionsView.m in Sources */,
+				F1C23A8B13D3528C0034CDF4 /* FZCustomSearchBar.m in Sources */,
+				F1AA545513DD3F8500EB6E46 /* FacebookLikeButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -757,7 +1045,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				RUN_CLANG_STATIC_ANALYZER = NO;
+				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -766,15 +1054,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Fuzz Productions, LLC";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				RUN_CLANG_STATIC_ANALYZER = NO;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "ACFC5BF5-2722-4504-A6E1-411DCFD08849";
+				RUN_CLANG_STATIC_ANALYZER = YES;
 				SDKROOT = iphoneos;
 			};
 			name = Release;
@@ -783,7 +1071,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Christopher Luu (D47P6JV65M)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -792,7 +1080,7 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				INFOPLIST_FILE = "Bozuko-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E020F339-2B29-4483-A9DB-3E56BB7A8FE4";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				WRAPPER_EXTENSION = app;
 			};
@@ -809,7 +1097,48 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				INFOPLIST_FILE = "Bozuko-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "08FBF2B3-2D43-43D0-9230-B50D46218547";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "6DB2641E-FFA3-4F15-954D-32C43D9DDF03";
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		69E4323513AF8A86008A67FF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Bozuko-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					BOZUKO_DEV,
+				);
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				INFOPLIST_FILE = "BozukoDev-Info.plist";
+				PRODUCT_NAME = "Bozuko Dev";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				RUN_CLANG_STATIC_ANALYZER = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		69E4323613AF8A86008A67FF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Fuzz Productions, LLC";
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Bozuko-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = BOZUKO_DEV;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				INFOPLIST_FILE = "BozukoDev-Info.plist";
+				PRODUCT_NAME = "Bozuko Dev";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "ACFC5BF5-2722-4504-A6E1-411DCFD08849";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
@@ -833,6 +1162,15 @@
 			buildConfigurations = (
 				6903AB621357773E0049705F /* Debug */,
 				6903AB631357773E0049705F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		69E4323413AF8A86008A67FF /* Build configuration list for PBXNativeTarget "Bozuko Dev" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				69E4323513AF8A86008A67FF /* Debug */,
+				69E4323613AF8A86008A67FF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

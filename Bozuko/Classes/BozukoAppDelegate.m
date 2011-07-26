@@ -19,6 +19,26 @@
 	[self.window addSubview:_rootViewController.view];
 	
 	[self.window makeKeyAndVisible];
+	
+	
+	// Delete files in image cache if they haven't been used in 60 days. Files are touched every time they're read.
+	NSString *tmpDocumentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+	NSString *tmpPath = [[NSString alloc] initWithFormat:@"%@/imageCache", tmpDocumentsDirectory];
+	
+	NSArray *tmpArray = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:tmpPath error:nil];
+	[tmpPath release];
+	
+	for (NSString *tmpFilePath in tmpArray)
+	{
+		NSDictionary *tmpFileAttributesDictionary = [[NSFileManager defaultManager] attributesOfItemAtPath:tmpFilePath error:nil];
+		
+		NSDate *tmpFileModifiedDate = [tmpFileAttributesDictionary fileModificationDate];
+		NSTimeInterval tmpTimeInterval = [tmpFileModifiedDate timeIntervalSinceNow];
+		
+		if (tmpTimeInterval < -5184000) //5,184,000 seconds is 60 days
+			[[NSFileManager defaultManager] removeItemAtPath:tmpFilePath error:nil];
+	}
+
     return YES;
 }
 

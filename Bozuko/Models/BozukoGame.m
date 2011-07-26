@@ -73,6 +73,11 @@
 	return [[_properties objectForKey:@"links"] objectForKey:@"game"];
 }
 
+- (NSString *)pageLink
+{
+	return [[_properties objectForKey:@"links"] objectForKey:@"page"];
+}
+
 - (NSString *)entryMethodType
 {
 	return [[_properties objectForKey:@"entry_method"] objectForKey:@"type"];

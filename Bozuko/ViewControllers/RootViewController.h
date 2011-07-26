@@ -10,7 +10,7 @@
 
 @class GamesHomeViewController;
 
-@interface RootViewController : UIViewController <UITabBarControllerDelegate, UIAlertViewDelegate> {
+@interface RootViewController : UIViewController <UITabBarControllerDelegate, UIAlertViewDelegate, UINavigationControllerDelegate> {
 	UINavigationController *_gamesNavigationController;
 	UINavigationController *_prizesNavigationController;
 	UINavigationController *_bozukoNavigationController;
@@ -22,6 +22,7 @@
 - (void)presentUserLoginWebView:(NSNotification *)inNotificaiton;
 - (void)userLocationUnavailableNotification;
 - (void)networkErrorNotification:(NSNotification *)inNotification;
+- (void)serverLogoutNotification:(NSNotification *)inNotification;
 - (void)networkUnavailableNotification;
 - (void)applicationNeedsUpdateNotification:(NSNotification *)inNotification;
 - (void)alertViewDismiss;

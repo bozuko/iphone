@@ -15,5 +15,6 @@
 }
 
 - (void)imageWasUpdated:(NSNotification *)inNotification;
+- (void)userLogginStatusChanged;
 
 @end

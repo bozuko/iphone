@@ -27,6 +27,7 @@
 }
 
 #pragma mark - UIWebViewDelegate
+
 - (BOOL)webView:(UIWebView *)inWebView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
 	//DLog(@"Webview to load request: %@", request);	
 	

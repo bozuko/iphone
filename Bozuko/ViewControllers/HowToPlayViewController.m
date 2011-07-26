@@ -10,6 +10,8 @@
 
 #define kHowToPlay_ScreenIndicatorTagOffset			60
 
+#define kHowToPlay_ScrollAnimateDuration			0.5
+
 @implementation HowToPlayViewController
 
 - (id)init
@@ -24,10 +26,10 @@
 		tmpBarButtonItem.title = @"Close";
 		tmpBarButtonItem.target = self;
 		tmpBarButtonItem.action = @selector(dismissModalViewControllerAnimated:);
-		self.navigationItem.rightBarButtonItem = tmpBarButtonItem;
+		self.navigationItem.leftBarButtonItem = tmpBarButtonItem;
 		[tmpBarButtonItem release];
 		
-		self.navigationItem.title = @"How to Play?";
+		self.navigationItem.title = @"How to Play";
     }
     
 	return self;
@@ -130,6 +132,21 @@
 	tmpImageView.image = [UIImage imageNamed:@"images/helpShadowOverlay"];
 	[self.view addSubview:tmpImageView];
 	[tmpImageView release];
+	
+	_leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
+	_leftButton.frame = CGRectMake(0, 200, 30, 50);
+	[_leftButton setImage:[UIImage imageNamed:@"images/howToLeftBtn"] forState:UIControlStateNormal];
+	[_leftButton setImage:[UIImage imageNamed:@"images/howToLeftBtnPress"] forState:UIControlStateHighlighted];
+	[_leftButton addTarget:self action:@selector(leftButtonWasPressed) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:_leftButton];
+	_leftButton.alpha = 0.0;
+	
+	_rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+	_rightButton.frame = CGRectMake(290, 200, 30, 50);
+	[_rightButton setImage:[UIImage imageNamed:@"images/howToRightBtn"] forState:UIControlStateNormal];
+	[_rightButton setImage:[UIImage imageNamed:@"images/howToRightBtnPress"] forState:UIControlStateHighlighted];
+	[_rightButton addTarget:self action:@selector(rightButtonWasPressed) forControlEvents:UIControlEventTouchUpInside];
+	[self.view addSubview:_rightButton];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -149,6 +166,23 @@
 			else
 				tmpImageView.image = [UIImage imageNamed:@"images/helpDotEmpty"];
 		}
+		
+		if (tmpHorizontalPosition > 200 && _leftButton.alpha == 0.0)
+			//[UIView animateWithDuration:0.5 animations:^{
+				_leftButton.alpha = 1.0;
+			//}];
+		else if (tmpHorizontalPosition < 200 && _leftButton.alpha == 1.0)
+			//[UIView animateWithDuration:0.5 animations:^{
+				_leftButton.alpha = 0.0;
+			//}];
+		else if (tmpHorizontalPosition < 800 && _rightButton.alpha == 0.0)
+			//[UIView animateWithDuration:0.5 animations:^{
+				_rightButton.alpha = 1.0;
+			//}];
+		else if (tmpHorizontalPosition > 800 && _rightButton.alpha == 1.0)
+			//[UIView animateWithDuration:0.5 animations:^{
+				_rightButton.alpha = 0.0;
+			//}];
 	}
 }
 
@@ -163,6 +197,40 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+#pragma mark - Button Actions
+
+- (void)leftButtonWasPressed
+{
+	if (_foregroundScrollView.bounds.origin.x == 320)
+		[UIView animateWithDuration:kHowToPlay_ScrollAnimateDuration animations:^{
+			[_foregroundScrollView scrollRectToVisible:CGRectMake(0, 0, 320, 415) animated:NO];
+		}];
+	else if (_foregroundScrollView.bounds.origin.x == 640)
+		[UIView animateWithDuration:kHowToPlay_ScrollAnimateDuration animations:^{
+			[_foregroundScrollView scrollRectToVisible:CGRectMake(320, 0, 320, 415) animated:NO];
+		}];
+	else if (_foregroundScrollView.bounds.origin.x == 960)
+		[UIView animateWithDuration:kHowToPlay_ScrollAnimateDuration animations:^{
+			[_foregroundScrollView scrollRectToVisible:CGRectMake(640, 0, 320, 415) animated:NO];
+		}];
+}
+
+- (void)rightButtonWasPressed
+{
+	if (_foregroundScrollView.bounds.origin.x == 0)
+		[UIView animateWithDuration:kHowToPlay_ScrollAnimateDuration animations:^{
+			[_foregroundScrollView scrollRectToVisible:CGRectMake(320, 0, 320, 415) animated:NO];
+		}];
+	else if (_foregroundScrollView.bounds.origin.x == 320)
+		[UIView animateWithDuration:kHowToPlay_ScrollAnimateDuration animations:^{
+			[_foregroundScrollView scrollRectToVisible:CGRectMake(640, 0, 320, 415) animated:NO];
+		}];
+	else if (_foregroundScrollView.bounds.origin.x == 640)
+		[UIView animateWithDuration:kHowToPlay_ScrollAnimateDuration animations:^{
+			[_foregroundScrollView scrollRectToVisible:CGRectMake(960, 0, 320, 415) animated:NO];
+		}];
 }
 
 @end

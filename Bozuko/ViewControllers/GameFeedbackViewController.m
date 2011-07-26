@@ -53,8 +53,15 @@
 	
 	self.view.backgroundColor = [UIColor blackColor];
 	
-	[self.navigationItem setLeftBarButtonItem:[[[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(doCancel)] autorelease]];
-	[self.navigationItem setRightBarButtonItem:[[[UIBarButtonItem alloc] initWithTitle:@"Submit" style:UIBarButtonItemStyleBordered target:self action:@selector(doSubmit)] autorelease]];
+	UIBarButtonItem *tmpbarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(doCancel)];
+	[self.navigationItem setLeftBarButtonItem:tmpbarButtonItem];
+	[tmpbarButtonItem release];
+	
+	_submitButton = [[UIBarButtonItem alloc] initWithTitle:@"Submit" style:UIBarButtonItemStyleBordered target:self action:@selector(doSubmit)];
+	[self.navigationItem setRightBarButtonItem:_submitButton];
+	[_submitButton release];
+	
+	_submitButton.enabled = NO;
 	
 	_textView = [[UITextView alloc] initWithFrame:CGRectMake(10.0, 5.0, 300.0, 400.0)];
 	_textView.backgroundColor = [UIColor whiteColor];
@@ -118,6 +125,14 @@
 //		textView.text = _placeholderText;
 //	}
 //}
+
+- (void)textViewDidChange:(UITextView *)textView
+{
+	if ([textView.text length] > 0)
+		_submitButton.enabled = YES;
+	else
+		_submitButton.enabled = NO;
+}
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {

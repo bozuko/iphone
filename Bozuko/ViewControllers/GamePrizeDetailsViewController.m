@@ -88,7 +88,7 @@
 	[_prizeName release];
 	
 	_prizeDescription = [[UITextView alloc] initWithFrame:CGRectMake(10.0, 110.0, 300.0, 250.0)];
-	_prizeDescription.userInteractionEnabled = NO;
+	_prizeDescription.editable = NO;
 	_prizeDescription.backgroundColor = [UIColor clearColor];
 	_prizeDescription.font = [UIFont systemFontOfSize:16.0];
 	_prizeDescription.text = [_bozukoGamePrize prizeDescription];

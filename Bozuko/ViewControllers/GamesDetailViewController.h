@@ -10,11 +10,11 @@
 #import <MessageUI/MFMailComposeViewController.h>
 #import <MessageUI/MFMessageComposeViewController.h>
 #import "GameFeedbackViewController.h"
-#import "FacebookLikeWebViewController.h"
 
 @class BozukoPage;
 
-@interface GamesDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, UIActionSheetDelegate, FacebookLikeWebViewControllerDelegate> {
+@interface GamesDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, UIActionSheetDelegate>
+{
     UITableView *_tableView;
 	BozukoPage *_bozukoPage;
 }
@@ -28,5 +28,7 @@
 
 - (void)pageUpdateDidFinish:(NSNotification *)inNotification;
 - (void)pageUpdateDidFail:(NSNotification *)inNotification;
+
+//- (void)facebookPageWasLiked;
 
 @end

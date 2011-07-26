@@ -39,9 +39,9 @@
 		[self addSubview:_numberLabel];
 		[_numberLabel release];
 		
-		_textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, (int)(frame.size.height / 2.0), frame.size.width, (int)(frame.size.height / 3.0))];
+		_textLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, (int)(frame.size.height / 2.0), frame.size.width - 20, (int)(frame.size.height / 3.0))];
 		_textLabel.textAlignment = UITextAlignmentCenter;
-		_textLabel.font = [UIFont fontWithName:@"PFTempestaSeven" size:10];
+		_textLabel.font = [UIFont fontWithName:@"PFTempestaSeven" size:8];
 		_textLabel.backgroundColor = [UIColor clearColor];
 		_textLabel.textColor = [UIColor blackColor];
 		_textLabel.numberOfLines = 2;

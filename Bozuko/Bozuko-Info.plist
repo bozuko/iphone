@@ -22,11 +22,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>1.2</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>1.2</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSMainNibFile</key>
@@ -36,6 +36,8 @@
 		<string>fonts/pf_tempesta_seven.ttf</string>
 		<string>fonts/pf_tempesta_seven_bold.ttf</string>
 	</array>
+	<key>UIFileSharingEnabled</key>
+	<false/>
 	<key>UILaunchImageFile</key>
 	<string>images/Default.png</string>
 	<key>UIPrerenderedIcon</key>
@@ -50,7 +52,5 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<key>UIFileSharingEnabled</key>
-	<false/>
 </dict>
 </plist>

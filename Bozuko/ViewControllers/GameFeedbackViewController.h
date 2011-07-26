@@ -14,6 +14,8 @@ typedef void (^Block)(void);
     UITextView *_textView;
 	NSString *_placeholderText;
 	Block _completionBlock;
+	
+	UIBarButtonItem *_submitButton;
 }
 
 @property (retain) UITextView *textView;

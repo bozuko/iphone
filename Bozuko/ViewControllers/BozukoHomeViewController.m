@@ -21,12 +21,13 @@
 
 #define kBozukoHomeViewController_ProfileSection				0
 #define kBozukoHomeViewController_LoginSection					1
-#define kBozukoHomeViewController_PrivacyPolicySection			2
-#define kBozukoHomeViewController_HowToPlaySection				3
-#define kBozukoHomeViewController_AboutBozukoSection			4
-#define kBozukoHomeViewController_BozukoForBusinessSection		5
+#define kBozukoHomeViewController_HowToPlaySection				2
+#define kBozukoHomeViewController_AboutBozukoSection			3
+#define kBozukoHomeViewController_BozukoForBusinessSection		4
+#define kBozukoHomeViewController_PrivacyPolicySection			5
 #define kBozukoHomeViewController_TermsOfUseSection				6
-#define kBozukoHomeViewController_PlayOurGameSection			7
+#define kBozukoHomeViewController_DemoGameSection				7
+#define kBozukoHomeViewController_PlayOurGameSection			8
 
 @implementation BozukoHomeViewController
 
@@ -44,10 +45,7 @@
 
 - (void)dealloc
 {
-	[[NSNotificationCenter defaultCenter] removeObserver:_tableView];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
-	[_tableView release];
 	
     [super dealloc];
 }
@@ -64,7 +62,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-	return 8;
+	return 9;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -74,7 +72,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-	if (section == kBozukoHomeViewController_ProfileSection || section == kBozukoHomeViewController_PrivacyPolicySection)
+	if (section == kBozukoHomeViewController_ProfileSection || section == kBozukoHomeViewController_HowToPlaySection)
 		return 25.0;
 	
 	return 0.0;
@@ -106,7 +104,7 @@
 			return [tmpView autorelease];
 			break;
 			
-		case kBozukoHomeViewController_PrivacyPolicySection:
+		case kBozukoHomeViewController_HowToPlaySection:
 			tmpView = [[UIView alloc] init];
 			tmpLabel = [[UILabel alloc] initWithFrame:CGRectMake(15.0, 0.0, 100.0, 25.0)];
 			tmpLabel.font = [UIFont boldSystemFontOfSize:16.0];
@@ -142,7 +140,6 @@
 			[_profileImageView setTag:100];
 			[_profileImageView.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
 			[_profileImageView.layer setBorderWidth:4.0f];
-			_profileImageView.image = [[ImageHandler sharedInstance] nonCachedImageForURL:[tmpUser image]];
 			[tmpCell.contentView addSubview:_profileImageView];
 			[_profileImageView release];
 
@@ -164,6 +161,8 @@
 
 		[(UILabel *)[tmpCell.contentView viewWithTag:200] setText:[tmpUser name]];
 		[(UILabel *)[tmpCell.contentView viewWithTag:300] setText:[tmpUser email]];
+		
+		_profileImageView.image = [[ImageHandler sharedInstance] nonCachedImageForURL:[tmpUser image]];
 
 		return tmpCell;
 	}
@@ -208,7 +207,7 @@
 			break;
 			
 		case kBozukoHomeViewController_HowToPlaySection:
-			tmpCell.textLabel.text = @"How to Play?";
+			tmpCell.textLabel.text = @"How to Play";
 			tmpCell.textLabel.textColor = [UIColor blackColor];
 			tmpCell.textLabel.textAlignment = UITextAlignmentCenter;
 			tmpCell.backgroundColor = [UIColor whiteColor];
@@ -246,6 +245,14 @@
 			tmpCell.backgroundColor = [UIColor colorWithRed:0.0 green:0.8 blue:0.0 alpha:1.0];
 			tmpCell.imageView.image = nil;
 			break;
+			
+		case kBozukoHomeViewController_DemoGameSection:
+			tmpCell.textLabel.text = @"Demo Games";
+			tmpCell.textLabel.textColor = [UIColor blackColor];
+			tmpCell.textLabel.textAlignment = UITextAlignmentCenter;
+			tmpCell.backgroundColor = [UIColor whiteColor];
+			tmpCell.imageView.image = nil;
+			break;
 	}
 	
 	return tmpCell;
@@ -262,6 +269,7 @@
 		if ([[UserHandler sharedInstance] loggedIn] == YES)
 		{
 			[[BozukoHandler sharedInstance] bozukoLogout];
+			[[BozukoHandler sharedInstance] bozukoEntryPoint];
 		}
 		else
 		{
@@ -272,15 +280,22 @@
 	}
 	else if (indexPath.section == kBozukoHomeViewController_PlayOurGameSection)
 	{
-//		if ([[UserHandler sharedInstance] loggedIn] == NO)
-//		{
-//			[[NSNotificationCenter defaultCenter] postNotificationName:kBozukoHandler_UserAttemptLogin object:nil];
-//			return;
-//		}
 		if ([[BozukoHandler sharedInstance] defaultBozukoGame] != nil)
 		{
 			GamesDetailViewController *tmpViewController = [[GamesDetailViewController alloc] init];
 			tmpViewController.bozukoPage = [[BozukoHandler sharedInstance] defaultBozukoGame];
+			[self.navigationController pushViewController:tmpViewController animated:YES];
+			[tmpViewController release];
+		}
+		
+		return;
+	}
+	else if (indexPath.section == kBozukoHomeViewController_DemoGameSection)
+	{
+		if ([[BozukoHandler sharedInstance] demoBozukoGame] != nil)
+		{
+			GamesDetailViewController *tmpViewController = [[GamesDetailViewController alloc] init];
+			tmpViewController.bozukoPage = [[BozukoHandler sharedInstance] demoBozukoGame];
 			[self.navigationController pushViewController:tmpViewController animated:YES];
 			[tmpViewController release];
 		}
@@ -332,9 +347,9 @@
 	}
 	
 	if (tmpURI == nil || [tmpURI isEqualToString:@""] == YES)
-		return; // Don't even bother opening a web view if URL is invalid.
+		return; // Don't even bother opening a web view if URL is nil.
 	
-	NSString *tmpRequestString = [NSString stringWithFormat:@"%@%@?mobile_version=%@", kBozukoBaseURL, tmpURI, kApplicationVersion];
+	NSString *tmpRequestString = [NSString stringWithFormat:@"%@%@?mobile_version=%@", [[BozukoHandler sharedInstance] baseURL], tmpURI, kApplicationVersion];
 	
 	WebViewController *tmpViewController = [[WebViewController alloc] initWithRequest:tmpRequestString];
 	
@@ -342,7 +357,7 @@
 	tmpBarButtonItem.target = self;
 	tmpBarButtonItem.action = @selector(dismissModalViewControllerAnimated:);
 	tmpBarButtonItem.title = @"Close";
-	tmpViewController.navigationItem.rightBarButtonItem = tmpBarButtonItem;
+	tmpViewController.navigationItem.leftBarButtonItem = tmpBarButtonItem;
 	tmpViewController.navigationItem.title = tmpTitle;
 	[tmpBarButtonItem release];
 	
@@ -367,8 +382,7 @@
 {
 	[super viewWillAppear:animated];
 	
-	if (_profileImageView.image == nil)
-		_profileImageView.image = [[ImageHandler sharedInstance] nonCachedImageForURL:[[[UserHandler sharedInstance] apiUser] image]];
+	_profileImageView.image = [[ImageHandler sharedInstance] nonCachedImageForURL:[[[UserHandler sharedInstance] apiUser] image]];
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -387,14 +401,14 @@
 	_tableView.delegate = self;
 	_tableView.dataSource = self;
 	[self.view addSubview:_tableView];
+	[_tableView release];
 	
-	[[NSNotificationCenter defaultCenter] addObserver:_tableView selector:@selector(reloadData) name:kBozukoHandler_UserLoginStatusChanged object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLogginStatusChanged) name:kBozukoHandler_UserLoginStatusChanged object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageWasUpdated:) name:kImageHandler_ImageWasUpdatedNotification object:nil];
 }
 
 - (void)viewDidUnload
 {
-	[[NSNotificationCenter defaultCenter] removeObserver:_tableView];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
     [super viewDidUnload];
@@ -408,6 +422,8 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+#pragma mark - Notification Methods
+
 - (void)imageWasUpdated:(NSNotification *)inNotification
 {
 	if ([[inNotification object] isKindOfClass:[NSString class]] == NO)
@@ -415,6 +431,12 @@
 	
 	if ([[inNotification object] isEqualToString:[[[UserHandler sharedInstance] apiUser] image]] == YES)
 		_profileImageView.image = [[ImageHandler sharedInstance] nonCachedImageForURL:[[[UserHandler sharedInstance] apiUser] image]];
+}
+
+- (void)userLogginStatusChanged
+{
+	_profileImageView.image = nil;
+	[_tableView reloadData];
 }
 
 @end

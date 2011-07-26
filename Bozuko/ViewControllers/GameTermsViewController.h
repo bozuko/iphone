@@ -16,15 +16,23 @@
 	BozukoPage *_bozukoPage;
 	BozukoGame *_bozukoGame;
 	UIView *_bottomBarView;
+	UIButton *_gameEntryButton;
+	NSInteger _bozukoGameIndex;
 }
 
 @property (retain) BozukoPage *bozukoPage;
 @property (retain) BozukoGame *bozukoGame;
+@property (readwrite) NSInteger bozukoGameIndex;
 
 - (void)updateView;
 - (void)playButtonWasPressed;
 
+- (void)bozukoGameResultsInProgress:(NSNotification *)inNotification;
+- (void)bozukoGameResultsDidFinish:(NSNotification *)inNotification;
+- (void)bozukoGameResultsDidFail:(NSNotification *)inNotification;
 - (void)bozukoGameStateDidFinish:(NSNotification *)inNotification;
 - (void)bozukoGameStateDidFail:(NSNotification *)inNotification;
+- (void)pageUpdateDidFinish:(NSNotification *)inNotification;
+- (void)pageUpdateDidFail:(NSNotification *)inNotification;
 
 @end

@@ -109,14 +109,6 @@
 	{
 		_noFavoritesView = [[UIView alloc] initWithFrame:self.frame];
 		
-//		[_searchBar release];
-//		_searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 44.0)];
-//		_searchBar.tintColor = [UIColor lightGrayColor];
-//		_searchBar.showsCancelButton = NO;
-//		_searchBar.placeholder = @"Search";
-//		_searchBar.text = [BozukoHandler sharedInstance].searchQueryString;
-//		[_noFavoritesView addSubview:_searchBar];
-		
 		UIImageView *tmpImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 23.0)];
 		tmpImageView.image = [UIImage imageNamed:@"images/listHeader"];
 		[_noFavoritesView addSubview:tmpImageView];
@@ -212,6 +204,14 @@
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
+	CGFloat tmpVerticalPosition = scrollView.bounds.origin.y;
+	
+	// These two if conditions give a "snap to show/hide" feel to the search text field.
+	if (tmpVerticalPosition > 0.0 && tmpVerticalPosition <= 22.0)
+		[_tableView scrollRectToVisible:CGRectMake(0.0, 0.0, 320.0, self.frame.size.height) animated:YES];
+	else if (tmpVerticalPosition > 22.0 && tmpVerticalPosition < 44.0)
+		[_tableView scrollRectToVisible:CGRectMake(0.0, 44.0, 320.0, self.frame.size.height) animated:YES];
+	
 	if (_favorites == NO)
 		[_refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];	
 }
@@ -334,8 +334,8 @@
 	else if (section == kTableViewSection_SearchBox)
 	{
 		[_searchBar release];
-		_searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 44.0)];
-		_searchBar.tintColor = [UIColor lightGrayColor];
+		_searchBar = [[FZCustomSearchBar alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 44.0)];
+		//_searchBar.tintColor = [UIColor lightGrayColor];
 		
 		_searchBar.placeholder = @"Search";
 		
@@ -385,7 +385,7 @@
 			switch (section)
 			{
 				case kNearbyTableViewSection_Featured:
-					tmpLabel.text = @"Featured";
+					tmpLabel.text = @"Featured Games";
 					break;
 					
 				case kNearbyTableViewSection_NearbyGames:
@@ -478,22 +478,18 @@
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-	//[searchBar setShowsCancelButton:NO animated:YES];
 	[searchBar resignFirstResponder];
+	
+	if ([searchBar.text length] == 0)
+	{
+		[searchBar setShowsCancelButton:NO animated:YES];
+		return;
+	}
 	
 	if (_favorites == YES)
 		[[BozukoHandler sharedInstance] bozukoFavoritesSearchFor:searchBar.text];
 	else
 		[[BozukoHandler sharedInstance] bozukoPagesSearchFor:searchBar.text];
-}
-
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
-{
-//	if ([searchText isEqualToString:@""] == YES)
-//	{
-//		[searchBar resignFirstResponder];
-//		[[BozukoHandler sharedInstance] bozukoPagesSearchFor:nil];
-//	}
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar

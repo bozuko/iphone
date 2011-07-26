@@ -26,6 +26,21 @@
 @synthesize bozukoRedemption = _bozukoRedemption;
 @synthesize countdownTimer = _countdownTimer;
 
+- (void)dealloc
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
+	[_bozukoPrize release];
+	[_bozukoRedemption release];
+	[_closeBarButton release];
+	[_doneBarButton release];
+	
+	[_countdownTimer invalidate];
+	self.countdownTimer = nil;
+	
+	[super dealloc];
+}
+
 - (id)initWithBozukoPrize:(BozukoPrize *)inPrize
 {
 	if ((self = [super init]))
@@ -53,7 +68,7 @@
 	_closeBarButton.target = _delegate;
 	_closeBarButton.action = @selector(closeView);
 	_closeBarButton.title = @"Close";
-	self.navigationItem.rightBarButtonItem = _closeBarButton;
+	self.navigationItem.leftBarButtonItem = _closeBarButton;
 	
 	_doneBarButton = [[UIBarButtonItem alloc] init];
 	_doneBarButton.target = self;
@@ -412,6 +427,8 @@
 
 - (void)updateSecurityImage:(UIImage *)inImage
 {
+	DLog(@"%@", [_bozukoRedemption securityImageURLString]);
+	
 	if (inImage != nil)
 	{
 		_securityImageView.image = inImage;
@@ -432,6 +449,15 @@
 			self.countdownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(countdown) userInfo:nil repeats:YES];
 		}
 	}
+	// If there's no security image URL, go ahead and start timer
+	else if ([_bozukoRedemption securityImageURLString] == nil || [[_bozukoRedemption securityImageURLString] length] == 0)
+	{
+		if (_countdownTimer == nil)
+		{
+			_countdownBeginUnixTime = [[NSDate date] timeIntervalSince1970];
+			self.countdownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(countdown) userInfo:nil repeats:YES];
+		}
+	}
 }
 
 #pragma mark -
@@ -440,7 +466,7 @@
 - (void)prizeDetailsButtonWasPressed
 {
 	self.navigationItem.rightBarButtonItem = nil;
-	[self.navigationItem performSelector:@selector(setRightBarButtonItem:) withObject:_doneBarButton afterDelay:1.0];
+	[self.navigationItem performSelector:@selector(setLeftBarButtonItem:) withObject:_doneBarButton afterDelay:1.0];
 	
 	_prizeDetailsView = [[GamePrizeDetailView alloc] initWithBozukoPrize:_bozukoPrize];
 	[UIView transitionFromView:self.view toView:_prizeDetailsView duration:1.0 options:UIViewAnimationOptionTransitionCurlUp completion:^(BOOL done){}];
@@ -450,7 +476,7 @@
 - (void)doneButtonWasPressed
 {
 	self.navigationItem.rightBarButtonItem = nil;
-	[self.navigationItem performSelector:@selector(setRightBarButtonItem:) withObject:_closeBarButton afterDelay:1.0];
+	[self.navigationItem performSelector:@selector(setLeftBarButtonItem:) withObject:_closeBarButton afterDelay:1.0];
 	
 	[UIView transitionFromView:_prizeDetailsView toView:self.view duration:1.0 options:UIViewAnimationOptionTransitionCurlDown completion:^(BOOL done){}];
 }
@@ -461,18 +487,6 @@
 		[_delegate closeView];
 	else
 		[self dismissModalViewControllerAnimated:YES];
-}
-
-- (void)dealloc
-{
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
-	[_bozukoPrize release];
-	[_bozukoRedemption release];
-	[_closeBarButton release];
-	[_doneBarButton release];
-	
-	[super dealloc];
 }
 
 @end

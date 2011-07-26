@@ -10,6 +10,7 @@
 #import "BozukoGame.h"
 #import "BozukoPage.h"
 #import "BozukoHandler.h"
+#import "UserHandler.h"
 #import "BozukoGameState.h"
 #import "LoadingView.h"
 #import "BozukoGameResult.h"
@@ -231,42 +232,6 @@
 	[self.view addSubview:_loadingOverlay];
 	[_loadingOverlay release];
 	
-	_areGameResultsIn = NO;
-	
-	BozukoGameResult *tmpBozukoGameResult = [BozukoGameResult loadObjectFromDiskForPageID:[_bozukoGame gameId]];
-	
-	if (tmpBozukoGameResult != nil) // See if there is a game saved to disk from a previous play
-	{
-		[self setGameResult:tmpBozukoGameResult];
-		_creditsLabel.text = [NSString stringWithFormat:@"%d", [[_bozukoGame gameState] userTokens] + 1]; // Add an extra token because we have a game saved
-		
-		_scratchTicketPositions = [_bozukoGameResult scratchedAreas];
-		
-		for (GameScratchButton *tmpButton in tmpButtonSet)
-		{
-			// Restore button to scratched state if it was previsouly scratched
-			if (_scratchTicketPositions & tmpButton.scratchTicketPosition)
-			{
-				if (tmpButton.tag == kScratchButton_Counts)
-					_scratchTotal--;
-				
-				tmpButton.tag = kScratchButton_Scratched;
-				[tmpButton setScratched];
-			}
-		}
-	}
-	else if ([[[_bozukoGame gameState] buttonAction] isEqualToString:@"enter"] == YES)
-	{
-		[[BozukoHandler sharedInstance] bozukoEnterGame:_bozukoGame];
-	}
-	else
-	{
-		_creditsLabel.text = [NSString stringWithFormat:@"%d", [[_bozukoGame gameState] userTokens]];
-		[[BozukoHandler sharedInstance] bozukoGameResultsForGame:_bozukoGame];
-	}
-	
-	[tmpButtonSet release];
-	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(backgroundImageWasUpdated:) name:kImageHandler_ImageWasUpdatedNotification object:nil];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameEntryDidFinish:) name:kBozukoHandler_GameEntryDidFinish object:nil];
@@ -276,6 +241,62 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameResultsDidFail:) name:kBozukoHandler_GameResultsDidFail object:nil];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateBusinessIcon:) name:kBozukoHandler_PageImageWasUpdated object:nil];
+	
+	_areGameResultsIn = NO;
+	
+	BozukoGameResult *tmpBozukoGameResult = [BozukoGameResult loadObjectFromDiskForPageID:[_bozukoGame gameId]];
+	
+	if (tmpBozukoGameResult != nil) // See if there is a game saved to disk from a previous play
+	{
+		DLog(@"Restored");
+		
+		if ([[tmpBozukoGameResult prize] isKindOfClass:[BozukoPrize class]] == YES &&
+			[[UserHandler sharedInstance] doesPrizeExistForPrizeID:[[tmpBozukoGameResult prize] prizeID]] == YES)
+		{
+			DLog(@"Prize exists - Skipping");
+			[tmpBozukoGameResult deleteObjectFromDisk];
+			[self enterGame];
+		}
+		else
+		{
+			[self setGameResult:tmpBozukoGameResult];
+			_creditsLabel.text = [NSString stringWithFormat:@"%d", [[_bozukoGame gameState] userTokens] + 1]; // Add an extra token because we have a game saved
+		
+			_scratchTicketPositions = [_bozukoGameResult scratchedAreas];
+		
+			for (GameScratchButton *tmpButton in tmpButtonSet)
+			{
+				// Restore button to scratched state if it was previsouly scratched
+				if (_scratchTicketPositions & tmpButton.scratchTicketPosition)
+				{
+					if (tmpButton.tag == kScratchButton_Counts)
+						_scratchTotal--;
+				
+					tmpButton.tag = kScratchButton_Scratched;
+					[tmpButton setScratched];
+				}
+			}
+		}
+	}
+	else
+		[self enterGame];
+	
+	[tmpButtonSet release];
+}
+
+- (void)enterGame
+{
+	if ([[[_bozukoGame gameState] buttonAction] isEqualToString:@"enter"] == YES)
+	{
+		DLog(@"Enter");
+		[[BozukoHandler sharedInstance] bozukoEnterGame:_bozukoGame];
+	}
+	else
+	{
+		DLog(@"Play");
+		_creditsLabel.text = [NSString stringWithFormat:@"%d", [[_bozukoGame gameState] userTokens]];
+		[[BozukoHandler sharedInstance] bozukoGameResultsForGame:_bozukoGame];
+	}
 }
 
 - (void)scratchButtonPress:(GameScratchButton *)sender
@@ -287,9 +308,6 @@
 	
 	//DLog(@"%d", _scratchTicketPositions);
 	
-	[_bozukoGameResult setScratchedAreas:_scratchTicketPositions];
-	[_bozukoGameResult saveObjectToDisk]; // Persist to disk in case user leaves game during play
-	
 	if (sender.tag == kScratchButton_Counts)
 		_scratchTotal--;
 	
@@ -297,8 +315,18 @@
 	
 	if (_scratchTotal == 0)
 	{
-		self.navigationItem.rightBarButtonItem.enabled = NO;
+		DLog(@"Deleted");
+		self.navigationItem.leftBarButtonItem.enabled = NO;
+		[_bozukoGameResult deleteObjectFromDisk];
 		[self performSelector:@selector(allButtonsHaveBeenScratched) withObject:nil afterDelay:1.0];
+	}
+	else
+	{
+		DLog(@"Saved");
+		[_bozukoGameResult setScratchedAreas:_scratchTicketPositions];
+		[_bozukoGameResult setGameID:[_bozukoGame gameId]];
+		[_bozukoGameResult saveObjectToDisk]; // Persist to disk in case user leaves game during play
+		DLog(@"%@", [_bozukoGame gameId]);
 	}
 	
 	[sender animate];
@@ -308,8 +336,8 @@
 {
 	[super viewWillAppear:animated];
 	
-	self.navigationItem.rightBarButtonItem = _closeButton;
-	self.navigationItem.leftBarButtonItem = nil;
+	self.navigationItem.leftBarButtonItem = _closeButton;
+	self.navigationItem.rightBarButtonItem = nil;
 }
 
 - (void)allButtonsHaveBeenScratched
@@ -324,8 +352,6 @@
 	
 	//[self performSelector:@selector(resetGame) withObject:nil afterDelay:5.0];
 	_animationTimer = [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(resetGame) userInfo:nil repeats:NO];
-	
-	[_bozukoGameResult deleteObjectFromDisk];
 }
 
 - (void)playEndingSequence
@@ -381,7 +407,7 @@
 {
 	[self.view removeGestureRecognizer:_tapRecognizer];
 	
-	self.navigationItem.rightBarButtonItem.enabled = YES;
+	self.navigationItem.leftBarButtonItem.enabled = YES;
 	
 	for (int i = 0; i < NUMBER_OF_SCRATCH_AREAS; i++)
 		[_button[i] reset];
@@ -444,7 +470,7 @@
 
 - (void)prizesButtonWasPressed
 {
-	[self.navigationItem performSelector:@selector(setRightBarButtonItem:) withObject:nil afterDelay:1.0];
+	//[self.navigationItem performSelector:@selector(setRightBarButtonItem:) withObject:nil afterDelay:1.0];
 	[self.navigationItem performSelector:@selector(setLeftBarButtonItem:) withObject:_backButton afterDelay:1.0];
 	
 	_detailsView = [[GamePrizesView alloc] initWithGame:_bozukoGame];
@@ -454,7 +480,7 @@
 
 - (void)rulesButtonWasPressed
 {
-	[self.navigationItem performSelector:@selector(setRightBarButtonItem:) withObject:nil afterDelay:1.0];
+	//[self.navigationItem performSelector:@selector(setRightBarButtonItem:) withObject:nil afterDelay:1.0];
 	[self.navigationItem performSelector:@selector(setLeftBarButtonItem:) withObject:_backButton afterDelay:1.0];
 	
 	_detailsView = [[GameTermsAndConditionsView alloc] initWithGame:_bozukoGame];
@@ -464,8 +490,8 @@
 
 - (void)backButtonWasPressed
 {
-	[self.navigationItem performSelector:@selector(setRightBarButtonItem:) withObject:_closeButton afterDelay:1.0];
-	[self.navigationItem performSelector:@selector(setLeftBarButtonItem:) withObject:nil afterDelay:1.0];
+	[self.navigationItem performSelector:@selector(setLeftBarButtonItem:) withObject:_closeButton afterDelay:1.0];
+	//[self.navigationItem performSelector:@selector(setLeftBarButtonItem:) withObject:nil afterDelay:1.0];
 	
 	[UIView transitionFromView:_detailsView toView:self.view duration:1.0 options:UIViewAnimationOptionTransitionCurlDown completion:^(BOOL done){}];
 }
@@ -615,8 +641,10 @@
 	{
 		if ([[inNotification object] code] == 0) // Make sure there's no error message before saving to disk
 		{
-			[[inNotification object] setGameID:[_bozukoGame gameId]]; // Used to load class from disk
-			[[inNotification object] saveObjectToDisk]; // Persist to disk in case user leaves game before playing
+			//[_bozukoGameResult setGameID:[_bozukoGame gameId]];
+			//[_bozukoGameResult saveObjectToDisk]; // Persist to disk in case user leaves game during play
+			[self setGameResult:[inNotification object]];
+			DLog(@"%@", [_bozukoGame gameId]);
 		}
 		else
 		{
@@ -625,8 +653,6 @@
 			
 			_delegate = nil;
 		}
-		
-		[self setGameResult:[inNotification object]];
 	}
 	else
 	{

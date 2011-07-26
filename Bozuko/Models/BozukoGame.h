@@ -30,6 +30,7 @@
 - (NSString *)rules;
 - (NSDictionary *)links;
 - (NSString *)gameLink;
+- (NSString *)pageLink;
 - (NSString *)entryMethodType;
 - (NSString *)entryMethodImage;
 - (NSString *)entryMethodDescription;

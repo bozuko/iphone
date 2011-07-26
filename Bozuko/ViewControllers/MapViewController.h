@@ -14,8 +14,10 @@
 @interface MapViewController : UIViewController <MKMapViewDelegate>
 {
 	MKMapView *_mapView;
+	BozukoPage *_bozukoPage;
 }
 
 - (id)initWithPage:(BozukoPage *)inBozukoPage;
+- (void)directionsButtonWasPressed:(id)sender;
 
 @end

@@ -10,13 +10,21 @@
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 
-#define kBozukoBaseURL										@"https://api.bozuko.com:443"
-#define kBozukoHost											@"api.bozuko.com" // For reachability
-#define kBozukoAPIRedirectURL_UserLoginSuccessfully			@"https://api.bozuko.com:443/user/mobile?token=" // For login webView
-#define kBozukoAPIEntryPoint								@"/api"
-#define kApplicationVersion									@"iphone-1.0"
-//#define kBozukoAppStoreURL									@"http://itunes.com/app/bozuko"
-#define kBozukoAppStoreURL									@"http://itunes.apple.com/us/app/bozuko/id444496922?mt=8"
+//#ifdef BOZUKO_DEV
+//#define kBozukoBaseURL									@"https://playground.bozuko.com:443"
+//#define kBozukoHost										@"playground.bozuko.com" // For reachability
+//#define kBozukoAPIRedirectURL_UserLoginSuccessfully		@"https://playground.bozuko.com:443/user/mobile?token=" // For login webView
+//#else
+//#define kBozukoBaseURL									@"https://api.bozuko.com:443"
+//#define kBozukoHost										@"api.bozuko.com" // For reachability
+//#define kBozukoAPIRedirectURL_UserLoginSuccessfully		@"https://api.bozuko.com:443/user/mobile?token=" // For login webView
+//#endif
+
+#define kBozukoAPIRedirectPath_UserLoginSuccessfully	@"/user/mobile?token=" // For login webView
+
+#define kBozukoAPIEntryPoint							@"/api"
+#define kApplicationVersion								@"iphone-1.2"
+#define kBozukoAppStoreURL								@"http://itunes.apple.com/us/app/bozuko/id444496922?mt=8"
 
 #define kBozukoHandler_UserLocationWasUpdated			@"BozukoHandler_UserLocationWasUpdated"
 #define kBozukoHandler_UserLocationNotAvailable			@"BozukoHandler_UserLocationNotAvailable"
@@ -24,7 +32,9 @@
 #define kBozukoHandler_NetworkNotAvailable				@"BozukoHandler_NetworkNotAvailable"
 #define kBozukoHandler_ApplicationNeedsUpdate			@"BozukoHandler_ApplicationNeedsUpdate"
 #define kBozukoHandler_ServerErrorNotfication			@"BozukoHandler_ServerErrorNotfication"
+#define kBozukoHandler_ServerLogoutNotfication			@"BozukoHandler_ServerLogoutNotfication"
 
+#define kBozukoHandler_GameResultsRequestInProgress		@"BozukoHandler_GameResultsRequestInProgress"
 #define kBozukoHandler_GameResultsDidFinish				@"BozukoHandler_GameResultsDidFinish"
 #define kBozukoHandler_GameResultsDidFail				@"BozukoHandler_GameResultsDidFail"
 
@@ -47,6 +57,9 @@
 
 #define kBozukoHandler_GameStateDidFinish				@"BozukoHandler_GameStateDidFinish"
 #define kBozukoHandler_GameStateDidFail					@"BozukoHandler_GameStateDidFail"
+
+#define kBozukoHandler_GameDidFinish					@"BozukoHandler_GameDidFinish"
+#define kBozukoHandler_GameDidFail						@"BozukoHandler_GameDidFail"
 
 #define kBozukoHandler_PrizeRedemptionDidFinish			@"BozukoHandler_PrizeRedemptionDidFinish"
 #define kBozukoHandler_PrizeRedemptionDidFail			@"BozukoHandler_PrizeRedemptionDidFail"
@@ -96,6 +109,7 @@
 	NSString *_favoritesNextURL;
 	
 	NSString *_bozukoGamePageID;
+	NSString *_demoGamePageID;
 }
 
 @property (readonly) BOOL isLocationServiceAvailable;
@@ -107,21 +121,27 @@
 @property (retain) NSString *prizesNextURL;
 @property (retain) NSString *favoritesNextURL;
 @property (retain) NSString *bozukoGamePageID;
+@property (retain) NSString *demoGamePageID;
 
+- (NSString *)baseURL;
+- (void)updateBaseURL;
 - (void)bozukoServerErrorCode:(NSInteger)inErrorCode forResponse:(NSString *)inResponseString;
 - (void)applicationDidEnterBackground;
 - (void)applicationWillEnterForeground;
 - (void)applicationDidReceiveMemoryWarning;
 - (BozukoPage *)defaultBozukoGame;
+- (BozukoPage *)demoBozukoGame;
 - (void)bozukoEntryPoint;
 - (void)bozukoLogout;
 - (void)bozukoGame;
+- (void)demoGame;
 - (void)bozukoBozuko;
 - (void)bozukoRefreshGameStateForGame:(BozukoGame *)inBozukoGame;
+//- (void)bozukoRefreshGameForGame:(BozukoGame *)aBozukoGame;
 - (void)bozukoEnterGame:(BozukoGame *)inBozukoGame;
 - (void)bozukoGameResultsForGame:(BozukoGame *)inBozukoGame;
 - (void)bozukoUser;
-- (void)bozukoRedeemPrize:(BozukoPrize *)inBozukoPrize withMessage:(NSString *)inMessage;
+- (void)bozukoRedeemPrize:(BozukoPrize *)inBozukoPrize withMessage:(NSString *)inMessage postToWall:(BOOL)inBool;
 - (void)bozukoPrizes;
 - (void)bozukoPrizesNextPage;
 - (void)bozukoPageRefreshForPage:(BozukoPage *)inBozukoPage;

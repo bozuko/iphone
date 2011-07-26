@@ -23,5 +23,6 @@
 - (NSString *)about;
 - (NSString *)bozukoForBusiness;
 - (NSString *)bozukoPageLink;
+- (NSString *)demoPageLink;
 
 @end

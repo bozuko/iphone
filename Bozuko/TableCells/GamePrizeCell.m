@@ -26,6 +26,7 @@
 		_prizeNameLabel = [[UILabel alloc] init];
 		_prizeNameLabel.font = [UIFont boldSystemFontOfSize:18.0];
 		_prizeNameLabel.minimumFontSize = 10.0;
+		_prizeNameLabel.adjustsFontSizeToFitWidth = YES;
 		[self addSubview:_prizeNameLabel];
 		[_prizeNameLabel release];
 		

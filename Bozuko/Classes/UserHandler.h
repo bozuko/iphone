@@ -34,6 +34,8 @@
 
 - (void)clearPrizes;
 - (void)addPrize:(BozukoPrize *)inBozukoPrize;
+- (BOOL)doesPrizeExistForGameID:(NSString *)inGameID;
+- (BOOL)doesPrizeExistForPrizeID:(NSString *)inPrizeID;
 - (NSInteger)numberOfActivePrizes;
 - (NSInteger)numberOfPastPrizes;
 - (BozukoPrize *)activePrizeAtIndex:(NSInteger)inIndex;

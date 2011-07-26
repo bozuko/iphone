@@ -19,6 +19,16 @@
 	if (self)
 	{
 		self.navigationItem.title = [inBozukoPage pageName];
+		_bozukoPage = [inBozukoPage retain];
+		
+		/*
+		UIBarButtonItem *tmpButton = [[UIBarButtonItem alloc] init];
+		tmpButton.title = @"Google Map";
+		tmpButton.target = self;
+		tmpButton.action = @selector(directionsButtonWasPressed:);
+		self.navigationItem.rightBarButtonItem = tmpButton;
+		[tmpButton release];
+		*/
 		
 		_mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, self.view.frame.size.height)];
 		_mapView.delegate = self;
@@ -57,8 +67,31 @@
 	}
 }
 
+- (void)directionsButtonWasPressed:(id)sender
+{
+	
+	BozukoLocation *tmpBozukoLocation = [_bozukoPage location];
+	NSString *tmpAddressString = [NSString stringWithFormat:@"%@,%@,%@,%@,%@",
+								  [_bozukoPage pageName],
+								  [tmpBozukoLocation street],
+								  [tmpBozukoLocation city],
+								  [tmpBozukoLocation state],
+								  [tmpBozukoLocation zip]
+								  ];
+	NSString *tmpURLString = [NSString stringWithFormat:@"http://maps.google.com/maps?q=%@", [tmpAddressString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+	
+	/*
+	CLLocationCoordinate2D tmpCoordinate = [[_bozukoPage location] latitudeAndLongitude];
+	NSString *tmpCoordinateString = [NSString stringWithFormat:@"%f,%f", tmpCoordinate.latitude, tmpCoordinate.longitude];
+	NSString *tmpURLString = [NSString stringWithFormat:@"http://maps.google.com/maps?ll=%@", [tmpCoordinateString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+	*/
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:tmpURLString]];
+}
+
 - (void)dealloc
 {
+	[_bozukoPage release];
+	
     [super dealloc];
 }
 

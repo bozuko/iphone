@@ -48,6 +48,7 @@
 	UIView *_detailsView;
 	
 	NSTimer *_spinTimeoutTimer;
+	NSTimer *_animationTimer;
 }
 
 @property (assign) GameTermsViewController *delegate;
@@ -71,6 +72,7 @@
 - (void)youLose;
 - (void)freePlay;
 - (void)blinkCreditsLabel;
+//- (void)userDidTapScreen;
 - (void)playDoneMessage;
 - (BOOL)areAllIconsLoaded;
 - (void)startGame;

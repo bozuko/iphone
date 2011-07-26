@@ -99,6 +99,8 @@
 				_mapView.controller = self.navigationController;
 				[self.view addSubview:_mapView];
 			}
+			else
+				[_mapView viewDidAppear];
 			
 			_mapView.hidden = NO;
 			break;

@@ -19,6 +19,7 @@
 #define kRootViewController_NoLocationAlert		1
 #define kRootViewController_NeedsUpdateAlert	2
 #define kRootViewController_ServerErrorAlert	3
+#define kRootViewController_ServerLogoutAlert	4
 
 @implementation RootViewController
 
@@ -61,7 +62,7 @@
 	FacebookLoginViewController *tmpViewController = [[FacebookLoginViewController alloc] init];
 	
 	UIBarButtonItem *tmpBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissModalViewControllerAnimated:)];
-	tmpViewController.navigationItem.rightBarButtonItem = tmpBarButtonItem;
+	tmpViewController.navigationItem.leftBarButtonItem = tmpBarButtonItem;
 	tmpViewController.navigationItem.title = @"Login";
 	[tmpBarButtonItem release];
 	
@@ -148,6 +149,42 @@
 	[_alertView release];
 }
 
+- (void)serverLogoutNotification:(NSNotification *)inNotification
+{
+	NSString *tmpTitleString = nil;
+	NSString *tmpMessageString = nil;
+	
+	if ([[inNotification object] isKindOfClass:[NSDictionary class]] == YES)
+	{
+		tmpTitleString = [[inNotification object] objectForKey:@"title"];
+		tmpMessageString = [[inNotification object] objectForKey:@"message"];
+	}
+	else
+	{
+		tmpTitleString = @"Error";
+		tmpMessageString = @"Can not continue";
+	}
+	
+	[_gamesNavigationController dismissModalViewControllerAnimated:NO];
+	[_prizesNavigationController dismissModalViewControllerAnimated:NO];
+	[_bozukoNavigationController dismissModalViewControllerAnimated:NO];
+	[_gamesNavigationController popToRootViewControllerAnimated:NO];
+	_tabBarController.selectedIndex = 2; 
+	
+	if (_alertView != nil)
+		return; // Prevent more than one alert from being queued
+	
+	_alertView = [[UIAlertView alloc] initWithTitle:tmpTitleString
+											message:tmpMessageString
+										   delegate:self
+								  cancelButtonTitle:@"OK"
+								  otherButtonTitles:nil];
+	
+	_alertView.tag = kRootViewController_ServerLogoutAlert;
+	[_alertView show];
+	[_alertView release];
+}
+
 - (void)applicationNeedsUpdateNotification:(NSNotification *)inNotification
 {
 	[_gamesNavigationController dismissModalViewControllerAnimated:NO];
@@ -196,9 +233,18 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-	if (alertView.tag == kRootViewController_NeedsUpdateAlert) {
+	if (alertView.tag == kRootViewController_NeedsUpdateAlert)
+	{
 		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:kBozukoAppStoreURL]];
 		DLog(@"Open URL");
+	}
+	else if (alertView.tag == kRootViewController_ServerLogoutAlert)
+	{
+		[_gamesNavigationController dismissModalViewControllerAnimated:NO];
+		[_prizesNavigationController dismissModalViewControllerAnimated:NO];
+		[_bozukoNavigationController dismissModalViewControllerAnimated:NO];
+		[_gamesNavigationController popToRootViewControllerAnimated:NO];
+		_tabBarController.selectedIndex = 2;
 	}
 	else
 	{
@@ -233,6 +279,7 @@
 	
 	_gamesNavigationController = [[UINavigationController alloc] initWithRootViewController:_gamesHomeViewController];
 	_gamesNavigationController.navigationBar.tintColor = [UIColor blackColor];
+	_gamesNavigationController.delegate = self;
 	
 	UITabBarItem *tmpTabBarItem = [[UITabBarItem alloc] initWithTitle:@"Games" image:[UIImage imageNamed:@"images/gamesNav"] tag:0];
 	_gamesNavigationController.tabBarItem = tmpTabBarItem;
@@ -240,6 +287,7 @@
 	
 	_prizesNavigationController = [[UINavigationController alloc] initWithRootViewController:tmpPrizesHomeViewController];
 	_prizesNavigationController.navigationBar.tintColor = [UIColor blackColor];
+	_prizesNavigationController.delegate = self;
 	
 	tmpTabBarItem = [[UITabBarItem alloc] initWithTitle:@"Prizes" image:[UIImage imageNamed:@"images/prizesNav"] tag:0];
 	tmpPrizesHomeViewController.tabBarItem = tmpTabBarItem;
@@ -247,6 +295,7 @@
 	
 	_bozukoNavigationController = [[UINavigationController alloc] initWithRootViewController:tmpBozukoHomeViewController];
 	_bozukoNavigationController.navigationBar.tintColor = [UIColor blackColor];
+	_bozukoNavigationController.delegate = self;
 	
 	tmpTabBarItem = [[UITabBarItem alloc] initWithTitle:@"Bozuko" image:[UIImage imageNamed:@"images/bozukoNav"] tag:0];
 	tmpBozukoHomeViewController.tabBarItem = tmpTabBarItem;
@@ -276,11 +325,7 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkUnavailableNotification) name:kBozukoHandler_NetworkNotAvailable object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationNeedsUpdateNotification:) name:kBozukoHandler_ApplicationNeedsUpdate object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkErrorNotification:) name:kBozukoHandler_ServerErrorNotfication object:nil];
-}
-
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
-{
-	[viewController viewWillAppear:NO];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(serverLogoutNotification:) name:kBozukoHandler_ServerLogoutNotfication object:nil];
 }
 
 - (void)viewDidUnload
@@ -296,6 +341,25 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+#pragma mark - UITabeBar Delegate
+
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
+{
+	[viewController viewWillAppear:NO];
+}
+
+#pragma mark - UINavigationController Delegates
+
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+	[viewController viewWillAppear:animated];
+}
+
+- (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+	[viewController viewDidAppear:animated];
 }
 
 @end

@@ -53,6 +53,11 @@
 	return [_properties objectForKey:@"bozuko_page"];
 }
 
+- (NSString *)demoPageLink
+{
+	return [_properties objectForKey:@"bozuko_demo_page"];
+}
+
 - (NSString *)bozukoForBusiness
 {
 	return [_properties objectForKey:@"bozuko_for_business"];

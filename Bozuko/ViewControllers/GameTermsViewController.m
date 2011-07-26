@@ -29,6 +29,7 @@
 
 @synthesize bozukoPage = _bozukoPage;
 @synthesize bozukoGame = _bozukoGame;
+@synthesize bozukoGameIndex = _bozukoGameIndex;
 
 - (id)init
 {
@@ -81,7 +82,7 @@
 {
 	if (indexPath.section == kGameTermsHeaderSection)
 	{
-		CGSize tmpNameSize = [[_bozukoPage pageName] sizeWithFont:[UIFont systemFontOfSize:18.0] constrainedToSize:CGSizeMake(280.0, 300.0)];
+		CGSize tmpNameSize = [[_bozukoGame name] sizeWithFont:[UIFont boldSystemFontOfSize:18.0] constrainedToSize:CGSizeMake(230.0, 300.0)];
 		CGSize tmpDescriptionSize = [[_bozukoGame entryMethodDescription] sizeWithFont:[UIFont systemFontOfSize:14.0] constrainedToSize:CGSizeMake(245.0, 300.0)];
 		return tmpNameSize.height + tmpDescriptionSize.height + 20.0; // +20.0 for padding
 	}
@@ -92,7 +93,7 @@
 	else if (indexPath.section == kGameTermsTACSection)
 	{
 		CGSize tmpSize = [[_bozukoGame rules] sizeWithFont:[UIFont systemFontOfSize:12.0] constrainedToSize:CGSizeMake(280.0, 30000.0)];
-		return tmpSize.height + 40.0; // +40.0 for the "Official Rules" header.
+		return tmpSize.height + 45.0; // +45.0 for the "Official Rules" header.
 	}
 	else
 		return 0.0;
@@ -111,10 +112,10 @@
 	if (section == kGameTermsPrizesSection)
 	{
 		UIView *tmpView = [[UIView alloc] init];
-		UILabel *tmpLabel = [[UILabel alloc] initWithFrame:CGRectMake(15.0, 0.0, 100.0, 25.0)];
+		UILabel *tmpLabel = [[UILabel alloc] initWithFrame:CGRectMake(15.0, 0.0, 150.0, 25.0)];
 		tmpLabel.font = [UIFont boldSystemFontOfSize:16.0];
 		tmpLabel.backgroundColor = [UIColor clearColor];
-		tmpLabel.text = @"Prizes";
+		tmpLabel.text = @"Available Prizes";
 		[tmpView addSubview:tmpLabel];
 		[tmpLabel release];
 		
@@ -146,7 +147,8 @@
 		if (tmpCell == nil)
 			tmpCell = [[[GameTermsHeaderTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"GameTermsHeader"] autorelease];
 		
-		[tmpCell setName:[_bozukoPage pageName] description:[_bozukoGame entryMethodDescription] andImageURLString:[_bozukoGame entryMethodImage]];
+		tmpCell.controller = self;
+		[tmpCell setGame:_bozukoGame];
 		
 		tmpCell.selectionStyle = UITableViewCellEditingStyleNone;
 		
@@ -233,7 +235,9 @@
 {
     [super viewDidLoad];
 	
-	self.navigationItem.title = [_bozukoGame name];
+	self.bozukoGame = [[self.bozukoPage games] objectAtIndex:self.bozukoGameIndex];
+	
+	self.navigationItem.title = [_bozukoPage pageName];
 	
 	UIImageView *tmpImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 83.0, 30.0)];
 	tmpImageView.image = [UIImage imageNamed:@"images/bozukoLogo"];
@@ -247,7 +251,7 @@
 	_tableView.dataSource = self;
 	[self.view addSubview:_tableView];
 	
-	_bottomBarView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 290.0, 320.0, 80.0)];
+	_bottomBarView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 370.0, 320.0, 80.0)];
 	_bottomBarView.backgroundColor = [UIColor clearColor];
 	[self.view addSubview:_bottomBarView];
 	[_bottomBarView release];
@@ -256,16 +260,27 @@
 	
 	[self updateView];
 	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bozukoGameResultsInProgress:) name:kBozukoHandler_GameResultsRequestInProgress object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bozukoGameResultsDidFinish:) name:kBozukoHandler_GameResultsDidFinish object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bozukoGameResultsDidFail:) name:kBozukoHandler_GameResultsDidFail object:nil];
+	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bozukoGameStateDidFinish:) name:kBozukoHandler_GameStateDidFinish object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bozukoGameStateDidFail:) name:kBozukoHandler_GameStateDidFail object:nil];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateView) name:kBozukoHandler_PageDidFinish object:nil];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pageUpdateDidFinish:) name:kBozukoHandler_PageDidFinish object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pageUpdateDidFail:) name:kBozukoHandler_PageDidFail object:nil];
 }
 
 - (void)updateView
 {
-	//DLog(@"%@", [_bozukoGame description]);
+	[_tableView reloadData];
 	
 	for (UIView *tmpView in [_bottomBarView subviews])
 		[tmpView removeFromSuperview];
+	
+	_gameEntryButton = nil;
 	
 	UIView *tmpView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 80.0)];
 	tmpView.backgroundColor = [UIColor blackColor];
@@ -287,32 +302,41 @@
 		[_bottomBarView addSubview:tmpLabel];
 		[tmpLabel release];
 		
-		UIButton *tmpButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		tmpButton.frame = CGRectMake(20.0, 5.0, 278.0, 45.0);
-		[tmpButton setBackgroundImage:[UIImage imageNamed:@"images/greenBtn"] forState:UIControlStateNormal];
-		[tmpButton setBackgroundImage:[UIImage imageNamed:@"images/greenBtnPress"] forState:UIControlStateHighlighted];
-		tmpButton.titleLabel.font = [UIFont boldSystemFontOfSize:18.0];
-		tmpButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
-		[tmpButton setTitle:[[_bozukoGame gameState] buttonText] forState:UIControlStateNormal];
-		[tmpButton addTarget:self action:@selector(playButtonWasPressed) forControlEvents:UIControlEventTouchUpInside];
-		[_bottomBarView addSubview:tmpButton];
+		_gameEntryButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		_gameEntryButton.frame = CGRectMake(20.0, 5.0, 278.0, 45.0);
+		[_gameEntryButton setBackgroundImage:[UIImage imageNamed:@"images/greenBtn"] forState:UIControlStateNormal];
+		[_gameEntryButton setBackgroundImage:[UIImage imageNamed:@"images/greenBtnPress"] forState:UIControlStateHighlighted];
+		_gameEntryButton.titleLabel.font = [UIFont boldSystemFontOfSize:18.0];
+		_gameEntryButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
+		[_gameEntryButton setTitle:[[_bozukoGame gameState] buttonText] forState:UIControlStateNormal];
+		[_gameEntryButton addTarget:self action:@selector(playButtonWasPressed) forControlEvents:UIControlEventTouchUpInside];
+		[_bottomBarView addSubview:_gameEntryButton];
+		
+		//if ([[_bozukoGame gameState] userTokens] == 0)
+			//_gameEntryButton.enabled = NO;
 	}
 	else
 	{
-		UILabel *tmpLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 25.0, 320.0, 30.0)];
+		UILabel *tmpLabel = [[UILabel alloc] initWithFrame:CGRectMake(10.0, 25.0, 300.0, 30.0)];
 		tmpLabel.backgroundColor = [UIColor clearColor];
 		tmpLabel.textColor = [UIColor whiteColor];
 		tmpLabel.textAlignment = UITextAlignmentCenter;
 		tmpLabel.font = [UIFont systemFontOfSize:25.0];
+		tmpLabel.minimumFontSize = 16.0;
+		tmpLabel.adjustsFontSizeToFitWidth = YES;
 		tmpLabel.text = [[_bozukoGame gameState] buttonText];
 		[_bottomBarView addSubview:tmpLabel];
 		[tmpLabel release];
 	}
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidAppear:(BOOL)animated
 {
-	//[self updateView];
+	[super viewDidAppear:animated];
+	
+	[UIView animateWithDuration:0.75 animations:^{
+		_bottomBarView.frame = CGRectMake(0.0, 290.0, 320.0, 80.0);
+	}];
 }
 
 - (void)dismissModalViewControllerAnimated:(BOOL)animated
@@ -370,6 +394,48 @@
 
 #pragma mark BozukoHandler Notification Methods
 
+- (void)bozukoGameResultsInProgress:(NSNotification *)inNotification
+{
+	for (UIView *tmpView in [_bottomBarView subviews])
+		[tmpView removeFromSuperview];
+	
+	_gameEntryButton = nil;
+	
+	UIView *tmpView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 80.0)];
+	tmpView.backgroundColor = [UIColor blackColor];
+	tmpView.alpha = 0.7;
+	[_bottomBarView addSubview:tmpView];
+	[tmpView release];
+	
+	//DLog(@"Game: %@", [_bozukoGame description]);
+	//DLog(@"GameState: %@", [[_bozukoGame gameState] description]);
+
+	UILabel *tmpLabel = [[UILabel alloc] initWithFrame:CGRectMake(20.0, 25.0, 320.0, 30.0)];
+	tmpLabel.backgroundColor = [UIColor clearColor];
+	tmpLabel.textColor = [UIColor whiteColor];
+	tmpLabel.textAlignment = UITextAlignmentCenter;
+	tmpLabel.font = [UIFont systemFontOfSize:25.0];
+	tmpLabel.text = @"Loading...";
+	[_bottomBarView addSubview:tmpLabel];
+	[tmpLabel release];
+	
+	UIActivityIndicatorView *tmpActivityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+	tmpActivityIndicator.frame = CGRectMake(40.0, 25.0, 37.0, 37.0);
+	tmpActivityIndicator.hidesWhenStopped = YES;
+	[tmpActivityIndicator startAnimating];
+	[_bottomBarView addSubview:tmpActivityIndicator];
+	[tmpActivityIndicator release];
+}
+
+- (void)bozukoGameResultsDidFinish:(NSNotification *)inNotification
+{
+	[self updateView];
+}
+
+- (void)bozukoGameResultsDidFail:(NSNotification *)inNotification
+{
+}
+
 - (void)bozukoGameStateDidFinish:(NSNotification *)inNotification
 {
 	if ([[inNotification object] isKindOfClass:[BozukoGameState class]] == NO)
@@ -377,10 +443,34 @@
 	
 	[_bozukoGame setGameState:[inNotification object]];
 	
+	//[self.facebookLikeButton reload];
+	
 	[self updateView];
 }
 
 - (void)bozukoGameStateDidFail:(NSNotification *)inNotification
+{
+}
+
+#pragma mark BozukoHandler Notification Methods
+
+- (void)pageUpdateDidFinish:(NSNotification *)inNotification
+{
+	if ([[inNotification object] isKindOfClass:[BozukoPage class]] == NO)
+		return;
+	
+	if ([[[inNotification object] pageID] isEqualToString:[_bozukoPage pageID]] == NO)
+		return;
+	
+	self.bozukoPage = [inNotification object];
+	self.bozukoGame = [[self.bozukoPage games] objectAtIndex:self.bozukoGameIndex];
+	
+	//DLog(@"Page Refresh: %@", self.bozukoPage);
+	
+	[self updateView];
+}
+
+- (void)pageUpdateDidFail:(NSNotification *)inNotification
 {
 }
 
