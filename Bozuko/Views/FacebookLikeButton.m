@@ -71,13 +71,15 @@
 		
 		if ([[UserHandler sharedInstance] loggedIn] == YES)
 		{
+			DLog(@"Loading...");
+			[self load];
 			_likeButtonPlaceholder.hidden = YES;
-			[_likeButtonLoadingImageView startAnimating];
+			//[_likeButtonLoadingImageView startAnimating];
 		}
 		else
 		{
 			_likeButtonPlaceholder.hidden = NO;
-			[_likeButtonLoadingImageView stopAnimating];
+			//[_likeButtonLoadingImageView stopAnimating];
 		}
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginStatusWasChanged) name:kBozukoHandler_UserLoginStatusChanged object:nil];
@@ -88,12 +90,15 @@
 
 - (void)load
 {
-	if (_isDoneLoading == YES)
-		return;
+	_isDoneLoading = NO;
+	_webView.hidden = YES;
+	[_likeButtonLoadingImageView startAnimating];
 	
 	NSURL *tmpURL = [NSURL URLWithString:[self.bozukoPage facebookLikeButtonLink]];
 	NSURLRequest *tmpURLRequest = [NSURLRequest requestWithURL:tmpURL];
 	[_webView loadRequest:tmpURLRequest];
+	
+	_loadingTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(load) userInfo:nil repeats:NO];
 }
 
 #pragma mark - Button Actions
@@ -107,8 +112,14 @@
 
 - (BOOL)webView:(UIWebView *)inWebView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
+	//DLog(@"%@", request);
+	DLog(@"Request");
 	if([[[request URL] absoluteString] hasPrefix:@"bozuko://facebook/like_loaded"] == YES)
 	{
+		DLog(@"Done");
+		[_loadingTimer invalidate];
+		_loadingTimer = nil;
+		
 		_isDoneLoading = YES;
 		_webView.hidden = NO;
 		[_likeButtonLoadingImageView stopAnimating];
@@ -130,7 +141,11 @@
 - (void)loginStatusWasChanged
 {
 	if ([[UserHandler sharedInstance] loggedIn] == YES)
+	{
+		DLog(@"Loading...");
+		[self load];
 		_likeButtonPlaceholder.hidden = YES;
+	}
 	else
 		_likeButtonPlaceholder.hidden = NO;
 }

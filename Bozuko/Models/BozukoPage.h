@@ -21,7 +21,7 @@
 }
 
 @property (nonatomic, retain) NSMutableDictionary *properties;
-@property (retain) FacebookLikeButton *facebookLikeButton;
+//@property (retain) FacebookLikeButton *facebookLikeButton;
 
 + (BozukoPage *)objectWithProperties: (NSDictionary *)inDictionary;
 - (id)initWithProperties: (NSDictionary *)inDictionary;
@@ -48,6 +48,8 @@
 - (NSString *)shareURL;
 - (NSString *)likeURL;
 - (NSString *)facebookLikeButtonLink;
+- (FacebookLikeButton *)facebookLikeButton;
+- (void)unloadFacebookLikeButton;
 
 - (NSDictionary *)links;
 - (NSString *)recommend;

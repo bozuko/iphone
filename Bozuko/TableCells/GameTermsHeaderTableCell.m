@@ -84,7 +84,7 @@
 	_gameDescription.text = [_bozukoGame entryMethodDescription];
 	
 	[self.facebookLikeButton removeFromSuperview];
-	self.facebookLikeButton = _controller.bozukoPage.facebookLikeButton;
+	self.facebookLikeButton = [_controller.bozukoPage facebookLikeButton];
 	self.facebookLikeButton.frame = CGRectMake(250.0, 12.0, 48.0, 20.0);
 	[self addSubview:self.facebookLikeButton];
 }

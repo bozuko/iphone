@@ -18,10 +18,12 @@
 	UIButton *_likeButtonPlaceholder;
 	UIWebView *_webView;
 	BozukoPage *_bozukoPage;
+	
+	NSTimer *_loadingTimer;
 }
 
 @property (readonly) BOOL isDoneLoading;
-@property (retain) BozukoPage *bozukoPage;
+@property (assign) BozukoPage *bozukoPage;
 
 - (id)initWithBozukoPage:(BozukoPage *)inBozukoPage;
 - (void)load;

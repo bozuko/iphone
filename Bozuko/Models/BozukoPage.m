@@ -10,12 +10,13 @@
 #import "BozukoGame.h"
 #import "BozukoLocation.h"
 #import "FacebookLikeButton.h"
+#import "UserHandler.h"
 
 @implementation BozukoPage
 
 @synthesize properties = _properties;
 @synthesize coordinate = _coordinate;
-@synthesize facebookLikeButton = _facebookLikeButton;
+//@synthesize facebookLikeButton = _facebookLikeButton;
 
 + (BozukoPage *)objectWithProperties:(NSDictionary *)inDictionary
 {
@@ -47,10 +48,26 @@
 			}
 		}
 		
-		self.facebookLikeButton = [[FacebookLikeButton alloc] initWithBozukoPage:self];
+		//self.facebookLikeButton = [[FacebookLikeButton alloc] initWithBozukoPage:self];
+		
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(unloadFacebookLikeButton) name:kBozukoHandler_UserLoginStatusChanged object:nil];
 	}
 	
 	return self;
+}
+
+- (FacebookLikeButton *)facebookLikeButton
+{
+	if (_facebookLikeButton == nil)
+		_facebookLikeButton = [[FacebookLikeButton alloc] initWithBozukoPage:self];
+	
+	return _facebookLikeButton;
+}
+
+- (void)unloadFacebookLikeButton
+{
+	[_facebookLikeButton release];
+	_facebookLikeButton = nil;
 }
 
 - (NSString *)pageID {
@@ -225,9 +242,12 @@
 }
 
 - (void)dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
 	[_properties release];
 	[_gamesArray release];
-	self.facebookLikeButton = nil;
+	//self.facebookLikeButton = nil;
+	[_facebookLikeButton release];
 	
 	[super dealloc];
 }

@@ -131,7 +131,7 @@ static ImageHandler *instance;
 			[tmpString appendFormat:@"&challenge_response=%@", [[BozukoHandler sharedInstance] challengeResponseForURL:tmpString]];
 		}
 		
-		DLog(@"%@", tmpString);
+		//DLog(@"%@", tmpString);
 		
 		__block ASIHTTPRequest *tmpRequest = [self httpGETRequestWithURL:[NSURL URLWithString:tmpString]];
 		

@@ -121,9 +121,9 @@
 	_arrowImageView.frame = CGRectMake(290.0, 50.0 + tmpVerticalPositionOffset, 9.0, 13.0);
 	
 	[self.facebookLikeButton removeFromSuperview];
-	self.facebookLikeButton = _controller.bozukoPage.facebookLikeButton;
+	self.facebookLikeButton = [_controller.bozukoPage facebookLikeButton];
 	[self addSubview:self.facebookLikeButton];
-	[self.facebookLikeButton load];
+	//[self.facebookLikeButton load];
 	
 	if ([_controller.bozukoPage registered] == YES)
 		self.facebookLikeButton.frame = CGRectMake(255.0, 45.0, 48.0, 20.0);
