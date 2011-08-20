@@ -47,11 +47,11 @@
 	
 	if (tmpDictionary == nil) // If load failed, object doesn't exist
 	{
-		DLog(@"New Object");
+		//DLog(@"New Object");
 		return nil;
 	}
 	
-	DLog(@"Loaded Object with ID: %@", inPageID);
+	//DLog(@"Loaded Object with ID: %@", inPageID);
 	
 	BozukoGameResult *tmpBozukoGameResult = [BozukoGameResult objectWithProperties:tmpDictionary];
 	tmpBozukoGameResult.gameID = inPageID;
@@ -62,7 +62,7 @@
 
 - (void)saveObjectToDisk
 {
-	DLog(@"%@", [self description]);
+	//DLog(@"%@", [self description]);
 	NSString *tmpPath = [[NSString alloc] initWithFormat:@"%@/%@.plist", [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0], _gameID];
 	NSData *tmpData = [NSPropertyListSerialization dataWithPropertyList:_properties format:NSPropertyListBinaryFormat_v1_0 options:0 error:nil];
 	[tmpData writeToFile:tmpPath atomically:YES];

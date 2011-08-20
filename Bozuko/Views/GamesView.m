@@ -91,7 +91,7 @@
 			[_refreshHeaderView refreshLastUpdatedDate];
 		}
 		
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showLoadingOverlay) name:kBozukoHandler_PageDidStart object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showLoadingOverlay:) name:kBozukoHandler_PageDidStart object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideLoadingOverlay) name:kBozukoHandler_GetPagesForLocationDidFinish object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideLoadingOverlay) name:kBozukoHandler_GetPagesForLocationDidFail object:nil];
 	}
@@ -177,7 +177,7 @@
 		
 		_refreshHeaderView.hidden = YES;
 		//[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshView) name:kBozukoHandler_SetFavoriteDidFinish object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showLoadingOverlay) name:kBozukoHandler_FavoritesDidStart object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showLoadingOverlay:) name:kBozukoHandler_FavoritesDidStart object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideLoadingOverlay) name:kBozukoHandler_FavoritesDidFinish object:nil];
 	}
 	else
@@ -515,16 +515,48 @@
 	[_searchBar resignFirstResponder];
 }
 
-#pragma mark Bozukohandler Notification Methods
+#pragma mark BozukoHandler Notification Methods
 
-- (void)showLoadingOverlay
+- (void)showLoadingOverlay:(NSNotification *)inNotification
 {
+	NSString *tmpMessageString = nil;
+	
+	if ([[inNotification object] isKindOfClass:[NSString class]] == YES)
+		tmpMessageString = [inNotification object];
+	
 	if (_loadingOverlay == nil)
 	{
 		_loadingOverlay = [[LoadingView alloc] init];
 		[self addSubview:_loadingOverlay];
+		_loadingOverlay.messageTextString = tmpMessageString;
 		[_loadingOverlay release];
+		
+		DLog(@"New Loading: %@", tmpMessageString);
+
+#ifdef BOZUKO_DEV
+		UITextView *tmpTextView = [[UITextView alloc] initWithFrame:CGRectMake(20, 250, 280, 100)];
+		tmpTextView.tag = 1001;
+		tmpTextView.userInteractionEnabled = NO;
+		tmpTextView.backgroundColor = [UIColor blackColor];
+		tmpTextView.textColor = [UIColor whiteColor];
+		[_loadingOverlay addSubview:tmpTextView];
+		[tmpTextView release];
+#endif
+		
 	}
+	else
+	{
+		DLog(@"Old Loading: %@", tmpMessageString);
+		_loadingOverlay.messageTextString = tmpMessageString;
+	}
+	
+#ifdef BOZUKO_DEV
+	CLLocation *tmpLocation = [BozukoHandler sharedInstance].locationManager.location;
+	UITextView *tmpTextView = (UITextView *)[_loadingOverlay viewWithTag:1001];
+	
+	tmpTextView.text = [NSString stringWithFormat:@"Lat: %f\nLng: %f\nTime: %@\nAccuracy: %f", tmpLocation.coordinate.latitude, tmpLocation.coordinate.longitude, tmpLocation.timestamp, tmpLocation.horizontalAccuracy];
+#endif
+	
 }
 
 - (void)hideLoadingOverlay

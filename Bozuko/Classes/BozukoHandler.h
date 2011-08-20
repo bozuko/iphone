@@ -23,7 +23,7 @@
 #define kBozukoAPIRedirectPath_UserLoginSuccessfully	@"/user/mobile?token=" // For login webView
 
 #define kBozukoAPIEntryPoint							@"/api"
-#define kApplicationVersion								@"iphone-1.2"
+#define kApplicationVersion								@"iphone-1.3"
 #define kBozukoAppStoreURL								@"http://itunes.apple.com/us/app/bozuko/id444496922?mt=8"
 
 #define kBozukoHandler_UserLocationWasUpdated			@"BozukoHandler_UserLocationWasUpdated"
@@ -89,8 +89,9 @@
 @interface BozukoHandler : NSObject <CLLocationManagerDelegate> {
 	CLLocationManager *_locationManager;
 	BOOL _isLocationServiceAvailable;
-	NSMutableData *_receivedData;
-	NSString *_responseString;
+	BOOL _shouldAcceptInaccurateCoordinates;
+	NSTimer *_locationTimer;
+	BOOL _locationNeedsUpdating;
 	
 	BozukoEntryPoint *_apiEntryPoint;
 	BozukoBozuko *_apiBozuko;
@@ -122,6 +123,7 @@
 @property (retain) NSString *favoritesNextURL;
 @property (retain) NSString *bozukoGamePageID;
 @property (retain) NSString *demoGamePageID;
+@property (readonly) CLLocationManager *locationManager;
 
 - (NSString *)baseURL;
 - (void)updateBaseURL;
@@ -144,6 +146,7 @@
 - (void)bozukoRedeemPrize:(BozukoPrize *)inBozukoPrize withMessage:(NSString *)inMessage postToWall:(BOOL)inBool;
 - (void)bozukoPrizes;
 - (void)bozukoPrizesNextPage;
+- (BozukoPage *)currentPageForPage:(BozukoPage *)inBozukoPage;
 - (void)bozukoPageRefreshForPage:(BozukoPage *)inBozukoPage;
 - (void)bozukoPagesNextPage;
 - (void)bozukoPages;
@@ -158,7 +161,8 @@
 - (void)bozukoToggleFavoriteForPage:(BozukoPage *)inBozukoPage;
 //- (void)bozukoLikePage:(BozukoPage *)inBozukoPage;
 - (id)jsonObject:(NSString *)inString;
-- (CLLocationCoordinate2D)location;
+//- (CLLocationCoordinate2D)location;
+- (void)locationTimerElapsed;
 - (BozukoPage *)businessAtIndex:(NSInteger)inIndex;
 - (BozukoPage *)gamesAtIndex:(NSInteger)inIndex;
 - (BozukoPage *)featuredBusinessAtIndex:(NSInteger)inIndex;

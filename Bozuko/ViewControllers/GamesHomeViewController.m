@@ -144,6 +144,7 @@
 	
 	[self segmentedControlWasChanged:tmpSegementedControl];
 	
+	/*
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"ReturnUser"] == NO)
 	{
 		HowToPlayViewController *tmpViewController = [[HowToPlayViewController alloc] init];
@@ -156,6 +157,7 @@
 		
 		[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"ReturnUser"];
 	}
+	 */
 }
 
 - (void)viewDidUnload

@@ -23,6 +23,7 @@
 	if (self)
 	{
 		[self setProperties:(NSMutableDictionary *)inDictionary];
+		_bozukoGameState = [[BozukoGameState objectWithProperties:[_properties objectForKey:@"game_state"]] retain];
 	}
 	
 	return self;
@@ -105,28 +106,24 @@
 
 - (BozukoGameState *)gameState
 {
-	if (_bozukoGameState == nil)
-		return [BozukoGameState objectWithProperties:[_properties objectForKey:@"game_state"]];
-	else
-		return _bozukoGameState;
+	return _bozukoGameState;
 }
 
 - (void)setGameState:(BozukoGameState *)inGameState
 {
-	[_properties removeObjectForKey:@"game_state"];
-	
 	[_bozukoGameState release];
 	_bozukoGameState = [inGameState retain];
 }
 
 - (NSString *)description
 {
-	return [[super description] stringByAppendingFormat:@": properties=%@", _properties];
+	return [[super description] stringByAppendingFormat:@": properties=%@\n%@", _properties, _bozukoGameState];
 }
 
 - (void)dealloc {
 	[_properties release];
 	[_bozukoGameState release];
+	
 	[super dealloc];
 }
 

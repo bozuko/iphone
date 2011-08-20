@@ -9,6 +9,7 @@
 #import "MapViewController.h"
 #import "BozukoPage.h"
 #import "BozukoLocation.h"
+#import "BozukoHandler.h"
 
 @implementation MapViewController
 
@@ -21,14 +22,12 @@
 		self.navigationItem.title = [inBozukoPage pageName];
 		_bozukoPage = [inBozukoPage retain];
 		
-		/*
 		UIBarButtonItem *tmpButton = [[UIBarButtonItem alloc] init];
 		tmpButton.title = @"Google Map";
 		tmpButton.target = self;
 		tmpButton.action = @selector(directionsButtonWasPressed:);
 		self.navigationItem.rightBarButtonItem = tmpButton;
 		[tmpButton release];
-		*/
 		
 		_mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, self.view.frame.size.height)];
 		_mapView.delegate = self;
@@ -69,22 +68,13 @@
 
 - (void)directionsButtonWasPressed:(id)sender
 {
+	CLLocationCoordinate2D tmpBozukoLocationCoordinate = [[_bozukoPage location] latitudeAndLongitude];
+	CLLocationCoordinate2D tmpUserLocationCoordinate = [BozukoHandler sharedInstance].locationManager.location.coordinate;
 	
-	BozukoLocation *tmpBozukoLocation = [_bozukoPage location];
-	NSString *tmpAddressString = [NSString stringWithFormat:@"%@,%@,%@,%@,%@",
-								  [_bozukoPage pageName],
-								  [tmpBozukoLocation street],
-								  [tmpBozukoLocation city],
-								  [tmpBozukoLocation state],
-								  [tmpBozukoLocation zip]
-								  ];
-	NSString *tmpURLString = [NSString stringWithFormat:@"http://maps.google.com/maps?q=%@", [tmpAddressString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+	NSString *tmpUserCoordinateString = [[NSString stringWithFormat:@"%f,%f", tmpUserLocationCoordinate.latitude, tmpUserLocationCoordinate.longitude] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+	NSString *tmpPlaceCoordinateString = [[NSString stringWithFormat:@"%f,%f", tmpBozukoLocationCoordinate.latitude, tmpBozukoLocationCoordinate.longitude] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+	NSString *tmpURLString = [NSString stringWithFormat:@"http://maps.google.com/maps?saddr=%@&daddr=%@", tmpUserCoordinateString, tmpPlaceCoordinateString];
 	
-	/*
-	CLLocationCoordinate2D tmpCoordinate = [[_bozukoPage location] latitudeAndLongitude];
-	NSString *tmpCoordinateString = [NSString stringWithFormat:@"%f,%f", tmpCoordinate.latitude, tmpCoordinate.longitude];
-	NSString *tmpURLString = [NSString stringWithFormat:@"http://maps.google.com/maps?ll=%@", [tmpCoordinateString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-	*/
 	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:tmpURLString]];
 }
 

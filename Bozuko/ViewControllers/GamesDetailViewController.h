@@ -28,6 +28,7 @@
 
 - (void)pageUpdateDidFinish:(NSNotification *)inNotification;
 - (void)pageUpdateDidFail:(NSNotification *)inNotification;
+- (void)updatePage;
 
 //- (void)facebookPageWasLiked;
 

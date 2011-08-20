@@ -9,8 +9,11 @@
 #import <UIKit/UIKit.h>
 
 
-@interface LoadingView : UIView {
-    
+@interface LoadingView : UIView
+{
+	UILabel *_messageLabel;
 }
+
+@property (retain) NSString *messageTextString;
 
 @end

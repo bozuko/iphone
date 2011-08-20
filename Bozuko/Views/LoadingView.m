@@ -11,6 +11,8 @@
 
 @implementation LoadingView
 
+@dynamic messageTextString;
+
 - (id)init
 {
     self = [super initWithFrame:CGRectMake(0.0, 0.0, 320.0, 480.0)];
@@ -29,9 +31,31 @@
 		[tmpActivityIndicator startAnimating];
 		[self addSubview:tmpActivityIndicator];
 		[tmpActivityIndicator release];
+		
+		_messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 210, 320, 25)];
+		_messageLabel.backgroundColor = [UIColor clearColor];
+		_messageLabel.textColor = [UIColor whiteColor];
+		_messageLabel.textAlignment = UITextAlignmentCenter;
+		_messageLabel.font = [UIFont systemFontOfSize:18];
+		_messageLabel.text = @"Loading...";
+		[self addSubview:_messageLabel];
+		[_messageLabel release];
     }
     
 	return self;
+}
+
+- (void)setMessageTextString:(NSString *)inMessageTextString
+{
+	if (inMessageTextString == nil)
+		_messageLabel.text = @"Loading...";
+	else
+		_messageLabel.text = inMessageTextString;
+}
+
+- (NSString *)messageTextString
+{
+	return _messageLabel.text;
 }
 
 /*
@@ -45,6 +69,8 @@
 
 - (void)dealloc
 {
+	self.messageTextString = nil;
+	
     [super dealloc];
 }
 

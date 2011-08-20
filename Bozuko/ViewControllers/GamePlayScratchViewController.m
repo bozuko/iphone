@@ -248,12 +248,12 @@
 	
 	if (tmpBozukoGameResult != nil) // See if there is a game saved to disk from a previous play
 	{
-		DLog(@"Restored");
+		//DLog(@"Restored");
 		
 		if ([[tmpBozukoGameResult prize] isKindOfClass:[BozukoPrize class]] == YES &&
 			[[UserHandler sharedInstance] doesPrizeExistForPrizeID:[[tmpBozukoGameResult prize] prizeID]] == YES)
 		{
-			DLog(@"Prize exists - Skipping");
+			//DLog(@"Prize exists - Skipping");
 			[tmpBozukoGameResult deleteObjectFromDisk];
 			[self enterGame];
 		}
@@ -288,12 +288,12 @@
 {
 	if ([[[_bozukoGame gameState] buttonAction] isEqualToString:@"enter"] == YES)
 	{
-		DLog(@"Enter");
+		//DLog(@"Enter");
 		[[BozukoHandler sharedInstance] bozukoEnterGame:_bozukoGame];
 	}
 	else
 	{
-		DLog(@"Play");
+		//DLog(@"Play");
 		_creditsLabel.text = [NSString stringWithFormat:@"%d", [[_bozukoGame gameState] userTokens]];
 		[[BozukoHandler sharedInstance] bozukoGameResultsForGame:_bozukoGame];
 	}
@@ -315,18 +315,18 @@
 	
 	if (_scratchTotal == 0)
 	{
-		DLog(@"Deleted");
+		//DLog(@"Deleted");
 		self.navigationItem.leftBarButtonItem.enabled = NO;
 		[_bozukoGameResult deleteObjectFromDisk];
 		[self performSelector:@selector(allButtonsHaveBeenScratched) withObject:nil afterDelay:1.0];
 	}
 	else
 	{
-		DLog(@"Saved");
+		//DLog(@"Saved");
 		[_bozukoGameResult setScratchedAreas:_scratchTicketPositions];
 		[_bozukoGameResult setGameID:[_bozukoGame gameId]];
 		[_bozukoGameResult saveObjectToDisk]; // Persist to disk in case user leaves game during play
-		DLog(@"%@", [_bozukoGame gameId]);
+		//DLog(@"%@", [_bozukoGame gameId]);
 	}
 	
 	[sender animate];
@@ -644,7 +644,7 @@
 			//[_bozukoGameResult setGameID:[_bozukoGame gameId]];
 			//[_bozukoGameResult saveObjectToDisk]; // Persist to disk in case user leaves game during play
 			[self setGameResult:[inNotification object]];
-			DLog(@"%@", [_bozukoGame gameId]);
+			//DLog(@"%@", [_bozukoGame gameId]);
 		}
 		else
 		{

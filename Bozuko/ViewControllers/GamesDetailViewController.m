@@ -189,7 +189,6 @@
 			if (tmpCell == nil)
 				tmpCell = [[[BusinessDetailGamesTableCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"BusinessDetailGamesTableCell"] autorelease];
 			
-			//[tmpCell populateContentForGame:[BozukoGame objectWithProperties:[[_bozukoPage games] objectAtIndex:indexPath.row]]];
 			[tmpCell populateContentForGame:[[_bozukoPage games] objectAtIndex:indexPath.row]];
 			
 			return tmpCell;
@@ -620,6 +619,8 @@
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pageUpdateDidFinish:) name:kBozukoHandler_PageDidFinish object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pageUpdateDidFail:) name:kBozukoHandler_PageDidFail object:nil];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatePage) name:kBozukoHandler_GetPagesForLocationDidFinish object:nil];
 }
 
 - (void)viewDidUnload
@@ -651,6 +652,16 @@
 
 - (void)pageUpdateDidFail:(NSNotification *)inNotification
 {
+}
+
+- (void)updatePage
+{
+	BozukoPage *tmpBozukoPage = [[BozukoHandler sharedInstance] currentPageForPage:_bozukoPage];
+	
+	[_bozukoPage release];
+	_bozukoPage = [tmpBozukoPage retain];
+	
+	[_tableView reloadData];
 }
 
 @end

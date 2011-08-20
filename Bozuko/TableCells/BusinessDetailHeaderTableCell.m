@@ -91,7 +91,7 @@
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateImage:) name:kBozukoHandler_PageImageWasUpdated object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateFavoriteButtonState:) name:kBozukoHandler_SetFavoriteDidFinish object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginStatusDidChange) name:kBozukoHandler_UserLoginStatusChanged object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(populateContent) name:kBozukoHandler_PageDidFinish object:nil];
+		//[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(populateContent) name:kBozukoHandler_GetPagesForLocationDidFinish object:nil];
     }
     
 	return self;
@@ -203,7 +203,7 @@
 
 - (void)loginStatusDidChange
 {
-	[self populateContent];
+	//[self populateContent];
 }
 
 @end

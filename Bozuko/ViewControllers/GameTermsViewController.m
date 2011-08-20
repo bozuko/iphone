@@ -25,6 +25,8 @@
 #define kGameTermsPrizesSection		1
 #define kGameTermsTACSection		2
 
+#define kGameTermsDefaultRefreshGameStateSeconds	30
+
 @implementation GameTermsViewController
 
 @synthesize bozukoPage = _bozukoPage;
@@ -51,6 +53,7 @@
 	[_tableView release];
 	[_bozukoPage release];
 	[_bozukoGame release];
+	[_refreshTimer invalidate];
 	
     [super dealloc];
 }
@@ -237,6 +240,11 @@
 	
 	self.bozukoGame = [[self.bozukoPage games] objectAtIndex:self.bozukoGameIndex];
 	
+	//DLog(@"First: %@", self.bozukoGame);
+	//DLog(@"First: %@", self.bozukoGame.gameId);
+	//DLog(@"First: %@", self.bozukoGame.gameState);
+	//DLog(@"Did Load: %@", [self.bozukoGame gameId]);
+	
 	self.navigationItem.title = [_bozukoPage pageName];
 	
 	UIImageView *tmpImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 83.0, 30.0)];
@@ -257,6 +265,7 @@
 	[_bottomBarView release];
 	
 	[[BozukoHandler sharedInstance] bozukoRefreshGameStateForGame:_bozukoGame];
+	//DLog(@"First Refresh: %@", [_bozukoGame gameId]);
 	
 	[self updateView];
 	
@@ -275,6 +284,8 @@
 
 - (void)updateView
 {
+	//DLog(@"Update: %@", self.bozukoGame.gameState);
+	
 	[_tableView reloadData];
 	
 	for (UIView *tmpView in [_bottomBarView subviews])
@@ -327,7 +338,19 @@
 		tmpLabel.text = [[_bozukoGame gameState] buttonText];
 		[_bottomBarView addSubview:tmpLabel];
 		[tmpLabel release];
+		
+		if ([_bozukoGame gameState].nextEnterInterval > 0)
+			_refreshTimer = [NSTimer scheduledTimerWithTimeInterval:[_bozukoGame gameState].nextEnterInterval + 1 target:self selector:@selector(updateGameState) userInfo:nil repeats:NO];
+		else
+			_refreshTimer = [NSTimer scheduledTimerWithTimeInterval:kGameTermsDefaultRefreshGameStateSeconds target:self selector:@selector(updateGameState) userInfo:nil repeats:NO];
 	}
+}
+
+- (void)updateGameState
+{
+	_refreshTimer = nil;
+	[[BozukoHandler sharedInstance] bozukoRefreshGameStateForGame:_bozukoGame];
+	//DLog(@"Timer Refresh: %@", [_bozukoGame gameId]);
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -439,6 +462,11 @@
 - (void)bozukoGameStateDidFinish:(NSNotification *)inNotification
 {
 	if ([[inNotification object] isKindOfClass:[BozukoGameState class]] == NO)
+		return;
+	
+	//DLog(@"\n%@\n%@", _bozukoGame.gameId, [[inNotification object] gameId]);
+	
+	if ([_bozukoGame.gameId isEqualToString:[[inNotification object] gameId]] == NO)
 		return;
 	
 	[_bozukoGame setGameState:[inNotification object]];

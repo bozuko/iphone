@@ -109,6 +109,7 @@
 								  otherButtonTitles:nil];
 	
 	_alertView.tag = kRootViewController_NoNetworkAlert;
+	_alertView.delegate = self;
 	[_alertView show];
 	[_alertView release];
 }

@@ -15,6 +15,7 @@
 {
     BOOL _isDoneLoading;
 	UIImageView *_likeButtonLoadingImageView;
+	UIImageView *_likedImageView;
 	UIButton *_likeButtonPlaceholder;
 	UIWebView *_webView;
 	BozukoPage *_bozukoPage;

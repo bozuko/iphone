@@ -25,6 +25,12 @@
 
 #define kBozukoChallengeNumber		5127	// Not used anymore
 
+#define kBozukoHandler_LocationStaleCoordinatesTime	120
+#define kBozukoHandler_LocationFindingTimeout		10
+#define kBozukoHandler_LocationAccuracyRequirement	1000
+#define kBozukoHandler_GettingLocationString		@"Getting Location..."
+#define kBozukoHandler_LoadingPlacesString			@"Loading Places..."
+
 static BozukoHandler *instance;
 static NSString *_bozukoServerBaseURLString;
 
@@ -40,6 +46,8 @@ static NSString *_bozukoServerBaseURLString;
 @synthesize favoritesNextURL = _favoritesNextURL;
 @synthesize bozukoGamePageID = _bozukoGamePageID;
 @synthesize demoGamePageID = _demoGamePageID;
+
+@synthesize locationManager = _locationManager;
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -79,10 +87,13 @@ static NSString *_bozukoServerBaseURLString;
 			_locationManager = [[CLLocationManager alloc] init];
 			_locationManager.purpose = @"Bozuko needs your location in order to provide a list of local businesses.";
 			_locationManager.delegate = self;
-			_locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters;
-			_locationManager.distanceFilter = 1000; // 1000 meters
+			_locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+			_locationManager.distanceFilter = 1; // 1 meter
 			[_locationManager startUpdatingLocation];
+			_locationTimer = [NSTimer scheduledTimerWithTimeInterval:kBozukoHandler_LocationFindingTimeout target:self selector:@selector(locationTimerElapsed) userInfo:nil repeats:NO];
 			
+			_shouldAcceptInaccurateCoordinates = NO;
+			_locationNeedsUpdating = YES;
 			_isLocationServiceAvailable = YES;
 		}
 		else
@@ -181,6 +192,9 @@ static NSString *_bozukoServerBaseURLString;
 
 - (void)bozukoServerErrorCode:(NSInteger)inErrorCode forResponse:(NSString *)inResponseString
 {
+	if (inErrorCode == 0)
+		return;
+	
 	id tmpObject = [self jsonObject:inResponseString];
 	NSDictionary *tmpResponseDictionary = nil;
 	
@@ -307,7 +321,7 @@ static NSString *_bozukoServerBaseURLString;
 	if ([_apiBozuko bozukoPageLink] == nil)
 		return;
 	
-	NSString *tmpString = [NSString stringWithFormat:@"%@%@?ll=%f%%2C%f", _bozukoServerBaseURLString, [_apiBozuko bozukoPageLink], [self location].latitude, [self location].longitude];
+	NSString *tmpString = [NSString stringWithFormat:@"%@%@?ll=%f%%2C%f&accuracy=%f", _bozukoServerBaseURLString, [_apiBozuko bozukoPageLink], _locationManager.location.coordinate.latitude, _locationManager.location.coordinate.longitude, _locationManager.location.horizontalAccuracy];
 	
 	//DLog(@"%@", tmpString);
 	
@@ -363,7 +377,7 @@ static NSString *_bozukoServerBaseURLString;
 	if ([_apiBozuko demoPageLink] == nil)
 		return;
 	
-	NSString *tmpString = [NSString stringWithFormat:@"%@%@?ll=%f%%2C%f", _bozukoServerBaseURLString, [_apiBozuko demoPageLink], [self location].latitude, [self location].longitude];
+	NSString *tmpString = [NSString stringWithFormat:@"%@%@?ll=%f%%2C%f&accuracy=%f", _bozukoServerBaseURLString, [_apiBozuko demoPageLink], _locationManager.location.coordinate.latitude, _locationManager.location.coordinate.longitude, _locationManager.location.horizontalAccuracy];
 	
 	//DLog(@"%@", tmpString);
 	
@@ -468,7 +482,7 @@ static NSString *_bozukoServerBaseURLString;
 	
 	__block ASIFormDataRequest *tmpRequest = [self httpPOSTRequestWithURL:[NSURL URLWithString:tmpString]];
 	
-	[tmpRequest setPostValue:[NSString stringWithFormat:@"%f,%f", [self location].latitude, [self location].longitude] forKey:@"ll"];
+	[tmpRequest setPostValue:[NSString stringWithFormat:@"%f,%f", _locationManager.location.coordinate.latitude, _locationManager.location.coordinate.longitude] forKey:@"ll"];
 	[tmpRequest setPostValue:[[UserHandler sharedInstance] phoneType] forKey:@"phone_type"];
 	[tmpRequest setPostValue:[[UserHandler sharedInstance] phoneID] forKey:@"phone_id"];
 	[tmpRequest setPostValue:[self challengeResponseForURL:tmpString] forKey:@"challenge_response"];
@@ -544,7 +558,7 @@ static NSString *_bozukoServerBaseURLString;
 	if ([[UserHandler sharedInstance] loggedIn] == NO || [[inBozukoGame gameState] gameStateLink] == nil)
 		return;
 	
-	NSString *tmpString = [NSString stringWithFormat:@"%@%@?ll=%f%%2C%f&%@", _bozukoServerBaseURLString, [[inBozukoGame gameState] gameStateLink], [self location].latitude, [self location].longitude, [self urlSuffix]];
+	NSString *tmpString = [NSString stringWithFormat:@"%@%@?ll=%f%%2C%f&accuracy=%f&%@", _bozukoServerBaseURLString, [[inBozukoGame gameState] gameStateLink], _locationManager.location.coordinate.latitude, _locationManager.location.coordinate.longitude, _locationManager.location.horizontalAccuracy, [self urlSuffix]];
 	
 	//DLog(@"%@", tmpString);
 	
@@ -606,7 +620,7 @@ static NSString *_bozukoServerBaseURLString;
 	if ([[UserHandler sharedInstance] loggedIn] == NO || [inBozukoGame gameLink] == nil)
 		return;
 	
-	NSString *tmpString = [NSString stringWithFormat:@"%@%@?ll=%f%%2C%f&%@", _bozukoServerBaseURLString, [inBozukoGame gameLink], [self location].latitude, [self location].longitude, [self urlSuffix]];
+	NSString *tmpString = [NSString stringWithFormat:@"%@%@?ll=%f%%2C%f&accuracy=%f&%@", _bozukoServerBaseURLString, [inBozukoGame gameLink], _locationManager.location.coordinate..latitude, _locationManager.location.coordinate..longitude, _locationManager.location.horizontalAccuracy, [self urlSuffix]];
 	
 	//DLog(@"%@", tmpString);
 	
@@ -680,7 +694,7 @@ static NSString *_bozukoServerBaseURLString;
 		_isRequestInProgress = YES;
 	}
 	
-	[tmpRequest setPostValue:[NSString stringWithFormat:@"%f,%f", [self location].latitude, [self location].longitude] forKey:@"ll"];
+	[tmpRequest setPostValue:[NSString stringWithFormat:@"%f,%f", _locationManager.location.coordinate.latitude, _locationManager.location.coordinate.longitude] forKey:@"ll"];
 	[tmpRequest setPostValue:[[UserHandler sharedInstance] phoneType] forKey:@"phone_type"];
 	[tmpRequest setPostValue:[[UserHandler sharedInstance] phoneID] forKey:@"phone_id"];
 	[tmpRequest setPostValue:[self challengeResponseForURL:tmpString] forKey:@"challenge_response"];
@@ -991,6 +1005,11 @@ static NSString *_bozukoServerBaseURLString;
 	[tmpRequest startAsynchronous];
 }
 
+- (BozukoPage *)currentPageForPage:(BozukoPage *)inBozukoPage
+{
+	return [_allPagesDictionary objectForKey:[inBozukoPage pageID]];
+}
+
 - (void)bozukoPageRefreshForPage:(BozukoPage *)inBozukoPage
 {
 	static BOOL _isRequestInProgress;
@@ -1076,8 +1095,8 @@ static NSString *_bozukoServerBaseURLString;
 	
 	NSString *tmpBoundsString = [NSString stringWithFormat:@"%f%%2C%f%%2C%f%%2C%f", upperRightBoundsLatitude, upperRightBoundsLongitude, lowerLeftBoundsLatitude, lowerLeftBoundsLongitude];
 	
-	NSString *tmpString = [NSString stringWithFormat:@"%@%@?ll=%f%%2C%f&bounds=%@&%@", _bozukoServerBaseURLString, [_apiEntryPoint pages], [self location].latitude, [self location].longitude, tmpBoundsString, [self urlSuffix]];
-
+	NSString *tmpString = [NSString stringWithFormat:@"%@%@?ll=%f%%2C%f&accuracy=%f&bounds=%@&%@", _bozukoServerBaseURLString, [_apiEntryPoint pages], _locationManager.location.coordinate.latitude, _locationManager.location.coordinate.longitude, _locationManager.location.horizontalAccuracy, tmpBoundsString, [self urlSuffix]];
+	
 	//DLog(@"%@", tmpString);
 	
 	//[tmpRequest cancel];
@@ -1156,7 +1175,7 @@ static NSString *_bozukoServerBaseURLString;
 	
 	if (tmpRequest != nil)
 	{
-		[[NSNotificationCenter defaultCenter] postNotificationName:kBozukoHandler_PageDidStart object:nil];
+		[[NSNotificationCenter defaultCenter] postNotificationName:kBozukoHandler_PageDidStart object:kBozukoHandler_LoadingPlacesString];
 		_isRequestInProgress = YES;
 	}
 	
@@ -1229,6 +1248,12 @@ static NSString *_bozukoServerBaseURLString;
 
 - (void)bozukoPagesSearchFor:(NSString *)inSearchString
 {
+	if (_locationNeedsUpdating == YES)
+	{
+		[[NSNotificationCenter defaultCenter] postNotificationName:kBozukoHandler_PageDidStart object:kBozukoHandler_GettingLocationString];
+		return;
+	}
+	
 	static BOOL _isRequestInProgress;
 	
 	self.searchQueryString = inSearchString;
@@ -1238,22 +1263,22 @@ static NSString *_bozukoServerBaseURLString;
 	
 	if ([_apiEntryPoint pages] == nil)
 	{
-		//[self bozukoEntryPoint];
+		[self bozukoEntryPoint];
 		return;
 	}
 	
-	NSMutableString *tmpString = [NSMutableString stringWithFormat:@"%@%@?ll=%f%%2C%f&%@", _bozukoServerBaseURLString, [_apiEntryPoint pages], [self location].latitude, [self location].longitude, [self urlSuffix]];
+	NSMutableString *tmpString = [NSMutableString stringWithFormat:@"%@%@?ll=%f%%2C%f&accuracy=%f&%@", _bozukoServerBaseURLString, [_apiEntryPoint pages], _locationManager.location.coordinate.latitude, _locationManager.location.coordinate.longitude, _locationManager.location.horizontalAccuracy, [self urlSuffix]];
 	
 	if (inSearchString != nil)
 		[tmpString appendFormat:@"&query=%@", [inSearchString stringByAddingPercentEscapesUsingEncoding:NSISOLatin1StringEncoding]];
 	
-	//DLog(@"%@", tmpString);
+	DLog(@"%@", tmpString);
 
 	__block ASIHTTPRequest *tmpRequest = [self httpGETRequestWithURL:[NSURL URLWithString:tmpString]];
 	
 	if (tmpRequest != nil)
 	{
-		[[NSNotificationCenter defaultCenter] postNotificationName:kBozukoHandler_PageDidStart object:nil];
+		[[NSNotificationCenter defaultCenter] postNotificationName:kBozukoHandler_PageDidStart object:kBozukoHandler_LoadingPlacesString];
 		_isRequestInProgress = YES;
 	}
 	
@@ -1297,6 +1322,7 @@ static NSString *_bozukoServerBaseURLString;
 					[_businessesArray addObject:[tmpBozukoPage pageID]];
 			}
 		
+			DLog(@"Finished");
 			[[NSNotificationCenter defaultCenter] postNotificationName:kBozukoHandler_GetPagesForLocationDidFinish object:nil];
 		}
 		else
@@ -1338,7 +1364,7 @@ static NSString *_bozukoServerBaseURLString;
 		return;
 	}
 	
-	NSMutableString *tmpString = [NSMutableString stringWithFormat:@"%@%@?favorites=true&ll=%f%%2C%f&%@", _bozukoServerBaseURLString, [_apiEntryPoint pages], [self location].latitude, [self location].longitude, [self urlSuffix]];
+	NSMutableString *tmpString = [NSMutableString stringWithFormat:@"%@%@?favorites=true&ll=%f%%2C%f&accuracy=%f&%@", _bozukoServerBaseURLString, [_apiEntryPoint pages], _locationManager.location.coordinate.latitude, _locationManager.location.coordinate.longitude, _locationManager.location.horizontalAccuracy, [self urlSuffix]];
 	
 	if (inSearchString != nil)
 		[tmpString appendFormat:@"&query=%@", [inSearchString stringByAddingPercentEscapesUsingEncoding:NSISOLatin1StringEncoding]];
@@ -1525,7 +1551,7 @@ static NSString *_bozukoServerBaseURLString;
 	
 	__block ASIFormDataRequest *tmpRequest = [self httpPOSTRequestWithURL:[NSURL URLWithString:tmpString]];
 	
-	[tmpRequest setPostValue:[NSString stringWithFormat:@"%f,%f", [self location].latitude, [self location].longitude] forKey:@"ll"];
+	[tmpRequest setPostValue:[NSString stringWithFormat:@"%f,%f", _locationManager.location.coordinate.latitude, _locationManager.location.coordinate.longitude] forKey:@"ll"];
 	[tmpRequest setPostValue:[[UserHandler sharedInstance] phoneType] forKey:@"phone_type"];
 	[tmpRequest setPostValue:[[UserHandler sharedInstance] phoneID] forKey:@"phone_id"];
 	[tmpRequest setPostValue:[self challengeResponseForURL:tmpString] forKey:@"challenge_response"];
@@ -1784,8 +1810,14 @@ static NSString *_bozukoServerBaseURLString;
 
 - (NSString *)challengeResponseForURL:(NSString *)inURL
 {
+	if ([UserHandler sharedInstance].apiUser == nil)
+	{
+		[self bozukoUser];
+		return @"Error";
+	}
+	
 	NSString *tmpPath = [inURL stringByReplacingOccurrencesOfString:_bozukoServerBaseURLString withString:@""]; // Remove protocol / hostname / port
-	NSString *tmpString = [NSString stringWithFormat:@"%@%@", tmpPath, [[[UserHandler sharedInstance] apiUser] challenge]];
+	NSString *tmpString = [NSString stringWithFormat:@"%@%@", tmpPath, [[UserHandler sharedInstance].apiUser challenge]];
 	NSString *tmpHashString = [self sha1:tmpString];
 	
 	//DLog(@"Challenge Input URL: %@", tmpString);
@@ -1810,8 +1842,6 @@ static NSString *_bozukoServerBaseURLString;
 	
 	return output;
 }
-
-#pragma mark -
  
 - (id)jsonObject:(NSString *)inString
 {
@@ -1828,17 +1858,21 @@ static NSString *_bozukoServerBaseURLString;
 
 - (void)applicationDidEnterBackground
 {
+	[_locationTimer invalidate];
+	_locationTimer = nil;
+	
 	[_locationManager stopUpdatingLocation];
 }
 
 - (void)applicationWillEnterForeground
 {
+	_shouldAcceptInaccurateCoordinates = NO;
+	_locationNeedsUpdating = YES;
 	[_locationManager startUpdatingLocation];
-
+	_locationTimer = [NSTimer scheduledTimerWithTimeInterval:kBozukoHandler_LocationFindingTimeout target:self selector:@selector(locationTimerElapsed) userInfo:nil repeats:NO];
+	
 	if (_apiEntryPoint == nil)
-	{
 		[self bozukoEntryPoint];
-	}
 	
 	if (_apiBozuko == nil)
 		[self bozukoBozuko];
@@ -1854,24 +1888,29 @@ static NSString *_bozukoServerBaseURLString;
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {	
-	if (newLocation.coordinate.longitude == 0.0 && newLocation.coordinate.latitude == 0.0)
+	if ((newLocation.coordinate.longitude == 0.0 && newLocation.coordinate.latitude == 0.0) || newLocation.horizontalAccuracy < 0)
 		_isLocationServiceAvailable = NO;
 	else
 		_isLocationServiceAvailable = YES;
 	
-	//DLog(@"Location Update Timestamp: %@", [[newLocation timestamp] description]);
-	
-	if ([[newLocation timestamp] timeIntervalSinceNow] < -900) // 900 seconds is 15 minutes
+	if ((newLocation.horizontalAccuracy > kBozukoHandler_LocationAccuracyRequirement && _shouldAcceptInaccurateCoordinates == NO) || [newLocation.timestamp timeIntervalSinceNow] < -kBozukoHandler_LocationStaleCoordinatesTime)
 	{
-		//DLog(@"Outdated");
-		// If timestamp of coordinates are older than 15 minutes, then throw up loading page until we get newer coordinates.
-		[[NSNotificationCenter defaultCenter] postNotificationName:kBozukoHandler_PageDidStart object:nil];
+		DLog(@"Not accurate enough or too old: %f time: %@", newLocation.horizontalAccuracy, newLocation.timestamp);
+		_locationNeedsUpdating = YES;
+		[[NSNotificationCenter defaultCenter] postNotificationName:kBozukoHandler_PageDidStart object:kBozukoHandler_GettingLocationString];
+	}
+	else if (_locationNeedsUpdating == YES)
+	{
+		DLog(@"Reloading - Is accurate enough: %f", newLocation.horizontalAccuracy);
+		_locationNeedsUpdating = NO;
+		[self bozukoPages]; // Refresh pages for new location
+		//[[NSNotificationCenter defaultCenter] postNotificationName:kBozukoHandler_UserLocationWasUpdated object:nil];
 	}
 	else
 	{
-		//DLog(@"Refresh pages");
-		[self bozukoPages]; // Refresh pages for new location
-		[[NSNotificationCenter defaultCenter] postNotificationName:kBozukoHandler_UserLocationWasUpdated object:nil];
+		DLog(@"Is accurate enough: %f", newLocation.horizontalAccuracy);
+		_locationNeedsUpdating = NO;
+		//[[NSNotificationCenter defaultCenter] postNotificationName:kBozukoHandler_UserLocationWasUpdated object:nil];
 	}
 }
 
@@ -1897,12 +1936,25 @@ static NSString *_bozukoServerBaseURLString;
 		_isLocationServiceAvailable = YES;
 }
 
+#pragma mark - Location Helper Method
+
+- (void)locationTimerElapsed
+{
+	[_locationTimer invalidate];
+	_locationTimer = nil;
+	
+	_locationNeedsUpdating = NO;
+	_shouldAcceptInaccurateCoordinates = YES;
+	
+	[self bozukoPages];
+}
+
 #pragma mark - Data
 
-- (CLLocationCoordinate2D)location
-{
-	return _locationManager.location.coordinate;
-}
+//- (CLLocationCoordinate2D)location
+//{
+//	return _locationManager.location.coordinate;
+//}
 
 - (BozukoPage *)businessAtIndex:(NSInteger)inIndex
 {

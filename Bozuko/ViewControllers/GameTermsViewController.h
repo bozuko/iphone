@@ -18,6 +18,7 @@
 	UIView *_bottomBarView;
 	UIButton *_gameEntryButton;
 	NSInteger _bozukoGameIndex;
+	NSTimer *_refreshTimer;
 }
 
 @property (retain) BozukoPage *bozukoPage;
@@ -25,6 +26,7 @@
 @property (readwrite) NSInteger bozukoGameIndex;
 
 - (void)updateView;
+- (void)updateGameState;
 - (void)playButtonWasPressed;
 
 - (void)bozukoGameResultsInProgress:(NSNotification *)inNotification;

@@ -33,7 +33,7 @@
 - (void)showTableView;
 - (void)showNoFavoritesView;
 - (void)viewWillDisappear;
-- (void)showLoadingOverlay;
+- (void)showLoadingOverlay:(NSNotification *)inNotification;
 - (void)hideLoadingOverlay;
 
 @end

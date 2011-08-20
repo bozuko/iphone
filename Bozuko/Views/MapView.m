@@ -60,7 +60,7 @@
 		[self addSubview:tmpButton];
 		
 		MKCoordinateSpan tmpSpan = MKCoordinateSpanMake(0.02, 0.02);
-		MKCoordinateRegion tmpRegion = MKCoordinateRegionMake([[BozukoHandler sharedInstance] location], tmpSpan);
+		MKCoordinateRegion tmpRegion = MKCoordinateRegionMake([BozukoHandler sharedInstance].locationManager.location.coordinate, tmpSpan);
 		
 		_mapView.region = tmpRegion;
 
@@ -82,7 +82,7 @@
 	//MKCoordinateRegion tmpRegion = MKCoordinateRegionMake([[BozukoHandler sharedInstance] location], tmpSpan);
 	//[_mapView setRegion:tmpRegion animated:YES];
 	
-	[_mapView setCenterCoordinate:[[BozukoHandler sharedInstance] location] animated:YES];
+	[_mapView setCenterCoordinate:[BozukoHandler sharedInstance].locationManager.location.coordinate animated:YES];
 }
 
 /*

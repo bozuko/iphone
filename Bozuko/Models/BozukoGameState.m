@@ -11,30 +11,35 @@
 @implementation BozukoGameState
 
 @synthesize properties = _properties;
+@synthesize nextEnterInterval = _nextEnterInterval;
 
-+ (BozukoGameState *)objectWithProperties:(NSDictionary *)inDictionary {
++ (BozukoGameState *)objectWithProperties:(NSDictionary *)inDictionary
+{
 	return [[[BozukoGameState alloc] initWithProperties:inDictionary] autorelease];
 }
 
-- (id)initWithProperties:(NSDictionary *)inDictionary {
+- (id)initWithProperties:(NSDictionary *)inDictionary
+{
 	self = [super init];
 	
 	if (self)
 	{
 		[self setProperties:inDictionary];
+		
+		_nextEnterInterval = [[inDictionary objectForKey:@"next_enter_time_ms"] intValue] / 1000;
 	}
 	
 	return self;
 }
 
+- (NSString *)gameId
+{
+	return [_properties objectForKey:@"game_id"];
+}
+
 - (NSInteger)userTokens
 {
 	return [[_properties objectForKey:@"user_tokens"] intValue];
-}
-
-- (NSString *)nextEnterTime
-{
-	return [_properties objectForKey:@"next_enter_time"];
 }
 
 - (NSString *)buttonText
@@ -83,6 +88,7 @@
 - (void)dealloc
 {
 	[_properties release];
+	
 	[super dealloc];
 }
 

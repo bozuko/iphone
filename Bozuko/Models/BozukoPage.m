@@ -66,6 +66,7 @@
 
 - (void)unloadFacebookLikeButton
 {
+	//DLog(@"Unload");
 	[_facebookLikeButton release];
 	_facebookLikeButton = nil;
 }

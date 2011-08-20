@@ -9,17 +9,20 @@
 #import <Foundation/Foundation.h>
 
 
-@interface BozukoGameState : NSObject {
+@interface BozukoGameState : NSObject
+{
 	NSDictionary *_properties;
+	NSInteger _nextEnterInterval;
 }
 
 @property (nonatomic, retain) NSDictionary *properties;
+@property (readonly) NSInteger nextEnterInterval;
 
 + (BozukoGameState *)objectWithProperties: (NSDictionary *)inDictionary;
 - (id)initWithProperties: (NSDictionary *)inDictionary;
 
+- (NSString *)gameId;
 - (NSInteger)userTokens;
-- (NSString *)nextEnterTime;
 - (NSString *)buttonText;
 - (BOOL)buttonEnabled;
 - (NSString *)buttonAction;

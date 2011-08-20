@@ -8,6 +8,7 @@
 
 #import "SlotMachineWheel.h"
 #import "NSArray-Shuffle.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation SlotMachineWheel
 
@@ -16,7 +17,7 @@
 - (void)dealloc
 {
 	[_slotItemsArray release];
-	[_animateTimer release];
+	//[_animateTimer release];
 	
     [super dealloc];
 }
@@ -121,7 +122,10 @@
 	[self randomizeScrollPosition];
 
 	// 0.02
-	_animateTimer = [NSTimer scheduledTimerWithTimeInterval:0.02 target:self selector:@selector(animateWheel) userInfo:nil repeats:YES];
+	//_animateTimer = [NSTimer scheduledTimerWithTimeInterval:0.02 target:self selector:@selector(animateWheel) userInfo:nil repeats:YES];
+	_spinDisplayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(animateWheel)];
+	_spinDisplayLink.frameInterval = 1;
+	[_spinDisplayLink addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
 	
 	_isSpinning = YES;
 	_shouldStop = NO;
@@ -154,8 +158,10 @@
 	// Stop the wheel if we're at the stop index
 	if (_shouldStop == YES && _spinPosition == tmpSpinStopPosition)
 	{
-		[_animateTimer invalidate];
-		_animateTimer = nil;
+		//[_animateTimer invalidate];
+		//_animateTimer = nil;
+		[_spinDisplayLink invalidate];
+		_spinDisplayLink = nil;
 		
 		[UIView animateWithDuration:0.4 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
 			[_scrollView scrollRectToVisible:CGRectMake(0.0, tmpSpinStopPosition - 240.0, 80.0, 160.0) animated:NO];

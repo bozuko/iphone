@@ -16,10 +16,11 @@
 	BOOL _shouldStop;
 	BOOL _isSlowingDown;
 	NSInteger _stopIndex;
-	NSTimer *_animateTimer;
+	//NSTimer *_animateTimer;
 	CGFloat _spinPosition;
 	NSInteger _numberOfItems;
 	NSArray *_slotItemsArray;
+	CADisplayLink *_spinDisplayLink;
 }
 
 @property (readonly) BOOL isSpinning;
