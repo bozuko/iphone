@@ -46,6 +46,10 @@
 	[_backButton release];
 	[_tapRecognizer release];
 	
+	[_bozukoGameResult release];
+	
+	self.delegate = nil;
+	
     [super dealloc];
 }
 
@@ -96,7 +100,7 @@
 	
 	//DLog(@"Background URL: %@", _backgroundImageURL);
 	
-	return [[ImageHandler sharedInstance] imageForURL:_backgroundImageURL];
+	return [[ImageHandler sharedInstance] permanentCachedImageForURL:_backgroundImageURL];
 }
 
 - (void)viewDidLoad
@@ -244,7 +248,7 @@
 	
 	_areGameResultsIn = NO;
 	
-	BozukoGameResult *tmpBozukoGameResult = [BozukoGameResult loadObjectFromDiskForPageID:[_bozukoGame gameId]];
+	BozukoGameResult *tmpBozukoGameResult = [BozukoGameResult loadObjectFromDiskForPageID:[_bozukoGame gameID]];
 	
 	if (tmpBozukoGameResult != nil) // See if there is a game saved to disk from a previous play
 	{
@@ -282,6 +286,14 @@
 		[self enterGame];
 	
 	[tmpButtonSet release];
+}
+
+- (void)viewDidUnload
+{
+	[super viewDidUnload];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
+	self.delegate = nil;
 }
 
 - (void)enterGame
@@ -324,7 +336,7 @@
 	{
 		//DLog(@"Saved");
 		[_bozukoGameResult setScratchedAreas:_scratchTicketPositions];
-		[_bozukoGameResult setGameID:[_bozukoGame gameId]];
+		[_bozukoGameResult setGameID:[_bozukoGame gameID]];
 		[_bozukoGameResult saveObjectToDisk]; // Persist to disk in case user leaves game during play
 		//DLog(@"%@", [_bozukoGame gameId]);
 	}
@@ -517,13 +529,6 @@
 	}
 }
 
-- (void)viewDidUnload
-{
-	[super viewDidUnload];
-	
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
@@ -608,6 +613,9 @@
 	
 	if ([[inNotification object] isKindOfClass:[BozukoGameState class]] == YES)
 	{
+		if ([_bozukoGame.gameID isEqualToString:[[inNotification object] gameID]] == NO)
+			return;
+		
 		[_bozukoGame setGameState:[inNotification object]];
 		_creditsLabel.text = [NSString stringWithFormat:@"%d", [[_bozukoGame gameState] userTokens]];
 		
@@ -639,6 +647,11 @@
 	
 	if ([[inNotification object] isKindOfClass:[BozukoGameResult class]] == YES)
 	{
+		//DLog(@"%@", _bozukoGame.gameID);
+		//DLog(@"%@", [[inNotification object] gameID]);
+		if ([_bozukoGame.gameID isEqualToString:[[inNotification object] gameID]] == NO)
+			return;
+		
 		if ([[inNotification object] code] == 0) // Make sure there's no error message before saving to disk
 		{
 			//[_bozukoGameResult setGameID:[_bozukoGame gameId]];

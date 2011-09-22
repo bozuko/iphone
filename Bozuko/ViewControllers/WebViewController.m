@@ -32,13 +32,13 @@
 	
 	//DLog(@"Request String: %@", _requestString);
 
-	UIWebView *tmpWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, 320, 436)];
-	[tmpWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[_requestString stringByAddingPercentEscapesUsingEncoding:NSISOLatin1StringEncoding]]]];
-	[tmpWebView setScalesPageToFit:YES];
-    [tmpWebView setContentScaleFactor:1.5];
-	[tmpWebView setDelegate:self];
-	[self.view addSubview:tmpWebView];
-	[tmpWebView release];
+	_webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, 320, 436)];
+	[_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[_requestString stringByAddingPercentEscapesUsingEncoding:NSISOLatin1StringEncoding]]]];
+	[_webView setScalesPageToFit:YES];
+    [_webView setContentScaleFactor:1.5];
+	[_webView setDelegate:self];
+	[self.view addSubview:_webView];
+	[_webView release];
 	
 	_activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 	[_activityView setCenter:CGPointMake(self.view.frame.size.width / 2.0f, self.view.frame.size.height / 2.0f)];
@@ -52,6 +52,11 @@
 	//DLog(@"Request: %@", [NSURLRequest requestWithURL:[NSURL URLWithString:_requestString]]);
 }
 
+- (void)viewDidUnload
+{
+	[super viewDidUnload];
+	_webView.delegate = nil;
+}
 
 #pragma mark - UIWebViewDelegate
 - (BOOL)webView:(UIWebView *)inWebView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
@@ -77,6 +82,7 @@
 
 - (void)dealloc {
 	[_requestString release];
+	_webView.delegate = nil;
 	
     [super dealloc];
 }

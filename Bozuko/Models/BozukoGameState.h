@@ -21,7 +21,7 @@
 + (BozukoGameState *)objectWithProperties: (NSDictionary *)inDictionary;
 - (id)initWithProperties: (NSDictionary *)inDictionary;
 
-- (NSString *)gameId;
+- (NSString *)gameID;
 - (NSInteger)userTokens;
 - (NSString *)buttonText;
 - (BOOL)buttonEnabled;

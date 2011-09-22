@@ -17,11 +17,9 @@
 	NSMutableDictionary *_properties;
 	CLLocationCoordinate2D _coordinate;
 	NSMutableArray *_gamesArray;
-	FacebookLikeButton *_facebookLikeButton;
 }
 
 @property (nonatomic, retain) NSMutableDictionary *properties;
-//@property (retain) FacebookLikeButton *facebookLikeButton;
 
 + (BozukoPage *)objectWithProperties: (NSDictionary *)inDictionary;
 - (id)initWithProperties: (NSDictionary *)inDictionary;
@@ -34,6 +32,7 @@
 - (NSString *)website;
 - (BOOL)featured;
 - (BOOL)isPlace;
+- (BOOL)isFacebook;
 - (BOOL)favorite;
 - (void)setFavorite:(BOOL)inBool;
 - (BOOL)liked;
@@ -48,8 +47,6 @@
 - (NSString *)shareURL;
 - (NSString *)likeURL;
 - (NSString *)facebookLikeButtonLink;
-- (FacebookLikeButton *)facebookLikeButton;
-- (void)unloadFacebookLikeButton;
 
 - (NSDictionary *)links;
 - (NSString *)recommend;

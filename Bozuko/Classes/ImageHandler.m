@@ -12,6 +12,8 @@
 #import "ASIHTTPRequest.h"
 #import "BozukoPage.h"
 #import "ScaleImage.h"
+#import "ASIDownloadCache.h"
+#import "JSON.h"
 #import <CommonCrypto/CommonDigest.h>
 
 static ImageHandler *instance;
@@ -37,6 +39,8 @@ static ImageHandler *instance;
 		_imageCache = [[NSMutableDictionary alloc] init];
 		_thumbnailCache = [[NSMutableDictionary alloc] init];
 		
+		[ASIHTTPRequest setDefaultCache:[ASIDownloadCache sharedCache]];
+		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dumpCache) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dumpCache) name:UIApplicationDidEnterBackgroundNotification object:nil];
 	}
@@ -50,11 +54,74 @@ static ImageHandler *instance;
 	[_thumbnailCache removeAllObjects];
 }
 
+- (void)bozukoServerErrorCode:(NSInteger)inErrorCode forResponse:(NSString *)inResponseString
+{
+	if (inErrorCode == 0)
+		return;
+	
+	id tmpObject = [self jsonObject:inResponseString];
+	NSDictionary *tmpResponseDictionary = nil;
+	
+	if ([tmpObject isKindOfClass:[NSDictionary class]] == YES)
+		tmpResponseDictionary = tmpObject;
+
+	DLog(@"Server Error: %d %@ - %@", inErrorCode, [tmpResponseDictionary objectForKey:@"title"], [tmpResponseDictionary objectForKey:@"message"]);
+	[[NSNotificationCenter defaultCenter] postNotificationName:kBozukoHandler_ServerErrorNotfication object:tmpResponseDictionary];
+}
+
+// This has normal caching policies
 - (UIImage *)imageForURL:(NSString *)inURLString
 {
 	//DLog(@"%@", inURLString);
 	
-	if (inURLString == nil)
+	if (inURLString == nil || [inURLString length] < 10)
+		return nil;
+	
+	// Attempt to load image from memory cache
+	__block UIImage *tmpImage = [_imageCache objectForKey:inURLString];
+	
+	// Load image from Internet
+	if (tmpImage == nil)
+	{
+		NSMutableString *tmpString = [NSMutableString stringWithString:inURLString];
+		
+		if ([inURLString hasPrefix:[[BozukoHandler sharedInstance] baseURL]] == YES) // If this image is coming from Bozuko's servers, add mobile authentication parameters
+		{
+			[tmpString appendFormat:@"?%@&phone_id=%@&phone_type=%@", [[BozukoHandler sharedInstance] urlSuffix], [[UserHandler sharedInstance] phoneID], [[[UserHandler sharedInstance] phoneType] stringByAddingPercentEscapesUsingEncoding:NSISOLatin1StringEncoding]];
+			[tmpString appendFormat:@"&challenge_response=%@", [[BozukoHandler sharedInstance] challengeResponseForURL:tmpString]];
+		}
+		
+		//DLog(@"%@", tmpString);
+		
+		__block ASIHTTPRequest *tmpRequest = [self httpGETRequestWithURL:[NSURL URLWithString:tmpString]];
+		
+		[tmpRequest setCompletionBlock:^{
+			tmpImage = [UIImage imageWithData:[tmpRequest rawResponseData]];
+			
+			if (tmpImage != nil)
+			{
+				[_imageCache setObject:tmpImage forKey:inURLString];
+				[[NSNotificationCenter defaultCenter] postNotificationName:kImageHandler_ImageWasUpdatedNotification object:inURLString];
+			}
+		}];
+		
+		[tmpRequest setFailedBlock:^{
+			DLog(@"%i", [tmpRequest responseStatusCode]);
+			DLog(@"%@", [tmpRequest responseStatusMessage]);
+		}];
+		
+		[tmpRequest startAsynchronous];
+	}
+	
+	return tmpImage;
+}
+
+// For slot icons and scratch ticket background - permanent caching polices
+- (UIImage *)permanentCachedImageForURL:(NSString *)inURLString
+{
+	//DLog(@"%@", inURLString);
+	
+	if (inURLString == nil || [inURLString length] < 10)
 		return nil;
 	
 	// Attempt to load image from memory cache
@@ -76,7 +143,15 @@ static ImageHandler *instance;
 	// Load image from Internet
 	if (tmpImage == nil)
 	{
-		__block ASIHTTPRequest *tmpRequest = [self httpGETRequestWithURL:[NSURL URLWithString:inURLString]];
+		NSMutableString *tmpString = [NSMutableString stringWithString:inURLString];
+		
+		if ([inURLString hasPrefix:[[BozukoHandler sharedInstance] baseURL]] == YES) // If this image is coming from Bozuko's servers, add mobile authentication parameters
+		{
+			[tmpString appendFormat:@"?%@&phone_id=%@&phone_type=%@", [[BozukoHandler sharedInstance] urlSuffix], [[UserHandler sharedInstance] phoneID], [[[UserHandler sharedInstance] phoneType] stringByAddingPercentEscapesUsingEncoding:NSISOLatin1StringEncoding]];
+			[tmpString appendFormat:@"&challenge_response=%@", [[BozukoHandler sharedInstance] challengeResponseForURL:tmpString]];
+		}
+		
+		__block ASIHTTPRequest *tmpRequest = [self httpGETRequestWithURL:[NSURL URLWithString:tmpString]];
 		
 		[tmpRequest setCompletionBlock:^{
 			tmpImage = [UIImage imageWithData:[tmpRequest rawResponseData]];
@@ -110,11 +185,12 @@ static ImageHandler *instance;
 	return tmpImage;
 }
 
+// For security image and barcode - never cached, produces error message to user if fails
 - (UIImage *)nonCachedImageForURL:(NSString *)inURLString
 {
 	//DLog(@"%@", inURLString);
 	
-	if (inURLString == nil)
+	if (inURLString == nil || [inURLString length] < 10)
 		return nil;
 	
 	// Attempt to load image from memory cache
@@ -131,11 +207,18 @@ static ImageHandler *instance;
 			[tmpString appendFormat:@"&challenge_response=%@", [[BozukoHandler sharedInstance] challengeResponseForURL:tmpString]];
 		}
 		
-		//DLog(@"%@", tmpString);
+		DLog(@"%@", tmpString);
 		
 		__block ASIHTTPRequest *tmpRequest = [self httpGETRequestWithURL:[NSURL URLWithString:tmpString]];
+		tmpRequest.cachePolicy = (ASIDoNotWriteToCacheCachePolicy | ASIDoNotReadFromCacheCachePolicy);
 		
 		[tmpRequest setCompletionBlock:^{
+			if ([tmpRequest responseStatusCode] != 200)
+			{
+				[self bozukoServerErrorCode:[tmpRequest responseStatusCode] forResponse:[tmpRequest responseString]];
+				return;
+			}
+			
 			tmpImage = [UIImage imageWithData:[tmpRequest rawResponseData]];
 			
 			if (tmpImage != nil)
@@ -158,7 +241,7 @@ static ImageHandler *instance;
 
 - (UIImage *)thumbnailForBusiness:(BozukoPage *)inBozukoPage
 {
-	if ([inBozukoPage pageImage] == nil)
+	if ([inBozukoPage pageImage] == nil || [[inBozukoPage pageImage] length] < 10)
 		return nil;
 	
 	UIImage *tmpImage = [_thumbnailCache objectForKey:[inBozukoPage pageImage]];
@@ -212,7 +295,7 @@ static ImageHandler *instance;
 
 - (UIImage *)imageForBusiness:(BozukoPage *)inBozukoPage
 {
-	if ([inBozukoPage pageImage] == nil)
+	if ([inBozukoPage pageImage] == nil || [[inBozukoPage pageImage] length] < 10)
 		return nil;
 	
 	UIImage *tmpImage = [_imageCache objectForKey:[inBozukoPage pageImage]];
@@ -272,7 +355,10 @@ static ImageHandler *instance;
 	tmpRequest.useCookiePersistence = NO;
 	tmpRequest.allowCompressedResponse = YES;
 	tmpRequest.shouldWaitToInflateCompressedResponses = NO;
-	tmpRequest.timeOutSeconds = 30;
+	tmpRequest.cacheStoragePolicy = ASICachePermanentlyCacheStoragePolicy;
+	tmpRequest.cachePolicy = (ASIFallbackToCacheIfLoadFailsCachePolicy | ASIAskServerIfModifiedWhenStaleCachePolicy);
+	tmpRequest.timeOutSeconds = 20;
+	tmpRequest.numberOfTimesToRetryOnTimeout = 3;
 	
 	return tmpRequest;
 }
@@ -282,8 +368,7 @@ static ImageHandler *instance;
 	const char *tmpString = [inString UTF8String];
 	unsigned char result[CC_MD5_DIGEST_LENGTH];
 	CC_MD5(tmpString, strlen(tmpString), result);
-	return [NSString 
-			stringWithFormat: @"%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X",
+	return [NSString stringWithFormat: @"%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X",
 			result[0], result[1],
 			result[2], result[3],
 			result[4], result[5],
@@ -293,6 +378,17 @@ static ImageHandler *instance;
 			result[12], result[13],
 			result[14], result[15]
 			];
+}
+
+- (id)jsonObject:(NSString *)inString
+{
+	SBJsonParser *tmpJSONParser = [SBJsonParser new];
+	
+	id tmpObject = [tmpJSONParser objectWithString:inString];
+	
+	[tmpJSONParser release];
+	
+	return tmpObject;
 }
 
 #pragma mark -

@@ -50,12 +50,37 @@
 - (BOOL)webView:(UIWebView *)inWebView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
 	//DLog(@"Webview to load request: %@", request);
 	//DLog(@"Test: %@", [NSString stringWithFormat:@"%@%@", [[BozukoHandler sharedInstance] baseURL], kBozukoAPIRedirectPath_UserLoginSuccessfully]);
-	if([[[request URL] absoluteString] hasPrefix:[NSString stringWithFormat:@"%@%@", [[BozukoHandler sharedInstance] baseURL], kBozukoAPIRedirectPath_UserLoginSuccessfully]])
+//	if([[[request URL] absoluteString] hasPrefix:[NSString stringWithFormat:@"%@%@", [[BozukoHandler sharedInstance] baseURL], kBozukoAPIRedirectPath_UserLoginSuccessfully]])
+//	{
+//		NSString *tmpToken = [[[[request URL] absoluteString] componentsSeparatedByString:@"="] lastObject];
+//		[[UserHandler sharedInstance] setUserToken:tmpToken];
+//
+//		[self dismissModalViewControllerAnimated:YES];
+//	}
+	
+	NSString *tmpRequestString = [[request URL] absoluteString];
+	NSString *tmpParametersString = [[tmpRequestString componentsSeparatedByString:@"?"] lastObject];
+	NSArray *tmpParameters = [tmpParametersString componentsSeparatedByString:@"&"];
+	
+	for (NSString *tmpString in tmpParameters)
 	{
-		NSString *tmpToken = [[[[request URL] absoluteString] componentsSeparatedByString:@"="] lastObject];
-		[[UserHandler sharedInstance] setUserToken:tmpToken];
-
-		[self dismissModalViewControllerAnimated:YES];
+		NSArray *tmpArray = [tmpString componentsSeparatedByString:@"="];
+		NSString *tmpKey = nil;
+		NSString *tmpValue = nil;
+		
+		if ([tmpArray count] > 1)
+		{
+			tmpKey = [tmpArray objectAtIndex:0];
+			tmpValue = [tmpArray objectAtIndex:1];
+			
+			if ([tmpKey isEqualToString:@"token"] == YES)
+			{
+				[[UserHandler sharedInstance] setUserToken:tmpValue];
+				_webView.delegate = nil;
+				[self dismissModalViewControllerAnimated:YES];
+				break;
+			}
+		}
 	}
 	
 	return YES;

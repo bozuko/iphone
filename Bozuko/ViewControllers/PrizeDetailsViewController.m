@@ -24,7 +24,7 @@
 
 @synthesize delegate = _delegate;
 @synthesize bozukoRedemption = _bozukoRedemption;
-@synthesize countdownTimer = _countdownTimer;
+//@synthesize countdownTimer = _countdownTimer;
 
 - (void)dealloc
 {
@@ -35,8 +35,9 @@
 	[_closeBarButton release];
 	[_doneBarButton release];
 	
-	[_countdownTimer invalidate];
-	self.countdownTimer = nil;
+	//[_countdownTimer invalidate];
+	_countdownTimer = nil;
+	self.delegate = nil;
 	
 	[super dealloc];
 }
@@ -65,8 +66,8 @@
 	self.navigationItem.hidesBackButton = YES;
 	
 	_closeBarButton = [[UIBarButtonItem alloc] init];
-	_closeBarButton.target = _delegate;
-	_closeBarButton.action = @selector(closeView);
+	_closeBarButton.target = self;
+	_closeBarButton.action = @selector(doClose);
 	_closeBarButton.title = @"Close";
 	self.navigationItem.leftBarButtonItem = _closeBarButton;
 	
@@ -79,6 +80,14 @@
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageWasUpdated:) name:kImageHandler_ImageWasUpdatedNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidBecomeInactive) name:UIApplicationWillResignActiveNotification object:nil];
+}
+
+- (void)viewDidUnload
+{
+	[super viewDidUnload];
+	//[_countdownTimer invalidate];
+	_countdownTimer = nil;
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)refreshView
@@ -228,7 +237,7 @@
 		[tmpImageView release];
 		
 		_userImageView = [[UIImageView alloc] initWithFrame:CGRectMake(16.0, 209.0, 50.0, 50.0)];
-		_userImageView.image = [[ImageHandler sharedInstance] nonCachedImageForURL:[_bozukoPrize userImage]];
+		_userImageView.image = [[ImageHandler sharedInstance] imageForURL:[_bozukoPrize userImage]];
 		[[self view] addSubview:_userImageView];
 		[_userImageView release];
 		
@@ -238,7 +247,7 @@
 		[tmpImageView release];
 		
 		_pageIconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(250.0, 209.0, 50.0, 50.0)];
-		_pageIconImageView.image = [[ImageHandler sharedInstance] nonCachedImageForURL:[_bozukoPrize businessImage]];
+		_pageIconImageView.image = [[ImageHandler sharedInstance] imageForURL:[_bozukoPrize businessImage]];
 		
 		[self.view addSubview:_pageIconImageView];
 		[_pageIconImageView release];
@@ -251,7 +260,7 @@
 		[tmpImageView release];
 		
 		_userImageView = [[UIImageView alloc] initWithFrame:CGRectMake(21.0, 213.0, 81.0, 81.0)];
-		_userImageView.image = [[ImageHandler sharedInstance] nonCachedImageForURL:[_bozukoPrize userImage]];
+		_userImageView.image = [[ImageHandler sharedInstance] imageForURL:[_bozukoPrize userImage]];
 		[[self view] addSubview:_userImageView];
 		[_userImageView release];
 		
@@ -261,7 +270,7 @@
 		[tmpImageView release];
 		
 		_pageIconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(21.0, 313.0, 81.0, 81.0)];
-		_pageIconImageView.image = [[ImageHandler sharedInstance] nonCachedImageForURL:[_bozukoPrize businessImage]];
+		_pageIconImageView.image = [[ImageHandler sharedInstance] imageForURL:[_bozukoPrize businessImage]];
 		
 		[self.view addSubview:_pageIconImageView];
 		[_pageIconImageView release];
@@ -373,11 +382,13 @@
 - (void)countdown
 {
 	NSInteger tmpSeconds = (_countdownBeginUnixTime + [_bozukoPrize redemptionDuration] + 1) - [[NSDate date] timeIntervalSince1970];
+
+	//DLog(@"Countdown: %d", tmpSeconds);
 	
 	if (tmpSeconds < 1)
 	{
 		[_countdownTimer invalidate];
-		self.countdownTimer = nil;
+		_countdownTimer = nil;
 		
 		self.bozukoRedemption = nil;
 		[self refreshView];
@@ -446,7 +457,7 @@
 		if (_countdownTimer == nil)
 		{
 			_countdownBeginUnixTime = [[NSDate date] timeIntervalSince1970];
-			self.countdownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(countdown) userInfo:nil repeats:YES];
+			_countdownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(countdown) userInfo:nil repeats:YES];
 		}
 	}
 	// If there's no security image URL, go ahead and start timer
@@ -455,7 +466,7 @@
 		if (_countdownTimer == nil)
 		{
 			_countdownBeginUnixTime = [[NSDate date] timeIntervalSince1970];
-			self.countdownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(countdown) userInfo:nil repeats:YES];
+			_countdownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(countdown) userInfo:nil repeats:YES];
 		}
 	}
 }
@@ -483,6 +494,9 @@
 
 - (void)doClose
 {
+	//DLog(@"doClose");
+	[_countdownTimer invalidate];
+	
 	if ([_delegate respondsToSelector:@selector(closeView)] == YES)
 		[_delegate closeView];
 	else

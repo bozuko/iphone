@@ -60,7 +60,7 @@
 			
 			if ([tmpBozukoGamePrize resultIcon] != nil)
 			{
-				UIImage *tmpImage = [[ImageHandler sharedInstance] imageForURL:[tmpBozukoGamePrize resultIcon]];
+				UIImage *tmpImage = [[ImageHandler sharedInstance] permanentCachedImageForURL:[tmpBozukoGamePrize resultIcon]];
 				CGFloat tmpImageHeight = tmpImage.size.height / 2;
 				tmpImageWidth = (tmpImage.size.width / 2) * (40 / tmpImageHeight);
 				
@@ -102,7 +102,7 @@
 	{
 		if ([[inNotification object] isEqualToString:tmpString] == YES)
 		{
-			UIImage *tmpImage = [[ImageHandler sharedInstance] imageForURL:tmpString];
+			UIImage *tmpImage = [[ImageHandler sharedInstance] permanentCachedImageForURL:tmpString];
 		
 			if (tmpImage != nil)
 			{

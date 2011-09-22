@@ -11,6 +11,7 @@
 @interface WebViewController : UIViewController <UIWebViewDelegate> {
 	NSString *_requestString;
 	UIActivityIndicatorView *_activityView;
+	UIWebView *_webView;
 }
 
 - (id)initWithRequest:(NSString *)inRequest;

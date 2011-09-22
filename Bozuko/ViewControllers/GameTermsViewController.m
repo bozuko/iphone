@@ -50,10 +50,13 @@
 
 - (void)dealloc
 {
-	[_tableView release];
-	[_bozukoPage release];
-	[_bozukoGame release];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
 	[_refreshTimer invalidate];
+	_tableView.delegate = nil;
+	_tableView.dataSource = nil;
+	self.bozukoGame = nil;
+	self.bozukoPage = nil;
 	
     [super dealloc];
 }
@@ -153,7 +156,7 @@
 		tmpCell.controller = self;
 		[tmpCell setGame:_bozukoGame];
 		
-		tmpCell.selectionStyle = UITableViewCellEditingStyleNone;
+		tmpCell.selectionStyle = UITableViewCellSelectionStyleNone;
 		
 		return tmpCell;
 	}
@@ -193,7 +196,7 @@
 	[tmpCell setMainLabelText:@"Official Rules"];
 	[tmpCell setDetailLabelText:[_bozukoGame rules]];
 	
-	tmpCell.selectionStyle = UITableViewCellEditingStyleNone;
+	tmpCell.selectionStyle = UITableViewCellSelectionStyleNone;
 	
 	return tmpCell;
 }
@@ -237,6 +240,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	_refreshTimer = nil;
 	
 	self.bozukoGame = [[self.bozukoPage games] objectAtIndex:self.bozukoGameIndex];
 	
@@ -258,16 +262,17 @@
 	_tableView.delegate = self;
 	_tableView.dataSource = self;
 	[self.view addSubview:_tableView];
+	[_tableView release];
 	
 	_bottomBarView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 370.0, 320.0, 80.0)];
 	_bottomBarView.backgroundColor = [UIColor clearColor];
 	[self.view addSubview:_bottomBarView];
 	[_bottomBarView release];
 	
+	[self updateView];
+	
 	[[BozukoHandler sharedInstance] bozukoRefreshGameStateForGame:_bozukoGame];
 	//DLog(@"First Refresh: %@", [_bozukoGame gameId]);
-	
-	[self updateView];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bozukoGameResultsInProgress:) name:kBozukoHandler_GameResultsRequestInProgress object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bozukoGameResultsDidFinish:) name:kBozukoHandler_GameResultsDidFinish object:nil];
@@ -281,6 +286,25 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pageUpdateDidFinish:) name:kBozukoHandler_PageDidFinish object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pageUpdateDidFail:) name:kBozukoHandler_PageDidFail object:nil];
 }
+
+- (void)viewDidUnload
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	[_refreshTimer invalidate];
+	_refreshTimer = nil;
+	
+	self.bozukoGame = nil;
+	self.bozukoPage = nil;
+	
+	[super viewDidUnload];
+}
+
+//- (void)viewWillDisappear:(BOOL)animated
+//{
+//	[super viewWillDisappear:animated];
+//	[_refreshTimer invalidate];
+//	_refreshTimer = nil;
+//}
 
 - (void)updateView
 {
@@ -302,7 +326,28 @@
 	//DLog(@"Game: %@", [_bozukoGame description]);
 	//DLog(@"GameState: %@", [[_bozukoGame gameState] description]);
 	
-	if ([[_bozukoGame gameState] buttonEnabled] == YES)
+	if ([BozukoGameResult loadObjectFromDiskForPageID:[_bozukoGame gameID]])
+	{
+		UILabel *tmpLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 55.0, 320.0, 20.0)];
+		tmpLabel.backgroundColor = [UIColor clearColor];
+		tmpLabel.textColor = [UIColor whiteColor];
+		tmpLabel.textAlignment = UITextAlignmentCenter;
+		tmpLabel.font = [UIFont systemFontOfSize:12.0];
+		tmpLabel.text = @"I agree to the official rules above.";
+		[_bottomBarView addSubview:tmpLabel];
+		[tmpLabel release];
+		
+		_gameEntryButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		_gameEntryButton.frame = CGRectMake(20.0, 5.0, 278.0, 45.0);
+		[_gameEntryButton setBackgroundImage:[UIImage imageNamed:@"images/greenBtn"] forState:UIControlStateNormal];
+		[_gameEntryButton setBackgroundImage:[UIImage imageNamed:@"images/greenBtnPress"] forState:UIControlStateHighlighted];
+		_gameEntryButton.titleLabel.font = [UIFont boldSystemFontOfSize:18.0];
+		_gameEntryButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
+		[_gameEntryButton setTitle:@"Play" forState:UIControlStateNormal];
+		[_gameEntryButton addTarget:self action:@selector(playButtonWasPressed) forControlEvents:UIControlEventTouchUpInside];
+		[_bottomBarView addSubview:_gameEntryButton];
+	}
+	else if ([[_bozukoGame gameState] buttonEnabled] == YES)
 	{
 		UILabel *tmpLabel = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 55.0, 320.0, 20.0)];
 		tmpLabel.backgroundColor = [UIColor clearColor];
@@ -322,9 +367,6 @@
 		[_gameEntryButton setTitle:[[_bozukoGame gameState] buttonText] forState:UIControlStateNormal];
 		[_gameEntryButton addTarget:self action:@selector(playButtonWasPressed) forControlEvents:UIControlEventTouchUpInside];
 		[_bottomBarView addSubview:_gameEntryButton];
-		
-		//if ([[_bozukoGame gameState] userTokens] == 0)
-			//_gameEntryButton.enabled = NO;
 	}
 	else
 	{
@@ -338,6 +380,9 @@
 		tmpLabel.text = [[_bozukoGame gameState] buttonText];
 		[_bottomBarView addSubview:tmpLabel];
 		[tmpLabel release];
+		
+		//DLog(@"Enter Interval: %d", [_bozukoGame gameState].nextEnterInterval);
+		//DLog(@"%@", [_bozukoGame gameState]);
 		
 		if ([_bozukoGame gameState].nextEnterInterval > 0)
 			_refreshTimer = [NSTimer scheduledTimerWithTimeInterval:[_bozukoGame gameState].nextEnterInterval + 1 target:self selector:@selector(updateGameState) userInfo:nil repeats:NO];
@@ -402,13 +447,6 @@
 	}
 }
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
@@ -464,14 +502,13 @@
 	if ([[inNotification object] isKindOfClass:[BozukoGameState class]] == NO)
 		return;
 	
-	//DLog(@"\n%@\n%@", _bozukoGame.gameId, [[inNotification object] gameId]);
+	//DLog(@"\n%@\n%@", _bozukoGame.gameID, [[inNotification object] gameID]);
+	//DLog(@"%@", [inNotification object]);
 	
-	if ([_bozukoGame.gameId isEqualToString:[[inNotification object] gameId]] == NO)
+	if ([_bozukoGame.gameID isEqualToString:[[inNotification object] gameID]] == NO)
 		return;
 	
 	[_bozukoGame setGameState:[inNotification object]];
-	
-	//[self.facebookLikeButton reload];
 	
 	[self updateView];
 }

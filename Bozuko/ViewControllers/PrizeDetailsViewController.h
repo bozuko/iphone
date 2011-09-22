@@ -41,7 +41,7 @@
 
 @property (assign) id <PrizeDetailsViewControllerDelegate> delegate;
 @property (retain) BozukoRedemption *bozukoRedemption;
-@property (retain) NSTimer *countdownTimer;
+//@property (retain) NSTimer *countdownTimer;
 
 - (id)initWithBozukoPrize:(BozukoPrize *)inPrize;
 - (void)imageWasUpdated:(NSNotification *)inNotification;

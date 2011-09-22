@@ -11,12 +11,12 @@
 #import "BozukoLocation.h"
 #import "FacebookLikeButton.h"
 #import "UserHandler.h"
+#import "BozukoHandler.h"
 
 @implementation BozukoPage
 
 @synthesize properties = _properties;
 @synthesize coordinate = _coordinate;
-//@synthesize facebookLikeButton = _facebookLikeButton;
 
 + (BozukoPage *)objectWithProperties:(NSDictionary *)inDictionary
 {
@@ -47,28 +47,9 @@
 					[_gamesArray addObject:[BozukoGame objectWithProperties:tmpGameObject]];
 			}
 		}
-		
-		//self.facebookLikeButton = [[FacebookLikeButton alloc] initWithBozukoPage:self];
-		
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(unloadFacebookLikeButton) name:kBozukoHandler_UserLoginStatusChanged object:nil];
 	}
 	
 	return self;
-}
-
-- (FacebookLikeButton *)facebookLikeButton
-{
-	if (_facebookLikeButton == nil)
-		_facebookLikeButton = [[FacebookLikeButton alloc] initWithBozukoPage:self];
-	
-	return _facebookLikeButton;
-}
-
-- (void)unloadFacebookLikeButton
-{
-	//DLog(@"Unload");
-	[_facebookLikeButton release];
-	_facebookLikeButton = nil;
 }
 
 - (NSString *)pageID {
@@ -108,6 +89,13 @@
 
 - (BOOL)isPlace {
 	if ([[_properties objectForKey: @"is_place"] intValue] == 1)
+		return YES;
+	
+	return NO;
+}
+
+- (BOOL)isFacebook {
+	if ([[_properties objectForKey: @"is_facebook"] intValue] == 1)
 		return YES;
 	
 	return NO;
@@ -243,12 +231,8 @@
 }
 
 - (void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
 	[_properties release];
 	[_gamesArray release];
-	//self.facebookLikeButton = nil;
-	[_facebookLikeButton release];
 	
 	[super dealloc];
 }

@@ -14,6 +14,7 @@
 #import "LoadingView.h"
 #import "LoadMoreTableCell.h"
 #import "GamesDetailViewController.h"
+#import "BozukoHomeViewController.h"
 
 #define kTableViewSection_SearchBox		0
 
@@ -33,6 +34,9 @@
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
+	_tableView.delegate = nil;
+	_tableView.dataSource = nil;
+	
 	[_searchBar release];
 	
     [super dealloc];
@@ -46,6 +50,8 @@
 	{		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didReceiveMemoryWarning) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshView) name:kBozukoHandler_UserLoginStatusChanged object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushBozukoGame) name:kBozukoHomeViewController_PlayBozukoGameNotification object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushDemoGame) name:kBozukoHomeViewController_PlayDemoGameNotification object:nil];
     }
     
 	return self;
@@ -94,6 +100,8 @@
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showLoadingOverlay:) name:kBozukoHandler_PageDidStart object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideLoadingOverlay) name:kBozukoHandler_GetPagesForLocationDidFinish object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideLoadingOverlay) name:kBozukoHandler_GetPagesForLocationDidFail object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshView) name:UIApplicationWillEnterForegroundNotification object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshView) name:UIApplicationDidEnterBackgroundNotification object:nil];
 	}
 	else
 	{
@@ -149,7 +157,7 @@
 }
 
 - (void)refreshView
-{
+{	
 	if (_favorites == YES)
 	{
 		if ([[BozukoHandler sharedInstance] numberOfFavoriteGames] > 0 || [BozukoHandler sharedInstance].favoritesSearchQueryString != nil)
@@ -207,9 +215,9 @@
 	CGFloat tmpVerticalPosition = scrollView.bounds.origin.y;
 	
 	// These two if conditions give a "snap to show/hide" feel to the search text field.
-	if (tmpVerticalPosition > 0.0 && tmpVerticalPosition <= 22.0)
+	if (tmpVerticalPosition > 0.0 && tmpVerticalPosition <= 15.0)
 		[_tableView scrollRectToVisible:CGRectMake(0.0, 0.0, 320.0, self.frame.size.height) animated:YES];
-	else if (tmpVerticalPosition > 22.0 && tmpVerticalPosition < 44.0)
+	else if (tmpVerticalPosition > 15.0 && tmpVerticalPosition < 44.0)
 		[_tableView scrollRectToVisible:CGRectMake(0.0, 44.0, 320.0, self.frame.size.height) animated:YES];
 	
 	if (_favorites == NO)
@@ -254,15 +262,14 @@
 {
 	if (section == kNearbyTableViewSection_LoadMore)
 	{
-		if ([[BozukoHandler sharedInstance] pagesNextURL] == nil ||
-			[[BozukoHandler sharedInstance] numberOfBusinesses] + [[BozukoHandler sharedInstance] numberOfNearbyGames] + [[BozukoHandler sharedInstance] numberOfFeaturedGames] < 25)
+		if ([[BozukoHandler sharedInstance] pagesNextURL] == nil)
 			return 0;
 		else
 			return 1;
 	}
 	else if (_favorites == YES && section == kFavoritesTableViewSection_LoadMore)
 	{
-		if ([[BozukoHandler sharedInstance] favoritesNextURL] == nil || [[BozukoHandler sharedInstance] numberOfFavoriteGames] < 25)
+		if ([[BozukoHandler sharedInstance] favoritesNextURL] == nil)
 			return 0;
 		else
 			return 1;
@@ -316,9 +323,9 @@
 	else
 	{
 		// Don't show table section header if there's no items for that section
-		if (section == kNearbyTableViewSection_Featured && [[BozukoHandler sharedInstance] numberOfFeaturedGames] > 0 ||
-			section == kNearbyTableViewSection_NearbyGames && [[BozukoHandler sharedInstance] numberOfNearbyGames] > 0 ||
-			section == kNearbyTableViewSection_OtherPlaces && [[BozukoHandler sharedInstance] numberOfBusinesses] > 0)
+		if ((section == kNearbyTableViewSection_Featured && [[BozukoHandler sharedInstance] numberOfFeaturedGames] > 0) ||
+			(section == kNearbyTableViewSection_NearbyGames && [[BozukoHandler sharedInstance] numberOfNearbyGames] > 0) ||
+			(section == kNearbyTableViewSection_OtherPlaces && [[BozukoHandler sharedInstance] numberOfBusinesses] > 0))
 			return 23.0;
 		else
 			return 0.0;
@@ -531,7 +538,7 @@
 		_loadingOverlay.messageTextString = tmpMessageString;
 		[_loadingOverlay release];
 		
-		DLog(@"New Loading: %@", tmpMessageString);
+		//DLog(@"New Loading: %@", tmpMessageString);
 
 #ifdef BOZUKO_DEV
 		UITextView *tmpTextView = [[UITextView alloc] initWithFrame:CGRectMake(20, 250, 280, 100)];
@@ -546,7 +553,7 @@
 	}
 	else
 	{
-		DLog(@"Old Loading: %@", tmpMessageString);
+		//DLog(@"Old Loading: %@", tmpMessageString);
 		_loadingOverlay.messageTextString = tmpMessageString;
 	}
 	
@@ -570,13 +577,27 @@
 	_loadingOverlay = nil;
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
+- (void)pushBozukoGame
 {
-    // Drawing code
+	if ([[BozukoHandler sharedInstance] defaultBozukoGame] == nil)
+		return;
+	
+	GamesDetailViewController *tmpViewController = [[GamesDetailViewController alloc] init];
+	tmpViewController.bozukoPage = [[BozukoHandler sharedInstance] defaultBozukoGame];
+	[_controller pushViewController:tmpViewController animated:YES];
+	[tmpViewController release];
 }
-*/
+
+- (void)pushDemoGame
+{
+	if ([[BozukoHandler sharedInstance] demoBozukoGame] == nil)
+		return;
+	
+	GamesDetailViewController *tmpViewController = [[GamesDetailViewController alloc] init];
+	tmpViewController.bozukoPage = [[BozukoHandler sharedInstance] demoBozukoGame];
+	[_controller pushViewController:tmpViewController animated:YES];
+	[tmpViewController release];
+
+}
 
 @end

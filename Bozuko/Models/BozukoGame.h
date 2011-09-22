@@ -21,7 +21,7 @@
 + (BozukoGame *)objectWithProperties: (NSDictionary *)inDictionary;
 - (id)initWithProperties: (NSDictionary *)inDictionary;
 
-- (NSString *)gameId;
+- (NSString *)gameID;
 - (NSString *)name;
 - (NSString *)image;
 - (NSArray *)prizes;

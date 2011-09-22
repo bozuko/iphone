@@ -67,6 +67,26 @@ static UserHandler *_instance;
 	return (_userToken != nil);
 }
 
+- (void)logUserOut
+{
+	[self setUserToken:nil];
+	self.apiUser = nil;
+	[self clearPrizes];
+	
+	// Remove all saved scratch tickets
+	NSString *tmpDocumentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+	NSArray *tmpArray = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:tmpDocumentsDirectory error:nil];
+	
+	for (NSString *tmpFile in tmpArray)
+	{
+		if ([tmpFile hasSuffix:@".plist"] == YES)
+		{
+			NSString *tmpFilePath = [NSString stringWithFormat:@"%@/%@", tmpDocumentsDirectory, tmpFile];
+			[[NSFileManager defaultManager] removeItemAtPath:tmpFilePath error:nil];
+		}
+	}
+}
+
 - (NSString *)userToken
 {
 	return _userToken;
@@ -77,15 +97,15 @@ static UserHandler *_instance;
 	if (inUserToken == _userToken)
 		return;
 
-	[_userToken release];
-	_userToken = [inUserToken retain];
-
-	if (_userToken)
-		[[NSUserDefaults standardUserDefaults] setObject:_userToken forKey:UserHandlerUserDefaultsUserTokenKey];
+	if (inUserToken)
+		[[NSUserDefaults standardUserDefaults] setObject:inUserToken forKey:UserHandlerUserDefaultsUserTokenKey];
 	else
 		[[NSUserDefaults standardUserDefaults] removeObjectForKey:UserHandlerUserDefaultsUserTokenKey];
 	[[NSUserDefaults standardUserDefaults] synchronize];
-
+	
+	[_userToken release];
+	_userToken = [inUserToken retain];
+	
 	[[BozukoHandler sharedInstance] bozukoEntryPoint]; // Once logged in, we want to make the /entry_point call again.
 }
 

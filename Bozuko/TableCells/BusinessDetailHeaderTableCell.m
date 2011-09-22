@@ -26,6 +26,7 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
 	self.facebookLikeButton = nil;
+	self.controller = nil;
 	
     [super dealloc];
 }
@@ -121,7 +122,9 @@
 	_arrowImageView.frame = CGRectMake(290.0, 50.0 + tmpVerticalPositionOffset, 9.0, 13.0);
 	
 	[self.facebookLikeButton removeFromSuperview];
-	self.facebookLikeButton = [_controller.bozukoPage facebookLikeButton];
+	self.facebookLikeButton = nil;
+	//self.facebookLikeButton = [_controller.bozukoPage facebookLikeButton];
+	self.facebookLikeButton = [[BozukoHandler sharedInstance] facebookLikeButtonForPage:_controller.bozukoPage];
 	[self addSubview:self.facebookLikeButton];
 	//[self.facebookLikeButton load];
 	
@@ -160,7 +163,7 @@
 	else
 	{
 		_arrowImageView.hidden = YES;
-		self.selectionStyle = UITableViewCellEditingStyleNone;
+		self.selectionStyle = UITableViewCellSelectionStyleNone;
 	}
 	
 	_favoriteButton.selected = [_controller.bozukoPage favorite];

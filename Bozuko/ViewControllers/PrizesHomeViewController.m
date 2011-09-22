@@ -37,7 +37,8 @@
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
-	[_tableView release];
+	_tableView.delegate = nil;
+	_tableView.dataSource = nil;
 	[_notLoggedInView release];
 	[_noPrizesView release];
 	
@@ -187,8 +188,7 @@
 {
 	if (section == kPrizesHomeViewController_LoadMoreSection)
 	{
-		if ([[BozukoHandler sharedInstance] prizesNextURL] == nil ||
-			[[UserHandler sharedInstance] numberOfPastPrizes] + [[UserHandler sharedInstance] numberOfActivePrizes] < 25)
+		if ([[BozukoHandler sharedInstance] prizesNextURL] == nil)
 			return 0;
 		else
 			return 1;
@@ -364,7 +364,6 @@
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
-	[_tableView release];
 	[_notLoggedInView release];
 	
     [super viewDidUnload];

@@ -107,15 +107,6 @@
 	}
 }
 
-#pragma mark - View lifecycle
-- (void)viewWillAppear:(BOOL)animated {
-	//[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadGamesTable:) name:kBozukoHandler_GetPagesForLocationDidFinish object:nil];	
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-	//[[NSNotificationCenter defaultCenter] removeObserver: self];	
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];

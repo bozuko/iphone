@@ -52,7 +52,7 @@
 	NSTimer *_animationTimer;
 }
 
-@property (assign) GameTermsViewController *delegate;
+@property (retain) GameTermsViewController *delegate;
 @property (retain) BozukoPage *bozukoPage;
 @property (retain) BozukoGame *bozukoGame;
 

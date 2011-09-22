@@ -47,7 +47,7 @@
 	[_imageURL release];
 	_imageURL = [[inBozukoGamePrize resultIcon] retain];
 	
-	UIImage *tmpImage = [[ImageHandler sharedInstance] imageForURL:_imageURL];
+	UIImage *tmpImage = [[ImageHandler sharedInstance] permanentCachedImageForURL:_imageURL];
 
 	if (tmpImage != nil)
 	{
@@ -82,7 +82,7 @@
 	
 	if ([[inNotification object] isEqualToString:_imageURL] == YES)
 	{
-		UIImage *tmpImage = [[ImageHandler sharedInstance] imageForURL:_imageURL];
+		UIImage *tmpImage = [[ImageHandler sharedInstance] permanentCachedImageForURL:_imageURL];
 		
 		if (tmpImage != nil)
 		{

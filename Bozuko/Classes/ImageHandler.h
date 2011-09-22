@@ -22,13 +22,18 @@
 }
 
 - (void)dumpCache;
+- (void)bozukoServerErrorCode:(NSInteger)inErrorCode forResponse:(NSString *)inResponseString;
+
 - (UIImage *)imageForURL:(NSString *)inURLString;
+- (UIImage *)permanentCachedImageForURL:(NSString *)inURLString;
 - (UIImage *)nonCachedImageForURL:(NSString *)inURLString;
+
 - (UIImage *)thumbnailForBusiness:(BozukoPage *)inBozukoPage;
 - (UIImage *)imageForBusiness:(BozukoPage *)inBozukoPage;
 
 - (NSString *)md5StringFromString:(NSString *)inString;
 - (ASIHTTPRequest *)httpGETRequestWithURL:(NSURL *)inURL;
+- (id)jsonObject:(NSString *)inString;
 
 +(ImageHandler *)sharedInstance;
 

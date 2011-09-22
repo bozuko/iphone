@@ -10,20 +10,14 @@
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 
-//#ifdef BOZUKO_DEV
-//#define kBozukoBaseURL									@"https://playground.bozuko.com:443"
-//#define kBozukoHost										@"playground.bozuko.com" // For reachability
-//#define kBozukoAPIRedirectURL_UserLoginSuccessfully		@"https://playground.bozuko.com:443/user/mobile?token=" // For login webView
-//#else
-//#define kBozukoBaseURL									@"https://api.bozuko.com:443"
-//#define kBozukoHost										@"api.bozuko.com" // For reachability
-//#define kBozukoAPIRedirectURL_UserLoginSuccessfully		@"https://api.bozuko.com:443/user/mobile?token=" // For login webView
-//#endif
+#define kBozukoDevBaseURL								@"https://playground.bozuko.com:443"
+#define kBozukoProductionBaseURL						@"https://api.bozuko.com:443"
 
-#define kBozukoAPIRedirectPath_UserLoginSuccessfully	@"/user/mobile?token=" // For login webView
+//#define kBozukoAPIRedirectPath_UserLoginSuccessfully	@"/user/mobile?token=" // For login webView
 
 #define kBozukoAPIEntryPoint							@"/api"
-#define kApplicationVersion								@"iphone-1.3"
+#define kBozukoAppVersion								@"1.4"
+#define kApplicationVersion								@"iphone-1.4"
 #define kBozukoAppStoreURL								@"http://itunes.apple.com/us/app/bozuko/id444496922?mt=8"
 
 #define kBozukoHandler_UserLocationWasUpdated			@"BozukoHandler_UserLocationWasUpdated"
@@ -85,6 +79,7 @@
 @class BozukoBozuko;
 @class ASIHTTPRequest;
 @class ASIFormDataRequest;
+@class FacebookLikeButton;
 
 @interface BozukoHandler : NSObject <CLLocationManagerDelegate> {
 	CLLocationManager *_locationManager;
@@ -102,6 +97,7 @@
 	NSMutableArray *_featuredArray;
 	NSMutableArray *_gamesInRegionArray;
 	NSMutableDictionary *_allPagesDictionary;
+	NSMutableDictionary *_likeButtonDictionary;
 	
 	NSString *_searchQueryString;
 	NSString *_favoritesSearchQueryString;
@@ -131,6 +127,8 @@
 - (void)applicationDidEnterBackground;
 - (void)applicationWillEnterForeground;
 - (void)applicationDidReceiveMemoryWarning;
+- (FacebookLikeButton *)facebookLikeButtonForPage:(BozukoPage *)inBozukoPage;
+- (void)dumpFacebookLikeButtonCache;
 - (BozukoPage *)defaultBozukoGame;
 - (BozukoPage *)demoBozukoGame;
 - (void)bozukoEntryPoint;
@@ -147,6 +145,7 @@
 - (void)bozukoPrizes;
 - (void)bozukoPrizesNextPage;
 - (BozukoPage *)currentPageForPage:(BozukoPage *)inBozukoPage;
+- (void)bozukoPageRefreshForPageLink:(NSString *)inBozukoPageLink;
 - (void)bozukoPageRefreshForPage:(BozukoPage *)inBozukoPage;
 - (void)bozukoPagesNextPage;
 - (void)bozukoPages;
@@ -161,7 +160,6 @@
 - (void)bozukoToggleFavoriteForPage:(BozukoPage *)inBozukoPage;
 //- (void)bozukoLikePage:(BozukoPage *)inBozukoPage;
 - (id)jsonObject:(NSString *)inString;
-//- (CLLocationCoordinate2D)location;
 - (void)locationTimerElapsed;
 - (BozukoPage *)businessAtIndex:(NSInteger)inIndex;
 - (BozukoPage *)gamesAtIndex:(NSInteger)inIndex;
@@ -172,21 +170,13 @@
 - (NSInteger)numberOfFeaturedGames;
 - (NSInteger)numberOfFavoriteGames;
 - (NSInteger)numberOfRegisteredGamesInRegion;
-/*
-- (NSArray *)allFeaturedPages;
-- (NSArray *)allRegisteredPages;
-- (NSArray *)allOtherPages;
-*/
 - (NSArray *)allRegisterdGamesInRegion;
-
 
 - (ASIHTTPRequest *)httpGETRequestWithURL:(NSURL *)inURL;
 - (ASIFormDataRequest *)httpPOSTRequestWithURL:(NSURL *)inURL;
 - (ASIFormDataRequest *)httpPUTRequestWithURL:(NSURL *)inURL;
 - (NSString *)urlSuffix;
 
-//- (void)rebuildFavoritesArray;
-- (NSString *)challengeResponse;
 - (NSString *)challengeResponseForURL:(NSString *)inURL;
 - (NSString*)sha1:(NSString*)input;
 

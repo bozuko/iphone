@@ -10,7 +10,8 @@
 
 @class GamesHomeViewController;
 
-@interface RootViewController : UIViewController <UITabBarControllerDelegate, UIAlertViewDelegate, UINavigationControllerDelegate> {
+@interface RootViewController : UIViewController <UITabBarControllerDelegate, UIAlertViewDelegate, UINavigationControllerDelegate>
+{
 	UINavigationController *_gamesNavigationController;
 	UINavigationController *_prizesNavigationController;
 	UINavigationController *_bozukoNavigationController;
@@ -27,5 +28,6 @@
 - (void)applicationNeedsUpdateNotification:(NSNotification *)inNotification;
 - (void)alertViewDismiss;
 - (void)userDidLogout;
+- (void)selectGamesTab;
 
 @end

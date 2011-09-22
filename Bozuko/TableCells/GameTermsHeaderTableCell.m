@@ -62,12 +62,13 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
 	self.facebookLikeButton = nil;
+	self.controller = nil;
 	
     [super dealloc];
 }
 
 - (void)setGame:(BozukoGame *)inBozukoGame
-{	
+{
 	[_bozukoGame release];
 	_bozukoGame = [inBozukoGame retain];
 
@@ -78,13 +79,16 @@
 	_pageName.text = [_bozukoGame name];
 	
 	_gameImageView.frame = CGRectMake(20.0, 10.0 + tmpNameSize.height, 32.0, 32.0);
-	_gameImageView.image = [[ImageHandler sharedInstance] imageForURL:[_bozukoGame entryMethodImage]];
+	
+	_gameImageView.image = [[ImageHandler sharedInstance] permanentCachedImageForURL:[_bozukoGame entryMethodImage]];
 	
 	_gameDescription.frame = CGRectMake(55.0, 10.0 + tmpNameSize.height, 245.0, tmpDescriptionSize.height);
 	_gameDescription.text = [_bozukoGame entryMethodDescription];
 	
 	[self.facebookLikeButton removeFromSuperview];
-	self.facebookLikeButton = [_controller.bozukoPage facebookLikeButton];
+	self.facebookLikeButton = nil;
+	//self.facebookLikeButton = [_controller.bozukoPage facebookLikeButton];
+	self.facebookLikeButton = [[BozukoHandler sharedInstance] facebookLikeButtonForPage:_controller.bozukoPage];
 	self.facebookLikeButton.frame = CGRectMake(250.0, 12.0, 48.0, 20.0);
 	[self addSubview:self.facebookLikeButton];
 }
@@ -97,7 +101,7 @@
 		return;
 	
 	if ([[inNotification object] isEqualToString:[_bozukoGame entryMethodImage]] == YES)
-		_gameImageView.image = [[ImageHandler sharedInstance] imageForURL:[_bozukoGame entryMethodImage]];
+		_gameImageView.image = [[ImageHandler sharedInstance] permanentCachedImageForURL:[_bozukoGame entryMethodImage]];
 }
 
 @end

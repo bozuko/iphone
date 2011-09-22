@@ -11,20 +11,28 @@
 @class FacebookLikeButton;
 @class BozukoPage;
 
+typedef enum {
+	FacebookLikedStatus_NotLoggedIn = -1,
+	FacebookLikedStatus_NotLiked,
+	FacebookLikedStatus_Liked
+} FacebookLikedStatus;
+
 @interface FacebookLikeButton : UIView <UIWebViewDelegate>
 {
     BOOL _isDoneLoading;
+	FacebookLikedStatus _facebookLikedStatus;
 	UIImageView *_likeButtonLoadingImageView;
 	UIImageView *_likedImageView;
 	UIButton *_likeButtonPlaceholder;
 	UIWebView *_webView;
-	BozukoPage *_bozukoPage;
+	NSString *_likeButtonURLString;
+	NSString *_pageLinkURLString;
 	
 	NSTimer *_loadingTimer;
 }
 
 @property (readonly) BOOL isDoneLoading;
-@property (assign) BozukoPage *bozukoPage;
+@property (readonly) FacebookLikedStatus facebookLikedStatus;
 
 - (id)initWithBozukoPage:(BozukoPage *)inBozukoPage;
 - (void)load;

@@ -35,5 +35,7 @@
 - (void)viewWillDisappear;
 - (void)showLoadingOverlay:(NSNotification *)inNotification;
 - (void)hideLoadingOverlay;
+- (void)pushBozukoGame;
+- (void)pushDemoGame;
 
 @end

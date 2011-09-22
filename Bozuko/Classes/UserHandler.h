@@ -27,6 +27,7 @@
 + (UserHandler *)sharedInstance;
 
 - (BOOL)loggedIn;
+- (void)logUserOut;
 - (NSString *)userToken;
 - (void)setUserToken:(NSString *)inUserToken;
 - (NSString *)phoneType;

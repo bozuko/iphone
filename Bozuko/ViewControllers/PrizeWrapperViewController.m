@@ -178,6 +178,12 @@
 	//DLog(@"%@", _bozukoPrize);
 }
 
+- (void)viewDidUnload
+{
+	[super viewDidUnload];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)redeemPrize
 {
 	NSString *tmpMessage = nil;
@@ -294,6 +300,8 @@
 
 - (void)prizeRedemptionDidFinish:(NSNotification *)inNotification
 {
+	_loadingOverlay.hidden = YES;
+	
 	if ([[inNotification object] isKindOfClass:[NSString class]] == YES && [[inNotification object] isEqualToString:@"prize/expired"] == YES)
 	{
 		_alertView = [[UIAlertView alloc] initWithTitle:@"Prize Expired"
@@ -314,8 +322,6 @@
 	
 	[_bozukoPrize release];
 	_bozukoPrize = [[[inNotification object] prize] retain];
-	
-	_loadingOverlay.hidden = YES;
 	
 	PrizeDetailsViewController *tmpViewController = [[PrizeDetailsViewController alloc] initWithBozukoPrize:_bozukoPrize];
 	tmpViewController.delegate = _delegate;
@@ -344,6 +350,8 @@
 	
 	[_doneBarButton release];
 	[_bozukoPrize release];
+	
+	self.delegate = nil;
 	
 	[super dealloc];
 }

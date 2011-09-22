@@ -15,34 +15,39 @@
 
 @interface FacebookLikeButton (Private)
 
-- (void)updateButton;
+- (void)retryLoadWebView;
 - (void)likeButtonPlaceholderWasPressed;
+
+@property (retain) NSString *likeButtonURLString;
+@property (retain) NSString *pageLikeURLString;
 
 @end
 
 @implementation FacebookLikeButton
 
 @synthesize isDoneLoading = _isDoneLoading;
-@synthesize bozukoPage = _bozukoPage;
+@synthesize facebookLikedStatus = _facebookLikedStatus;
 
 - (void)dealloc
 {
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
-	self.bozukoPage = nil;
+	self.likeButtonURLString = nil;
+	self.pageLikeURLString = nil;
+	[_webView stopLoading];
+	_webView.delegate = nil;
 	
 	[super dealloc];
 }
 
 - (id)initWithBozukoPage:(BozukoPage *)inBozukoPage
 {
-	self = [super initWithFrame:CGRectMake(1, 1, 48, 20)];
+	self = [super initWithFrame:CGRectMake(0, 0, 48, 20)];
 	
-	if (self)
+	if (self && [inBozukoPage isFacebook] == YES)
 	{
 		_isDoneLoading = NO;
 		
-		self.bozukoPage = inBozukoPage;
+		self.likeButtonURLString = [inBozukoPage facebookLikeButtonLink];
+		self.pageLikeURLString = [inBozukoPage page];
 		
 		_likeButtonLoadingImageView = [[UIImageView alloc] initWithFrame:self.frame];
 		_likeButtonLoadingImageView.image = [UIImage imageNamed:@"images/like/like-loader-1"];
@@ -81,22 +86,25 @@
 		{
 			_likeButtonPlaceholder.hidden = YES;
 			
-			if ([self.bozukoPage liked] == YES)
+			if ([inBozukoPage liked] == YES)
 			{
 				_likedImageView.hidden = NO;
+				_facebookLikedStatus = FacebookLikedStatus_Liked;
 			}
 			else
 			{
 				[self load];
 				_likedImageView.hidden = YES;
+				_facebookLikedStatus = FacebookLikedStatus_NotLiked;
 			}
 		}
 		else
 		{
 			_likeButtonPlaceholder.hidden = NO;
+			_facebookLikedStatus = FacebookLikedStatus_NotLoggedIn;
 		}
 		
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateButton) name:kBozukoHandler_UserLoginStatusChanged object:nil];
+		//DLog(@"Init Liked Button Status: %d", _facebookLikedStatus);
 	}
 	
 	return self;
@@ -112,41 +120,69 @@
 
 - (void)load
 {
-	_loadingTimer = nil;
 	_webView.hidden = YES;
 	
+	[_loadingTimer invalidate];
+	_loadingTimer = nil;
+	
 	// Check if facebookLikeButtonLink has token= parameter. If it doesn't, it isn't going to be of any use to us.
-	NSArray *tmpArray = [[self.bozukoPage facebookLikeButtonLink] componentsSeparatedByString:@"?"];
-	NSString *tmpString = nil;
+	NSArray *tmpURLArray = [self.likeButtonURLString componentsSeparatedByString:@"?"];
+	NSArray *tmpParametersArray = nil;
+		BOOL tmpURLHasToken = NO;
 	
-	if ([tmpArray count] > 1)
-		tmpString = [tmpArray objectAtIndex:1];
+	if ([tmpURLArray count] > 1)
+		tmpParametersArray = [[tmpURLArray objectAtIndex:1] componentsSeparatedByString:@"&"];
+	else
+		tmpParametersArray = [NSArray array];
 	
-	DLog(@"Is Logged In: %d", [[UserHandler sharedInstance] loggedIn]);
-	DLog(@"%@", [self.bozukoPage facebookLikeButtonLink]);
-	
-	if ([[UserHandler sharedInstance] loggedIn] == YES && [tmpString hasPrefix:@"token="] == YES)
+	for (NSString *tmpString in tmpParametersArray)
 	{
-		DLog(@"Loading...");
+		if ([tmpString hasPrefix:@"token="] == YES)
+		{
+			tmpURLHasToken = YES;
+			break;
+		}
+	}
+	
+	//DLog(@"Is Logged In: %d", [[UserHandler sharedInstance] loggedIn]);
+	//DLog(@"%@", self.likeButtonURLString);
+	
+	if ([[UserHandler sharedInstance] loggedIn] == YES)
+	{
+		//DLog(@"Loading...");
 		_isDoneLoading = NO;
 		_likeButtonPlaceholder.hidden = YES;
 		[_likeButtonLoadingImageView startAnimating];
 		
-		NSString *tmpString = [NSString stringWithFormat:@"%@&mobile_version=%@", [self.bozukoPage facebookLikeButtonLink], kApplicationVersion];
-		NSURL *tmpURL = [NSURL URLWithString:tmpString];
+		NSMutableString *tmpURLString = nil;
+		
+		if (tmpURLHasToken == YES)
+			tmpURLString = [NSString stringWithFormat:@"%@&mobile_version=%@", self.likeButtonURLString, kApplicationVersion];
+		else
+			tmpURLString = [NSString stringWithFormat:@"%@?token=%@&mobile_version=%@", self.likeButtonURLString, [[UserHandler sharedInstance] userToken], kApplicationVersion];
+		
+		//DLog(@"%@", tmpURLString);
+		
+		NSURL *tmpURL = [NSURL URLWithString:tmpURLString];
 		NSURLRequest *tmpURLRequest = [NSURLRequest requestWithURL:tmpURL];
 		[_webView loadRequest:tmpURLRequest];
 		
-		DLog(@"%@", tmpString);
-		
-		_loadingTimer = [NSTimer scheduledTimerWithTimeInterval:kLikeButton_ReloadInterval target:self selector:@selector(load) userInfo:nil repeats:NO];
+		_loadingTimer = [NSTimer scheduledTimerWithTimeInterval:kLikeButton_ReloadInterval target:self selector:@selector(retryLoadWebView) userInfo:nil repeats:NO];
 	}
 	else
 	{
-		DLog(@"Nope");
+		//DLog(@"Nope");
 		[_likeButtonLoadingImageView stopAnimating];
 		_likeButtonPlaceholder.hidden = NO;
 	}
+}
+
+- (void)retryLoadWebView
+{
+	//DLog(@"Retrying webView");
+	_loadingTimer = nil;
+	[_webView stopLoading];
+	[self load];
 }
 
 #pragma mark - Button Actions
@@ -160,31 +196,32 @@
 
 - (BOOL)webView:(UIWebView *)inWebView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
-	DLog(@"%@", request);
+	//DLog(@"%@", request);
 
 	if ([[[request URL] absoluteString] hasPrefix:@"bozuko://"] == YES)
 	{
 		if([[[request URL] absoluteString] hasPrefix:@"bozuko://facebook/like_loaded"] == YES)
 		{
-			DLog(@"Done");
+			//DLog(@"Done");
 			[_loadingTimer invalidate];
 			_loadingTimer = nil;
-			
 			_isDoneLoading = YES;
 			_webView.hidden = NO;
 			[_likeButtonLoadingImageView stopAnimating];
 		}
 		else if ([[[request URL] absoluteString] hasPrefix:@"bozuko://facebook/liked"] == YES)
 		{
+			//DLog(@"Page Liked!");
 			_likedImageView.hidden = NO;
 			_webView.hidden = YES;
-			
-			[[BozukoHandler sharedInstance] bozukoPageRefreshForPage:self.bozukoPage];
+			_facebookLikedStatus = FacebookLikedStatus_Liked;
+
+			[[BozukoHandler sharedInstance] bozukoPageRefreshForPageLink:self.pageLikeURLString];
 		}
 		else if([[[request URL] absoluteString] hasPrefix:@"bozuko://facebook/no_session"] == YES)
 		{
+			//DLog(@"Like button no_session");
 			// reload like button web view
-			[self.bozukoPage unloadFacebookLikeButton];
 			[self load];
 		}
 		
@@ -194,12 +231,34 @@
 		return YES;
 }
 
-#pragma mark - Notification Methods
+#pragma mark - Private Accessors
 
-- (void)updateButton
+- (void)setLikeButtonURLString:(NSString *)likeButtonURLString
 {
-	DLog(@"Update");
-	[self load];
+	if (_likeButtonURLString == likeButtonURLString)
+		return;
+	
+	[_likeButtonURLString release];
+	_likeButtonURLString = [likeButtonURLString retain];
+}
+
+- (NSString *)likeButtonURLString
+{
+	return _likeButtonURLString;
+}
+
+- (void)setPageLikeURLString:(NSString *)pageLikeURLString
+{
+	if (_pageLinkURLString == pageLikeURLString)
+		return;
+	
+	[_pageLinkURLString release];
+	_pageLinkURLString = [pageLikeURLString retain];
+}
+
+- (NSString *)pageLikeURLString
+{
+	return _pageLinkURLString;
 }
 
 @end

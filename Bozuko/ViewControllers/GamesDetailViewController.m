@@ -44,7 +44,8 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:_tableView];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
-	[_tableView release];
+	_tableView.delegate = nil;
+	_tableView.dataSource = nil;
 	[_bozukoPage release];
 	
     [super dealloc];
@@ -384,7 +385,7 @@
 		
 		if ([[UserHandler sharedInstance] loggedIn] == YES)
 		{
-			GameFeedbackViewController *tmpViewController = [[GameFeedbackViewController alloc] init];
+			GameFeedbackViewController *tmpViewController = [[GameFeedbackViewController alloc] initWithSubmitButtonTitle:@"Submit"];
 			UINavigationController *tmpNavController = [[UINavigationController alloc] initWithRootViewController:tmpViewController];
 			tmpViewController.navigationItem.title = @"Recommend";
 			tmpViewController.placeholderText = @"Think this place should rock Bozuko? Tell them here and hit submit.";
@@ -415,7 +416,7 @@
 	{
 		if (indexPath.row == 0 && [[UserHandler sharedInstance] loggedIn] == YES)
 		{
-			GameFeedbackViewController *tmpViewController = [[GameFeedbackViewController alloc] init];
+			GameFeedbackViewController *tmpViewController = [[GameFeedbackViewController alloc] initWithSubmitButtonTitle:@"Submit"];
 			UINavigationController *tmpNavController = [[UINavigationController alloc] initWithRootViewController:tmpViewController];
 			tmpViewController.navigationItem.title = @"Feedback";
 			tmpViewController.placeholderText = @"Tell us what you think about this game and press \"Submit\"";
@@ -453,7 +454,8 @@
 	{
 		if (indexPath.row == 0 && [_bozukoPage isPlace] == YES && [[UserHandler sharedInstance] loggedIn] == YES)
 		{
-			GameFeedbackViewController *tmpViewController = [[GameFeedbackViewController alloc] init];
+			GameFeedbackViewController *tmpViewController = [[GameFeedbackViewController alloc] initWithSubmitButtonTitle:@"Check In"];
+			tmpViewController.requireTextFieldToBePopulated = NO;
 			UINavigationController *tmpNavController = [[UINavigationController alloc] initWithRootViewController:tmpViewController];
 			tmpViewController.navigationItem.title = @"Check In";
 			tmpViewController.placeholderText = @"Type a message, then\npress \"Submit\" to Check In";
@@ -614,6 +616,7 @@
 	_tableView.delegate = self;
 	_tableView.dataSource = self;
 	[self.view addSubview:_tableView];
+	[_tableView release];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:_tableView selector:@selector(reloadData) name:kBozukoHandler_SuccessResponseNotification object:nil];
 	
@@ -626,6 +629,7 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

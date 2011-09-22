@@ -40,6 +40,7 @@
 	NSArray *_freeSpinSequence;
 
 	BOOL _areGameResultsIn;
+	BOOL _viewIsVisible;
 	NSArray *_slotItemsArray;
 	
 	UIBarButtonItem *_backButton;
@@ -51,7 +52,7 @@
 	NSTimer *_animationTimer;
 }
 
-@property (assign) GameTermsViewController *delegate;
+@property (retain) GameTermsViewController *delegate;
 @property (retain) BozukoPage *bozukoPage;
 @property (retain) BozukoGame *bozukoGame;
 
@@ -72,7 +73,6 @@
 - (void)youLose;
 - (void)freePlay;
 - (void)blinkCreditsLabel;
-//- (void)userDidTapScreen;
 - (void)playDoneMessage;
 - (BOOL)areAllIconsLoaded;
 - (void)startGame;

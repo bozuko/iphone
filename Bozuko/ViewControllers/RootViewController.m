@@ -92,12 +92,12 @@
 
 - (void)networkUnavailableNotification
 {
+	//[_gamesNavigationController popToRootViewControllerAnimated:NO];
 	[_gamesNavigationController dismissModalViewControllerAnimated:NO];
 	[_prizesNavigationController dismissModalViewControllerAnimated:NO];
 	[_bozukoNavigationController dismissModalViewControllerAnimated:NO];
-	//[_gamesNavigationController popToRootViewControllerAnimated:NO];
 	_tabBarController.selectedIndex = 0;
-	//[_gamesHomeViewController hideAllViews]; 
+	//[_gamesHomeViewController hideAllViews];
 	
 	if (_alertView != nil)
 		return; // Prevent more than one alert from being queued
@@ -130,10 +130,10 @@
 		tmpMessageString = @"Can not continue";
 	}
 	
+	[_gamesNavigationController popToRootViewControllerAnimated:NO];
 	[_gamesNavigationController dismissModalViewControllerAnimated:NO];
 	[_prizesNavigationController dismissModalViewControllerAnimated:NO];
 	[_bozukoNavigationController dismissModalViewControllerAnimated:NO];
-	[_gamesNavigationController popToRootViewControllerAnimated:NO];
 	_tabBarController.selectedIndex = 0; 
 	
 	if (_alertView != nil)
@@ -166,10 +166,10 @@
 		tmpMessageString = @"Can not continue";
 	}
 	
+	[_gamesNavigationController popToRootViewControllerAnimated:NO];
 	[_gamesNavigationController dismissModalViewControllerAnimated:NO];
 	[_prizesNavigationController dismissModalViewControllerAnimated:NO];
 	[_bozukoNavigationController dismissModalViewControllerAnimated:NO];
-	[_gamesNavigationController popToRootViewControllerAnimated:NO];
 	_tabBarController.selectedIndex = 2; 
 	
 	if (_alertView != nil)
@@ -188,10 +188,10 @@
 
 - (void)applicationNeedsUpdateNotification:(NSNotification *)inNotification
 {
+	[_gamesNavigationController popToRootViewControllerAnimated:NO];
 	[_gamesNavigationController dismissModalViewControllerAnimated:NO];
 	[_prizesNavigationController dismissModalViewControllerAnimated:NO];
 	[_bozukoNavigationController dismissModalViewControllerAnimated:NO];
-	[_gamesNavigationController popToRootViewControllerAnimated:NO];
 	_tabBarController.selectedIndex = 0;
 	[_gamesHomeViewController hideAllViews]; 
 	
@@ -230,10 +230,18 @@
 	[_gamesNavigationController popToRootViewControllerAnimated:NO];
 }
 
+- (void)selectGamesTab
+{
+	_tabBarController.selectedIndex = 0;
+	[_gamesNavigationController popToRootViewControllerAnimated:NO];
+}
+
 #pragma mark UIAlertView Delegate
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+	_alertView = nil;
+	
 	if (alertView.tag == kRootViewController_NeedsUpdateAlert)
 	{
 		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:kBozukoAppStoreURL]];
@@ -241,22 +249,20 @@
 	}
 	else if (alertView.tag == kRootViewController_ServerLogoutAlert)
 	{
+		[_gamesNavigationController popToRootViewControllerAnimated:NO];
 		[_gamesNavigationController dismissModalViewControllerAnimated:NO];
 		[_prizesNavigationController dismissModalViewControllerAnimated:NO];
 		[_bozukoNavigationController dismissModalViewControllerAnimated:NO];
-		[_gamesNavigationController popToRootViewControllerAnimated:NO];
 		_tabBarController.selectedIndex = 2;
 	}
 	else
 	{
+		[_gamesNavigationController popToRootViewControllerAnimated:NO];
 		[_gamesNavigationController dismissModalViewControllerAnimated:NO];
 		[_prizesNavigationController dismissModalViewControllerAnimated:NO];
 		[_bozukoNavigationController dismissModalViewControllerAnimated:NO];
-		[_gamesNavigationController popToRootViewControllerAnimated:NO];
 		_tabBarController.selectedIndex = 0;
 	}
-	
-	_alertView = nil;
 }
 
 - (void)alertViewDismiss
@@ -265,10 +271,6 @@
 }
 
 #pragma mark - View lifecycle
-
-- (void)viewWillAppear:(BOOL)animated 
-{
-}
 
 - (void)viewDidLoad
 {
@@ -327,11 +329,14 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationNeedsUpdateNotification:) name:kBozukoHandler_ApplicationNeedsUpdate object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkErrorNotification:) name:kBozukoHandler_ServerErrorNotfication object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(serverLogoutNotification:) name:kBozukoHandler_ServerLogoutNotfication object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectGamesTab) name:kBozukoHomeViewController_PlayBozukoGameNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectGamesTab) name:kBozukoHomeViewController_PlayDemoGameNotification object:nil];
 }
 
 - (void)viewDidUnload
 {
 	[_tabBarController release];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
     [super viewDidUnload];
     // Release any retained subviews of the main view.
@@ -355,7 +360,14 @@
 
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
-	[viewController viewWillAppear:animated];
+//	static UIViewController *viewControllerPointer = nil;
+//
+//	if (viewControllerPointer != nil && [viewControllerPointer respondsToSelector:@selector(viewWillDisappear:)])
+//		[viewControllerPointer viewWillDisappear:animated];
+//	
+//    viewControllerPointer = viewController;
+	
+    [viewController viewWillAppear:animated];
 }
 
 - (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated

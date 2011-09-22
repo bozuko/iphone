@@ -12,12 +12,17 @@
 
 @synthesize textView = _textView;
 @synthesize placeholderText = _placeholderText;
+@synthesize requireTextFieldToBePopulated = _requireTextFieldToBePopulated;
+@synthesize submitButtonTitle = _submitButtonTitle;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)initWithSubmitButtonTitle:(NSString *)inTitle
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+    self = [super init];
+    if (self)
+	{
+        self.requireTextFieldToBePopulated = YES;
+		self.submitButtonTitle = inTitle;
+		_textIsPlaceholder = YES;
     }
     return self;
 }
@@ -57,11 +62,14 @@
 	[self.navigationItem setLeftBarButtonItem:tmpbarButtonItem];
 	[tmpbarButtonItem release];
 	
-	_submitButton = [[UIBarButtonItem alloc] initWithTitle:@"Submit" style:UIBarButtonItemStyleBordered target:self action:@selector(doSubmit)];
+	_submitButton = [[UIBarButtonItem alloc] initWithTitle:self.submitButtonTitle style:UIBarButtonItemStyleBordered target:self action:@selector(doSubmit)];
 	[self.navigationItem setRightBarButtonItem:_submitButton];
 	[_submitButton release];
 	
-	_submitButton.enabled = NO;
+	if (self.requireTextFieldToBePopulated == YES)
+		_submitButton.enabled = NO;
+	else
+		_submitButton.enabled = YES;
 	
 	_textView = [[UITextView alloc] initWithFrame:CGRectMake(10.0, 5.0, 300.0, 400.0)];
 	_textView.backgroundColor = [UIColor whiteColor];
@@ -101,6 +109,9 @@
 
 - (void)doSubmit
 {
+	if (_textIsPlaceholder == YES)
+		_textView.text = @"";
+	
 	if (_completionBlock)
 		_completionBlock();
 	
@@ -109,28 +120,11 @@
 
 #pragma mark TextView Delegates
 
-//- (void)textViewDidBeginEditing:(UITextView *)textView
-//{
-//	if (textView.textColor == [UIColor lightGrayColor])
-//		textView.text = @"";
-//	
-//	textView.textColor = [UIColor blackColor];
-//}
-//
-//- (void)textViewDidEndEditing:(UITextView *)textView
-//{
-//	if ([textView.text isEqualToString:@""] == YES)
-//	{
-//		textView.textColor = [UIColor lightGrayColor];
-//		textView.text = _placeholderText;
-//	}
-//}
-
 - (void)textViewDidChange:(UITextView *)textView
-{
+{	
 	if ([textView.text length] > 0)
 		_submitButton.enabled = YES;
-	else
+	else if (self.requireTextFieldToBePopulated == YES)
 		_submitButton.enabled = NO;
 }
 
@@ -140,6 +134,7 @@
 		textView.text = @"";
 	
 	textView.textColor = [UIColor blackColor];
+	_textIsPlaceholder = NO;
 	
  	return YES;
 }

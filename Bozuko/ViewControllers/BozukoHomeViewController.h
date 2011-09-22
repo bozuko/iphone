@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#define kBozukoHomeViewController_PlayBozukoGameNotification		@"BozukoHomeViewController_PlayBozukoGameNotification"
+#define kBozukoHomeViewController_PlayDemoGameNotification			@"BozukoHomeViewController_PlayDemoGameNotification"
 
 @interface BozukoHomeViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
     UITableView *_tableView;

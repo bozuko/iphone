@@ -57,7 +57,11 @@
 
 - (CLLocationCoordinate2D)latitudeAndLongitude
 {
-	CLLocationCoordinate2D tmpCoordinate = CLLocationCoordinate2DMake([[_properties objectForKey: @"lat"] floatValue], [[_properties objectForKey: @"lng"] floatValue]);
+	CLLocationCoordinate2D tmpCoordinate;
+	if ([[_properties objectForKey:@"lat"] isKindOfClass:[NSNumber class]] == YES && [[_properties objectForKey:@"lng"] isKindOfClass:[NSNumber class]] == YES)
+		tmpCoordinate = CLLocationCoordinate2DMake([[_properties objectForKey: @"lat"] floatValue], [[_properties objectForKey: @"lng"] floatValue]);
+	else
+		tmpCoordinate = CLLocationCoordinate2DMake(0, 0);
 	
 	return tmpCoordinate;
 }

@@ -633,7 +633,7 @@
 				69DB646713816C6A005F9BE8 /* UserHandler.m */,
 				69C761311386A81400DB9002 /* ImageHandler.h */,
 				69C761321386A81400DB9002 /* ImageHandler.m */,
-				7D0FEDD4137083A100EDECE6 /* Model */,
+				7D0FEDD4137083A100EDECE6 /* Models */,
 				7D0FE9E4136F253900EDECE6 /* Extensions */,
 				69BD91351365C19200E9944C /* Libraries */,
 			);
@@ -712,7 +712,7 @@
 			name = Extensions;
 			sourceTree = "<group>";
 		};
-		7D0FEDD4137083A100EDECE6 /* Model */ = {
+		7D0FEDD4137083A100EDECE6 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				69DB646A13816C7E005F9BE8 /* BozukoBozuko.h */,
@@ -740,7 +740,7 @@
 				691EDFF2138EE369005926C5 /* BozukoRedemption.h */,
 				691EDFF3138EE369005926C5 /* BozukoRedemption.m */,
 			);
-			name = Model;
+			name = Models;
 			sourceTree = "<group>";
 		};
 		F1C23A7F13D3528C0034CDF4 /* FZCustomSearchBar */ = {
@@ -1090,14 +1090,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Bozuko, Inc.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Fuzz Productions, LLC";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Bozuko-Prefix.pch";
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				INFOPLIST_FILE = "Bozuko-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "6DB2641E-FFA3-4F15-954D-32C43D9DDF03";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "ACFC5BF5-2722-4504-A6E1-411DCFD08849";
 				RUN_CLANG_STATIC_ANALYZER = YES;
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;

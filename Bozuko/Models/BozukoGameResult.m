@@ -28,6 +28,7 @@
 			[inDictionary setObject:@"noPrize" forKey:@"prize"];
 		
 		[self setProperties:inDictionary];
+		self.gameID = [[self gameState] gameID];
 	}
 	
 	return self;
@@ -35,6 +36,7 @@
 
 - (void)dealloc
 {
+	self.gameID = nil;
 	[_properties release];
 	[super dealloc];
 }

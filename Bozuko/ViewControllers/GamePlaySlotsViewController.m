@@ -37,6 +37,9 @@
     
 	if (self)
 	{
+		[_animationTimer invalidate];
+		_animationTimer = nil;
+		
 		_closeButton = [[UIBarButtonItem alloc] initWithTitle:@"Close" style:UIBarButtonItemStyleBordered target:self action:@selector(closeView)];
 		_backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(backButtonWasPressed)];
     }
@@ -55,6 +58,10 @@
 	[_slotItemsArray release];
 	[_backButton release];
 	[_closeButton release];
+	
+	[_bozukoGameResult release];
+	
+	self.delegate = nil;
 
     [super dealloc];
 }
@@ -203,7 +210,6 @@
 
 - (void)prizesButtonWasPressed
 {
-	//[self.navigationItem performSelector:@selector(setRightBarButtonItem:) withObject:nil afterDelay:1.0];
 	[self.navigationItem performSelector:@selector(setLeftBarButtonItem:) withObject:_backButton afterDelay:1.0];
 	
 	_detailsView = [[GamePrizesView alloc] initWithGame:_bozukoGame];
@@ -213,7 +219,6 @@
 
 - (void)rulesButtonWasPressed
 {
-	//[self.navigationItem performSelector:@selector(setRightBarButtonItem:) withObject:nil afterDelay:1.0];
 	[self.navigationItem performSelector:@selector(setLeftBarButtonItem:) withObject:_backButton afterDelay:1.0];
 	
 	_detailsView = [[GameTermsAndConditionsView alloc] initWithGame:_bozukoGame];
@@ -309,8 +314,8 @@
 	else
 		[self youLose];
 	
-	//[self performSelector:@selector(playDoneMessage) withObject:nil afterDelay:3.0];
-	_animationTimer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(playDoneMessage) userInfo:nil repeats:NO];
+	if (_viewIsVisible == YES)
+		_animationTimer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(playDoneMessage) userInfo:nil repeats:NO];
 	
 	// Enable spin button unless this is a winner. Free plays have the win boolean set to true, but those aren't winners.
 	if ([[_bozukoGame gameState] buttonEnabled] == YES && [[_bozukoGame gameState] userTokens] > 0 &&
@@ -364,16 +369,6 @@
 	
 	dispatch_release(tmpBlinkQueue);
 }
-
-/*
-- (void)userDidTapScreen
-{
-	[_animationTimer invalidate];
-	_animationTimer = nil;
-	
-	[self playDoneMessage];
-}
-*/
 
 - (void)playDoneMessage
 {
@@ -598,7 +593,7 @@
 				[tmpMutableDictionary setObject:tmpIconURL forKey:@"url"];
 
 				// Set image if it's in cache
-				UIImage *tmpImage = [[ImageHandler sharedInstance] imageForURL:tmpIconURL];
+				UIImage *tmpImage = [[ImageHandler sharedInstance] permanentCachedImageForURL:tmpIconURL];
 				if (tmpImage != nil)
 					[tmpMutableDictionary setObject:tmpImage forKey:@"image"];
 			}
@@ -625,6 +620,8 @@
 		[[BozukoHandler sharedInstance] bozukoEnterGame:_bozukoGame];
 	else
 		[self startGame];
+	
+	_viewIsVisible = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -644,6 +641,8 @@
 	[_youLoseSequence release];
 	[_freeSpinSequence release];
 	[_playAgainSequence release];
+	
+	self.delegate = nil;
 	
 	[super viewDidUnload];
     // Release any retained subviews of the main view.
@@ -722,6 +721,9 @@
 	
 	if ([[inNotification object] isKindOfClass:[BozukoGameState class]] == YES)
 	{
+		if ([_bozukoGame.gameID isEqualToString:[[inNotification object] gameID]] == NO)
+			return;
+		
 		[_bozukoGame setGameState:[inNotification object]];
 		
 		[self startGame];
@@ -754,6 +756,11 @@
 	
 	if ([[inNotification object] isKindOfClass:[BozukoGameResult class]] == YES)
 	{
+		//DLog(@"%@", _bozukoGame.gameID);
+		//DLog(@"%@", [[inNotification object] gameID]);
+		if ([_bozukoGame.gameID isEqualToString:[[inNotification object] gameID]] == NO)
+			return;
+		
 		//DLog(@"This is a valid result");
 		[_bozukoGameResult release];
 		_bozukoGameResult = [[inNotification object] retain];
@@ -771,7 +778,7 @@
 	}
 	else
 	{
-		DLog(@"This is NOT a valid result");
+		//DLog(@"This is NOT a valid result");
 		if ([_delegate respondsToSelector:@selector(dismissModalViewControllerAnimated:)] == YES)
 			[_delegate dismissModalViewControllerAnimated:YES];
 		
@@ -803,8 +810,8 @@
 	//DLog(@"%@", [_bozukoGame gameState]);
 	[_animationTimer invalidate];
 	_animationTimer = nil;
-	
 	_spinTimeoutTimer = nil;
+	_viewIsVisible = NO;
 	
 	if ([[_bozukoGame gameState] userTokens] > 0 && self.navigationController.topViewController != self)
 	{
@@ -848,7 +855,7 @@
 	{
 		if ([[inNotification object] isEqualToString:[tmpDictionary objectForKey:@"url"]] == YES)
 		{
-			UIImage *tmpImage = [[ImageHandler sharedInstance] imageForURL:[inNotification object]];
+			UIImage *tmpImage = [[ImageHandler sharedInstance] permanentCachedImageForURL:[inNotification object]];
 			
 			if (tmpImage != nil)
 				[tmpDictionary setObject:tmpImage forKey:@"image"];

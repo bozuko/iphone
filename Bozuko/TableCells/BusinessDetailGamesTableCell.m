@@ -53,7 +53,7 @@
 	
 	[_imageURL release];
 	_imageURL = [[inBozukoGame image] retain];
-	_gameIcon.image = [[ImageHandler sharedInstance] imageForURL:_imageURL];
+	_gameIcon.image = [[ImageHandler sharedInstance] permanentCachedImageForURL:_imageURL];
 	
 	_gameNameLabel.text = [inBozukoGame name];
 	_gameDetailLabel.text = [inBozukoGame listMessage];
@@ -74,7 +74,7 @@
 		return;
 	
 	if ([[inNotification object] isEqualToString:_imageURL] == YES)
-		_gameIcon.image = [[ImageHandler sharedInstance] imageForURL:_imageURL];
+		_gameIcon.image = [[ImageHandler sharedInstance] permanentCachedImageForURL:_imageURL];
 }
 
 - (void)dealloc

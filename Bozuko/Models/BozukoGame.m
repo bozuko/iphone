@@ -29,7 +29,7 @@
 	return self;
 }
 
-- (NSString *)gameId
+- (NSString *)gameID
 {
 	return [_properties objectForKey:@"id"];
 }
