@@ -42,7 +42,7 @@
 
 - (void)setDetailLabelText:(NSString *)inText
 {
-	CGSize tmpSize = [inText sizeWithFont:[UIFont systemFontOfSize:12.0] constrainedToSize:CGSizeMake(280.0, 30000.0)];
+	CGSize tmpSize = [inText sizeWithFont:[UIFont systemFontOfSize:12.0] constrainedToSize:CGSizeMake(280.0, 3000.0)];
 
 	_detailLabel.frame = CGRectMake(20.0, 40.0, 280.0, tmpSize.height);
 	_detailLabel.text = inText;

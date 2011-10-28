@@ -327,6 +327,7 @@
 	tmpViewController.delegate = _delegate;
 	tmpViewController.bozukoRedemption = [inNotification object];
 	[self.navigationController pushViewController:tmpViewController animated:YES];
+	DLog(@"Push");
 	[tmpViewController release];
 }
 

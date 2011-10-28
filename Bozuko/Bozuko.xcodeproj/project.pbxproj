@@ -22,7 +22,6 @@
 		696B0BCB1358EB4A00286098 /* GamesHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 696B0BCA1358EB4A00286098 /* GamesHomeViewController.m */; };
 		699476E213733B2700B9AD3F /* GameTermsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 699476E113733B2700B9AD3F /* GameTermsViewController.m */; };
 		699973791374364A00954EE3 /* GamePlaySlotsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 699973781374364A00954EE3 /* GamePlaySlotsViewController.m */; };
-		699FD07313B13B2F00058823 /* libz.1.2.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D0FE9F9136F257D00EDECE6 /* libz.1.2.3.dylib */; };
 		69A1C1851395495400519152 /* DetailTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A1C1841395495400519152 /* DetailTableCell.m */; };
 		69A1C18C1395A12600519152 /* RecommendTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A1C18B1395A12600519152 /* RecommendTableCell.m */; };
 		69A1C18F1395A52600519152 /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A1C18E1395A52600519152 /* LoadingView.m */; };
@@ -153,7 +152,6 @@
 		69E4322413AF8A86008A67FF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6903AB4A1357773D0049705F /* UIKit.framework */; };
 		69E4322513AF8A86008A67FF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6903AB4C1357773D0049705F /* Foundation.framework */; };
 		69E4322613AF8A86008A67FF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6903AB4E1357773D0049705F /* CoreGraphics.framework */; };
-		69E4322713AF8A86008A67FF /* libz.1.2.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D0FE9F9136F257D00EDECE6 /* libz.1.2.3.dylib */; };
 		69E4322813AF8A86008A67FF /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D0FEA21136F25A600EDECE6 /* SystemConfiguration.framework */; };
 		69E4322913AF8A86008A67FF /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D0FEA41136F25DE00EDECE6 /* MobileCoreServices.framework */; };
 		69E4322A13AF8A86008A67FF /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D0FEA46136F25FC00EDECE6 /* CFNetwork.framework */; };
@@ -204,6 +202,8 @@
 		F1C23A9A13D3528C0034CDF4 /* FZCustomSearchBar_searchMagGlass@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F1C23A8913D3528C0034CDF4 /* FZCustomSearchBar_searchMagGlass@2x.png */; };
 		F1C23A9B13D3528C0034CDF4 /* FZCustomSearchBar_searchMagGlass@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F1C23A8913D3528C0034CDF4 /* FZCustomSearchBar_searchMagGlass@2x.png */; };
 		F1C9F54813ABBA6300066DB7 /* GameTermsAndConditionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = F1C9F54713ABBA6300066DB7 /* GameTermsAndConditionsView.m */; };
+		F1EEDBE6144D0EFD003D0FA9 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F1EEDBE5144D0EFD003D0FA9 /* libz.dylib */; };
+		F1EEDBE7144D0F1C003D0FA9 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F1EEDBE5144D0EFD003D0FA9 /* libz.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -363,7 +363,6 @@
 		7D0FE9C6136F24E800EDECE6 /* ASIProgressDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIProgressDelegate.h; sourceTree = "<group>"; };
 		7D0FE9C9136F24E800EDECE6 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		7D0FE9CA136F24E800EDECE6 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
-		7D0FE9F9136F257D00EDECE6 /* libz.1.2.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.3.dylib; path = usr/lib/libz.1.2.3.dylib; sourceTree = SDKROOT; };
 		7D0FEA21136F25A600EDECE6 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		7D0FEA41136F25DE00EDECE6 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		7D0FEA46136F25FC00EDECE6 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -387,6 +386,7 @@
 		F1C23A8913D3528C0034CDF4 /* FZCustomSearchBar_searchMagGlass@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FZCustomSearchBar_searchMagGlass@2x.png"; sourceTree = "<group>"; };
 		F1C9F54613ABBA6300066DB7 /* GameTermsAndConditionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameTermsAndConditionsView.h; path = Views/GameTermsAndConditionsView.h; sourceTree = "<group>"; };
 		F1C9F54713ABBA6300066DB7 /* GameTermsAndConditionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameTermsAndConditionsView.m; path = Views/GameTermsAndConditionsView.m; sourceTree = "<group>"; };
+		F1EEDBE5144D0EFD003D0FA9 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -398,13 +398,13 @@
 				69AE18CF135CC69300740672 /* CoreLocation.framework in Frameworks */,
 				69AE18CD135CC34100740672 /* MapKit.framework in Frameworks */,
 				6903AB4B1357773D0049705F /* UIKit.framework in Frameworks */,
-				699FD07313B13B2F00058823 /* libz.1.2.3.dylib in Frameworks */,
 				6903AB4D1357773D0049705F /* Foundation.framework in Frameworks */,
 				6903AB4F1357773D0049705F /* CoreGraphics.framework in Frameworks */,
 				7D0FEA22136F25A600EDECE6 /* SystemConfiguration.framework in Frameworks */,
 				7D0FEA42136F25DE00EDECE6 /* MobileCoreServices.framework in Frameworks */,
 				7D0FEA47136F25FC00EDECE6 /* CFNetwork.framework in Frameworks */,
 				9C00413F137997F000F7899C /* QuartzCore.framework in Frameworks */,
+				F1EEDBE6144D0EFD003D0FA9 /* libz.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,11 +418,11 @@
 				69E4322413AF8A86008A67FF /* UIKit.framework in Frameworks */,
 				69E4322513AF8A86008A67FF /* Foundation.framework in Frameworks */,
 				69E4322613AF8A86008A67FF /* CoreGraphics.framework in Frameworks */,
-				69E4322713AF8A86008A67FF /* libz.1.2.3.dylib in Frameworks */,
 				69E4322813AF8A86008A67FF /* SystemConfiguration.framework in Frameworks */,
 				69E4322913AF8A86008A67FF /* MobileCoreServices.framework in Frameworks */,
 				69E4322A13AF8A86008A67FF /* CFNetwork.framework in Frameworks */,
 				69E4322B13AF8A86008A67FF /* QuartzCore.framework in Frameworks */,
+				F1EEDBE7144D0F1C003D0FA9 /* libz.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -463,11 +463,11 @@
 				6903AB4A1357773D0049705F /* UIKit.framework */,
 				6903AB4C1357773D0049705F /* Foundation.framework */,
 				6903AB4E1357773D0049705F /* CoreGraphics.framework */,
-				7D0FE9F9136F257D00EDECE6 /* libz.1.2.3.dylib */,
 				7D0FEA21136F25A600EDECE6 /* SystemConfiguration.framework */,
 				7D0FEA41136F25DE00EDECE6 /* MobileCoreServices.framework */,
 				7D0FEA46136F25FC00EDECE6 /* CFNetwork.framework */,
 				9C00413E137997F000F7899C /* QuartzCore.framework */,
+				F1EEDBE5144D0EFD003D0FA9 /* libz.dylib */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -803,6 +803,9 @@
 /* Begin PBXProject section */
 		6903AB3D1357773D0049705F /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
 			buildConfigurationList = 6903AB401357773D0049705F /* Build configuration list for PBXProject "Bozuko" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -1045,8 +1048,8 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				RUN_CLANG_STATIC_ANALYZER = YES;
-				SDKROOT = iphoneos;
+				RUN_CLANG_STATIC_ANALYZER = NO;
+				SDKROOT = iphoneos4.3;
 			};
 			name = Debug;
 		};
@@ -1062,8 +1065,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "ACFC5BF5-2722-4504-A6E1-411DCFD08849";
-				RUN_CLANG_STATIC_ANALYZER = YES;
-				SDKROOT = iphoneos;
+				RUN_CLANG_STATIC_ANALYZER = NO;
+				SDKROOT = iphoneos4.3;
 			};
 			name = Release;
 		};
@@ -1071,7 +1074,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Christopher Luu (D47P6JV65M)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1080,8 +1083,8 @@
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				INFOPLIST_FILE = "Bozuko-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				RUN_CLANG_STATIC_ANALYZER = YES;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "4F8F2EAD-C060-4EFB-91C1-66897278035F";
+				RUN_CLANG_STATIC_ANALYZER = NO;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1090,15 +1093,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Fuzz Productions, LLC";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Bozuko, Inc.";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Bozuko-Prefix.pch";
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				INFOPLIST_FILE = "Bozuko-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "ACFC5BF5-2722-4504-A6E1-411DCFD08849";
-				RUN_CLANG_STATIC_ANALYZER = YES;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "08FBF2B3-2D43-43D0-9230-B50D46218547";
+				RUN_CLANG_STATIC_ANALYZER = NO;
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1121,7 +1124,7 @@
 				INFOPLIST_FILE = "BozukoDev-Info.plist";
 				PRODUCT_NAME = "Bozuko Dev";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				RUN_CLANG_STATIC_ANALYZER = YES;
+				RUN_CLANG_STATIC_ANALYZER = NO;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1139,7 +1142,7 @@
 				INFOPLIST_FILE = "BozukoDev-Info.plist";
 				PRODUCT_NAME = "Bozuko Dev";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "ACFC5BF5-2722-4504-A6E1-411DCFD08849";
-				RUN_CLANG_STATIC_ANALYZER = YES;
+				RUN_CLANG_STATIC_ANALYZER = NO;
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};

@@ -1398,6 +1398,9 @@ static NSString *_bozukoServerBaseURLString;
 				else
 					[_businessesArray addObject:[tmpBozukoPage pageID]];
 			}
+			
+			if ([_favoritesArray count] < 1 && [[UserHandler sharedInstance] loggedIn] == YES)
+				[self bozukoFavorites];
 		
 			//DLog(@"Finished");
 			[[NSNotificationCenter defaultCenter] postNotificationName:kBozukoHandler_GetPagesForLocationDidFinish object:nil];
@@ -1446,7 +1449,7 @@ static NSString *_bozukoServerBaseURLString;
 	if (inSearchString != nil)
 		[tmpString appendFormat:@"&query=%@", [inSearchString stringByAddingPercentEscapesUsingEncoding:NSISOLatin1StringEncoding]];
 	
-	//DLog(@"%@", tmpString);
+	DLog(@"%@", tmpString);
 	
 	//[tmpRequest cancel]; // Cancel any request that may be in progress.
 	__block ASIHTTPRequest *tmpRequest = [self httpGETRequestWithURL:[NSURL URLWithString:tmpString]];
@@ -1456,7 +1459,7 @@ static NSString *_bozukoServerBaseURLString;
 	
 	[tmpRequest setCompletionBlock:^{
 		//DLog(@"Favorites Complete");
-		//DLog(@"%@", [tmpRequest responseString]);
+		DLog(@"%@", [tmpRequest responseString]);
 		
 		if ([tmpRequest responseStatusCode] != 200)
 		{
@@ -1965,6 +1968,11 @@ static NSString *_bozukoServerBaseURLString;
 	
 	if (_apiBozuko == nil)
 		[self bozukoBozuko];
+	else
+	{
+		[self bozukoGame];
+		[self demoGame];
+	}
 	
 	//[self bozukoPages];
 }

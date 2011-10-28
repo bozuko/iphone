@@ -40,7 +40,7 @@
 
 - (id)initWithBozukoPage:(BozukoPage *)inBozukoPage
 {
-	self = [super initWithFrame:CGRectMake(0, 0, 48, 20)];
+	self = [super initWithFrame:CGRectMake(0, 0, 51, 24)];
 	
 	if (self && [inBozukoPage isFacebook] == YES)
 	{
@@ -55,7 +55,7 @@
 		[_likeButtonLoadingImageView release];
 		
 		NSMutableArray *tmpLikeButtonImages = [[NSMutableArray alloc] init];
-		for (int i = 1; i < 9; i++)
+		for (int i = 1; i < 7; i++)
 			[tmpLikeButtonImages addObject:[UIImage imageNamed:[NSString stringWithFormat:@"images/like/like-loader-%d", i]]];
 		_likeButtonLoadingImageView.animationImages = tmpLikeButtonImages;
 		[tmpLikeButtonImages release];

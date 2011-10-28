@@ -473,6 +473,7 @@
 		tmpViewController.bozukoPage = [[BozukoHandler sharedInstance] businessAtIndex:indexPath.row];
 	
 	[_controller pushViewController:tmpViewController animated:YES];
+	DLog(@"Push");
 	[tmpViewController release];
 }
 
@@ -585,6 +586,7 @@
 	GamesDetailViewController *tmpViewController = [[GamesDetailViewController alloc] init];
 	tmpViewController.bozukoPage = [[BozukoHandler sharedInstance] defaultBozukoGame];
 	[_controller pushViewController:tmpViewController animated:YES];
+	DLog(@"Push");
 	[tmpViewController release];
 }
 
@@ -596,6 +598,7 @@
 	GamesDetailViewController *tmpViewController = [[GamesDetailViewController alloc] init];
 	tmpViewController.bozukoPage = [[BozukoHandler sharedInstance] demoBozukoGame];
 	[_controller pushViewController:tmpViewController animated:YES];
+	DLog(@"Push");
 	[tmpViewController release];
 
 }

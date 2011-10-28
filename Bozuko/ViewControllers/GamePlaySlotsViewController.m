@@ -380,6 +380,7 @@
 		tmpViewController.delegate = self;
 		self.navigationItem.hidesBackButton = YES;
 		[self.navigationController pushViewController:tmpViewController animated:YES];
+		DLog(@"Push");
 		[tmpViewController release];
 		
 		[_bannerImageView stopAnimating];
@@ -446,6 +447,7 @@
 		tmpViewController.delegate = self;
 		self.navigationItem.hidesBackButton = YES;
 		[self.navigationController pushViewController:tmpViewController animated:YES];
+		DLog(@"Push");
 		[tmpViewController release];
 	}
 }

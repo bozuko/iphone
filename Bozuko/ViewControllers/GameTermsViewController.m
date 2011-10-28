@@ -27,6 +27,10 @@
 
 #define kGameTermsDefaultRefreshGameStateSeconds	30
 
+@interface GameTermsViewController (Private)
+- (void)revealActionBar;
+@end
+
 @implementation GameTermsViewController
 
 @synthesize bozukoPage = _bozukoPage;
@@ -98,7 +102,7 @@
 	}
 	else if (indexPath.section == kGameTermsTACSection)
 	{
-		CGSize tmpSize = [[_bozukoGame rules] sizeWithFont:[UIFont systemFontOfSize:12.0] constrainedToSize:CGSizeMake(280.0, 30000.0)];
+		CGSize tmpSize = [[_bozukoGame rules] sizeWithFont:[UIFont systemFontOfSize:12.0] constrainedToSize:CGSizeMake(280.0, 3000.0)];
 		return tmpSize.height + 45.0; // +45.0 for the "Official Rules" header.
 	}
 	else
@@ -193,8 +197,8 @@
 	if (tmpCell == nil)
 		tmpCell = [[[DetailTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"DetailTableCell"] autorelease];
 	
-	[tmpCell setMainLabelText:@"Official Rules"];
 	[tmpCell setDetailLabelText:[_bozukoGame rules]];
+	[tmpCell setMainLabelText:@"Official Rules"];
 	
 	tmpCell.selectionStyle = UITableViewCellSelectionStyleNone;
 	
@@ -223,20 +227,13 @@
 		}
 		
 		[self.navigationController pushViewController:tmpViewController animated:YES];
+		DLog(@"Push");
 		[tmpViewController release];
 	}
 }
 
 #pragma mark - View lifecycle
 
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView
-{
-}
-*/
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -402,6 +399,18 @@
 {
 	[super viewDidAppear:animated];
 	
+	[self performSelector:@selector(revealActionBar) withObject:nil afterDelay:0.2];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+	[super viewWillDisappear:animated];
+	
+	[GameTermsViewController cancelPreviousPerformRequestsWithTarget:self];
+}
+
+- (void)revealActionBar
+{
 	[UIView animateWithDuration:0.75 animations:^{
 		_bottomBarView.frame = CGRectMake(0.0, 290.0, 320.0, 80.0);
 	}];

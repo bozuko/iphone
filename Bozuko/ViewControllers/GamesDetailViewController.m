@@ -34,6 +34,7 @@
     
 	if (self)
 	{
+		_isPushing = NO;
     }
     
 	return self;
@@ -348,6 +349,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+	if (_isPushing == YES)
+		return;
+	
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	
 	NSInteger tmpSection = indexPath.section;
@@ -356,6 +360,7 @@
 	{
 		MapViewController *tmpViewController = [[MapViewController alloc] initWithPage:_bozukoPage];
 		[self.navigationController pushViewController:tmpViewController animated:YES];
+		DLog(@"Push");
 		[tmpViewController release];
 		
 		return;
@@ -364,11 +369,13 @@
 	{
 		if ([[UserHandler sharedInstance] loggedIn] == YES)
 		{
+			_isPushing = YES;
 			GameTermsViewController *tmpViewController = [[GameTermsViewController alloc] init];
 			tmpViewController.bozukoPage = _bozukoPage;
 			//tmpViewController.bozukoGame = [[_bozukoPage games] objectAtIndex:indexPath.row];
 			tmpViewController.bozukoGameIndex = indexPath.row;
 			[self.navigationController pushViewController:tmpViewController animated:YES];
+			DLog(@"Push");
 			[tmpViewController release];
 		}
 		else
@@ -594,6 +601,8 @@
 - (void)viewWillAppear:(BOOL)animated
 {
 	[_tableView reloadData];
+	
+	_isPushing = NO;
 	
 	// If there are games, make sure they're are updated
 	//if ([[_bozukoPage games] count] > 0)

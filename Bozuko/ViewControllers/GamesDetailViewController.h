@@ -17,6 +17,7 @@
 {
     UITableView *_tableView;
 	BozukoPage *_bozukoPage;
+	BOOL _isPushing;
 }
 
 @property (retain) BozukoPage *bozukoPage;

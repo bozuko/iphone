@@ -145,7 +145,7 @@
 			tmpLabel.font = [UIFont systemFontOfSize:11.0];
 			tmpLabel.textAlignment = UITextAlignmentCenter;
 			tmpLabel.backgroundColor = [UIColor clearColor];
-			tmpLabel.text = [NSString stringWithFormat:@"Version %@b16", kBozukoAppVersion];
+			tmpLabel.text = [NSString stringWithFormat:@"Version %@", kBozukoAppVersion];
 			[tmpView addSubview:tmpLabel];
 			[tmpLabel release];
 			return [tmpView autorelease];

@@ -29,7 +29,8 @@
     
 	if (self)
 	{
-        _mapView = [[MKMapView alloc] initWithFrame:self.frame];
+        //_mapView = [[MKMapView alloc] initWithFrame:self.frame];
+		_mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 368)];
 		_mapView.delegate = self;
 		_mapView.showsUserLocation = YES;
 		[self addSubview:_mapView];
@@ -143,6 +144,7 @@
 	GamesDetailViewController *tmpViewController = [[GamesDetailViewController alloc] init];
 	tmpViewController.bozukoPage = view.annotation;
 	[_controller pushViewController:tmpViewController animated:YES];
+	DLog(@"Push");
 	[tmpViewController release];
 }
 

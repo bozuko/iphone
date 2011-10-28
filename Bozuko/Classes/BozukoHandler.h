@@ -16,8 +16,8 @@
 //#define kBozukoAPIRedirectPath_UserLoginSuccessfully	@"/user/mobile?token=" // For login webView
 
 #define kBozukoAPIEntryPoint							@"/api"
-#define kBozukoAppVersion								@"1.4"
-#define kApplicationVersion								@"iphone-1.4"
+#define kBozukoAppVersion								@"1.5b5"
+#define kApplicationVersion								@"iphone-1.5"
 #define kBozukoAppStoreURL								@"http://itunes.apple.com/us/app/bozuko/id444496922?mt=8"
 
 #define kBozukoHandler_UserLocationWasUpdated			@"BozukoHandler_UserLocationWasUpdated"

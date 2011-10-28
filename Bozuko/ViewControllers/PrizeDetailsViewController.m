@@ -69,7 +69,8 @@
 	_closeBarButton.target = self;
 	_closeBarButton.action = @selector(doClose);
 	_closeBarButton.title = @"Close";
-	self.navigationItem.leftBarButtonItem = _closeBarButton;
+	//self.navigationItem.leftBarButtonItem = _closeBarButton;
+	[self.navigationItem performSelector:@selector(setLeftBarButtonItem:) withObject:_closeBarButton afterDelay:1.0];
 	
 	_doneBarButton = [[UIBarButtonItem alloc] init];
 	_doneBarButton.target = self;
@@ -85,6 +86,7 @@
 - (void)viewDidUnload
 {
 	[super viewDidUnload];
+	[UINavigationItem cancelPreviousPerformRequestsWithTarget:self.navigationItem];
 	//[_countdownTimer invalidate];
 	_countdownTimer = nil;
 	[[NSNotificationCenter defaultCenter] removeObserver:self];

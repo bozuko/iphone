@@ -129,9 +129,9 @@
 	//[self.facebookLikeButton load];
 	
 	if ([_controller.bozukoPage registered] == YES)
-		self.facebookLikeButton.frame = CGRectMake(255.0, 45.0, 48.0, 20.0);
+		self.facebookLikeButton.frame = CGRectMake(250.0, 45.0, 51.0, 24.0);
 	else
-		self.facebookLikeButton.frame = CGRectMake(252.0, 12.0, 48.0, 20.0);
+		self.facebookLikeButton.frame = CGRectMake(250.0, 12.0, 51.0, 24.0);
 
 	if ([[tmpBozukoLocation street] length] > 0)
 	{

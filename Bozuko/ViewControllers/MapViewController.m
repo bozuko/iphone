@@ -29,7 +29,8 @@
 		self.navigationItem.rightBarButtonItem = tmpButton;
 		[tmpButton release];
 		
-		_mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, self.view.frame.size.height)];
+		//_mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, self.view.frame.size.height)];
+		_mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, 368)];
 		_mapView.delegate = self;
 		_mapView.userInteractionEnabled = NO;
 		_mapView.showsUserLocation = YES;

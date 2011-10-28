@@ -89,7 +89,7 @@
 	self.facebookLikeButton = nil;
 	//self.facebookLikeButton = [_controller.bozukoPage facebookLikeButton];
 	self.facebookLikeButton = [[BozukoHandler sharedInstance] facebookLikeButtonForPage:_controller.bozukoPage];
-	self.facebookLikeButton.frame = CGRectMake(250.0, 12.0, 48.0, 20.0);
+	self.facebookLikeButton.frame = CGRectMake(245.0, 12.0, 51.0, 24.0);
 	[self addSubview:self.facebookLikeButton];
 }
 

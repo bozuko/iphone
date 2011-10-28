@@ -442,6 +442,7 @@
 		tmpViewController.delegate = self;
 		self.navigationItem.hidesBackButton = YES;
 		[self.navigationController pushViewController:tmpViewController animated:YES];
+		DLog(@"Push");
 		[tmpViewController release];
 	}
 	else if ([_bozukoGameResult freePlay] == NO && [_bozukoGameResult consolation] == YES)
@@ -525,6 +526,7 @@
 		tmpViewController.delegate = self;
 		self.navigationItem.hidesBackButton = YES;
 		[self.navigationController pushViewController:tmpViewController animated:YES];
+		DLog(@"Push");
 		[tmpViewController release];
 	}
 }
