@@ -3,7 +3,7 @@
 //  Bozuko
 //
 //  Created by Tom Corwine on 4/18/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Fuzz Productions, LLC. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -16,7 +16,7 @@
 //#define kBozukoAPIRedirectPath_UserLoginSuccessfully	@"/user/mobile?token=" // For login webView
 
 #define kBozukoAPIEntryPoint							@"/api"
-#define kBozukoAppVersion								@"1.5b5"
+#define kBozukoAppVersion								@"1.5.2"
 #define kApplicationVersion								@"iphone-1.5"
 #define kBozukoAppStoreURL								@"http://itunes.apple.com/us/app/bozuko/id444496922?mt=8"
 

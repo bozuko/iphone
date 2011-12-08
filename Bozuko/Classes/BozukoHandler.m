@@ -3,7 +3,7 @@
 //  Bozuko
 //
 //  Created by Tom Corwine on 4/18/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Fuzz Productions, LLC. All rights reserved.
 //
 
 #import "BozukoHandler.h"
@@ -540,6 +540,7 @@ static NSString *_bozukoServerBaseURLString;
 	__block ASIFormDataRequest *tmpRequest = [self httpPOSTRequestWithURL:[NSURL URLWithString:tmpString]];
 	
 	[tmpRequest setPostValue:[NSString stringWithFormat:@"%f,%f", _locationManager.location.coordinate.latitude, _locationManager.location.coordinate.longitude] forKey:@"ll"];
+	[tmpRequest setPostValue:[NSString stringWithFormat:@"%f", _locationManager.location.horizontalAccuracy] forKey:@"accuracy"];
 	[tmpRequest setPostValue:[[UserHandler sharedInstance] phoneType] forKey:@"phone_type"];
 	[tmpRequest setPostValue:[[UserHandler sharedInstance] phoneID] forKey:@"phone_id"];
 	[tmpRequest setPostValue:tmpChallengeResponse forKey:@"challenge_response"];
@@ -758,6 +759,7 @@ static NSString *_bozukoServerBaseURLString;
 	}
 	
 	[tmpRequest setPostValue:[NSString stringWithFormat:@"%f,%f", _locationManager.location.coordinate.latitude, _locationManager.location.coordinate.longitude] forKey:@"ll"];
+	[tmpRequest setPostValue:[NSString stringWithFormat:@"%f", _locationManager.location.horizontalAccuracy] forKey:@"accuracy"];
 	[tmpRequest setPostValue:[[UserHandler sharedInstance] phoneType] forKey:@"phone_type"];
 	[tmpRequest setPostValue:[[UserHandler sharedInstance] phoneID] forKey:@"phone_id"];
 	[tmpRequest setPostValue:tmpChallengeResponse forKey:@"challenge_response"];
@@ -1644,6 +1646,7 @@ static NSString *_bozukoServerBaseURLString;
 	__block ASIFormDataRequest *tmpRequest = [self httpPOSTRequestWithURL:[NSURL URLWithString:tmpString]];
 	
 	[tmpRequest setPostValue:[NSString stringWithFormat:@"%f,%f", _locationManager.location.coordinate.latitude, _locationManager.location.coordinate.longitude] forKey:@"ll"];
+	[tmpRequest setPostValue:[NSString stringWithFormat:@"%f", _locationManager.location.horizontalAccuracy] forKey:@"accuracy"];
 	[tmpRequest setPostValue:[[UserHandler sharedInstance] phoneType] forKey:@"phone_type"];
 	[tmpRequest setPostValue:[[UserHandler sharedInstance] phoneID] forKey:@"phone_id"];
 	[tmpRequest setPostValue:tmpChallengeResponse forKey:@"challenge_response"];

@@ -3,7 +3,7 @@
 //  Bozuko
 //
 //  Created by Tom Corwine on 5/5/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 Fuzz Productions, LLC. All rights reserved.
 //
 
 #import "GamePlaySlotsViewController.h"
@@ -314,8 +314,8 @@
 	else
 		[self youLose];
 	
-	if (_viewIsVisible == YES)
-		_animationTimer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(playDoneMessage) userInfo:nil repeats:NO];
+	//if (_viewIsVisible == YES)
+	_animationTimer = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(playDoneMessage) userInfo:nil repeats:NO];
 	
 	// Enable spin button unless this is a winner. Free plays have the win boolean set to true, but those aren't winners.
 	if ([[_bozukoGame gameState] buttonEnabled] == YES && [[_bozukoGame gameState] userTokens] > 0 &&
